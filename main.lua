@@ -1,6 +1,6 @@
-local game = require("game");
+local game = require("game")
 
-math.randomseed(os.time());
+math.randomseed(os.time())
 require("mobdebug").start();
 
-game.start("maps/one.xml");
+game.start("maps/one.xml")

@@ -1,114 +1,160 @@
 -- External references
-local xml = require("xml").newParser();
+local xml = require("xml").newParser()
+local asteroid = require("asteroid")
 
 -- Export object
-local M = {};
+local M = {}
 
 -- Variables
-local assets = {};
-local entities = {};
+local entities = {}
 
--- Parse the map
-local function parse(level)
-    -- Read the map XML file
-    local mapFile = xml:loadFile(level);
-    
-    -- My awesome map
-    assets = {};
-    entities = {};
-    
-    -- Gather all assets
-    for i, asset in ipairs(mapFile.child[1].child) do
-      local options =
-      {
-        width = asset.properties.width,
-        height = asset.properties.height,
-        numFrames = asset.properties.numFrames,
-        sheetContentWidth = asset.properties.sheetContentWidth, 
-        sheetContentHeight = asset.properties.sheetContentHeight 
-      };
-    
-      -- Load the image
-      local image = graphics.newImageSheet(asset.properties.path, options);
-      
-      -- Store assets in a table keyed on type
-      assets[asset.properties.type] = image;
-    end
+-- Map table for entity constructors
+local entityConstructors = {
+  asteroid = asteroid
+}
 
-    -- Loop through each layer to get the objects
-    for i, layer in ipairs(mapFile.child[2].child) do
-      -- Store entities in layers
-      for i, object in ipairs(layer.child) do
-        entities[i] = 
-        {
-          type = object.properties.type,
-          x = object.properties.x,
-          y = object.properties.y,
-          active = false,
-          destroyed = false
-        };
-      end
-    end
+-- Load the player in
+local function initializePlayer()
+  -- Create the player asset options
+  local options = {
+    width = 133,
+    height = 62,
+    numFrames = 1,
+    sheetContentWidth = 133,
+    sheetContentHeight = 62
+  }
+
+  -- Load the image
+  local image = graphics.newImageSheet("assets/player.png", options)
+
+  -- Insert the player asset
+  assets["player"] = image
+
+  -- Insert the player entity
+  entities[1] = {
+    type = "player",
+    x = 667,
+    y = 375,
+    active = false,
+    destroyed = false
+  }
 end
 
+-- Load the missles in
+local function initializeMissle()
+  -- Create the player asset options
+  local options = {
+    width = 32,
+    height = 8,
+    numFrames = 4,
+    sheetContentWidth = 128,
+    sheetContentHeight = 32
+  }
+
+  -- Load the image
+  local image = graphics.newImageSheet("assets/fireball.png", options)
+
+  -- Insert the missle asset
+  assets["missle"] = image
+
+  -- Insert the player entity
+  entities[2] = {
+    type = "missle",
+    x = 667,
+    y = 375,
+    active = false,
+    destroyed = false
+  }
+end
+
+-- Initialize the level
+local function initialize(level)
+  -- Read the map XML file
+  local mapFile = xml:loadFile(level)
+
+  -- Initialize the variables
+  local assets = {}
+
+  -- Gather all assets
+  for i, asset in ipairs(mapFile.child[1].child) do
+    -- Store assets in a table keyed on type
+    assets[asset.properties.type] = asset.properties
+  end
+
+  -- Keep track of the entity count
+  local entityCount = 0
+
+  -- Loop through each layer to get the objects
+  for i, layer in ipairs(mapFile.child[2].child) do
+    -- Store entities in layers
+    for j, object in ipairs(layer.child) do
+      -- Increment the loaded entity count
+      entityCount = entityCount + 1
+
+      -- Extract the object properties and asset
+      local properties = object.properties
+      local asset = assets[properties.type]
+
+      -- Build the entity and add it
+      entities[entityCount] = entityConstructors[properties.type](asset, properties)
+    end
+  end
+end
 
 -- Draws items to the screen
 local function draw(i)
   -- Sequence data for the asteroid sprite
-  local sequenceData =
-  {
-      name="walking",
-      start=1,
-      count=64,
-      time=2400,
-      loopCount = 0,
-      loopDirection = "bounce"
-  };
-  
+  local sequenceData = {
+    name = "walking",
+    start = 1,
+    count = 64,
+    time = 2400,
+    loopCount = 0,
+    loopDirection = "bounce"
+  }
+
   -- Grab the entity and asset
-  local entity = entities[i];
-  local asset = assets[entity.type];
-  
+  local entity = entities[i]
+  local asset = assets[entity.type]
+
   -- Display the thing
-  entity.sprite = display.newSprite(asset, sequenceData);
-  entity.sprite.x = entity.x;
-  entity.sprite.y = entity.y;
-  
-  sequenceData.loopCount = 1;
-  
+  entity.sprite = display.newSprite(asset, sequenceData)
+  entity.sprite.x = entity.x
+  entity.sprite.y = entity.y
+
+  sequenceData.loopCount = 1
+
   -- Start animation
-  entity.sprite:play();
-  
+  entity.sprite:play()
+
   -- Setup velocity
-  entity.xVel = math.random(-10, 10);
-  entity.yVel = math.random(-10, 10);
-  
+  if entity.type == "asteroid" then
+    entity.xVel = math.random(-10, 10)
+    entity.yVel = math.random(-10, 10)
+  else
+    entity.xVel = 0
+    entity.yVel = 0
+  end
+
   -- Do not draw this again
-  entity.active = true;
+  entity.active = true
 end
 
 -- Updates crap
-local function update()
+local function update(event)
+  -- Loop through each entity and process it
   for i, entity in ipairs(entities) do
-    -- Draw the entity initially if it hasn't been
-    if not entity.active then
-      -- Draw the thing
-      draw(i);
-    end
-    
-    -- Move stuff
-    entity.sprite.x = entity.sprite.x + entity.xVel;
-    entity.sprite.y = entity.sprite.y + entity.yVel;
+    entity.update()
   end
 end
 
 -- Start the target level
 function M.start(level)
-    -- Parse the map XML
-    local map = parse(level);
-    
-    -- Render the game
-    timer.performWithDelay(16.67, update, 0);
+  -- Initialize the game with the map
+  initialize(level)
+
+  -- Render the game
+  Runtime:addEventListener("enterFrame", update)
 end
 
-return M;
+return M

@@ -13,7 +13,7 @@
         <object type="asteroid" x="796" y="732"/>
         <object type="asteroid" x="932" y="152"/>
         <object type="asteroid" x="1386" y="84"/>
-        <object type="asteroid" x="1448" y="358" width="2"/>
+        <object type="asteroid" x="1448" y="358"/>
         <object type="asteroid" x="1506" y="682"/>
         <object type="asteroid" x="1822" y="146"/>
         <object type="asteroid" x="1952" y="346"/>
@@ -21,10 +21,10 @@
         <object type="asteroid" x="2494" y="60"/>
         <object type="asteroid" x="2674" y="82"/>
         <object type="asteroid" x="2648" y="740"/>
-        <object type="asteroid" x="2412" y="356" height="2"/>
-        <object type="asteroid" x="1502" y="354" height="2"/>
+        <object type="asteroid" x="2412" y="356"/>
+        <object type="asteroid" x="1502" y="354"/>
         <object type="asteroid" x="862" y="358"/>
-        <object type="asteroid" x="156" y="418" visible="0"/>
+        <object type="asteroid" x="156" y="418"/>
     </objectgroup>
  </layers>
 </map>
