@@ -1,6 +1,7 @@
 -- External references
 local xml = require("xml").newParser()
 local asteroid = require("asteroid")
+local player = require("player")
 
 -- Export object
 local M = {}
@@ -12,33 +13,6 @@ local entities = {}
 local entityConstructors = {
   asteroid = asteroid
 }
-
--- Load the player in
-local function initializePlayer()
-  -- Create the player asset options
-  local options = {
-    width = 133,
-    height = 62,
-    numFrames = 1,
-    sheetContentWidth = 133,
-    sheetContentHeight = 62
-  }
-
-  -- Load the image
-  local image = graphics.newImageSheet("assets/player.png", options)
-
-  -- Insert the player asset
-  assets["player"] = image
-
-  -- Insert the player entity
-  entities[1] = {
-    type = "player",
-    x = 667,
-    y = 375,
-    active = false,
-    destroyed = false
-  }
-end
 
 -- Load the missles in
 local function initializeMissle()
@@ -99,6 +73,9 @@ local function initialize(level)
       entities[entityCount] = entityConstructors[properties.type](asset, properties)
     end
   end
+
+  -- Load the player up
+  entities[entityCount + 1] = player()
 end
 
 -- Draws items to the screen

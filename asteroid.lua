@@ -1,14 +1,26 @@
+local common = require("common")
+
 -- The asset used by the asteroid
 local image = nil
 
--- Sequence data for the "floating" state
-local floating = {
-  name = "floating",
-  start = 1,
-  count = 64,
-  time = 2400,
-  loopCount = 0,
-  loopDirection = "bounce"
+-- Supported sequences
+local sequences = {
+  {
+    name = "floating",
+    start = 1,
+    count = 64,
+    time = 2400,
+    loopCount = 0,
+    loopDirection = "forward"
+  },
+  {
+    name = "exploding",
+    start = 65,
+    count = 16,
+    time = 1000,
+    loopCount = 1,
+    loopDirection = "forward"
+  }
 }
 
 -- Used to initialize constant asteroid variables
@@ -38,6 +50,7 @@ function asteroid(asset, properties)
   local x = tonumber(properties.x)
   local y = tonumber(properties.y)
   local active = false
+  local exploding = false
 
   -- Initializes the asteroid to the screen
   function M.initialized()
@@ -47,14 +60,15 @@ function asteroid(asset, properties)
     end
 
     -- Back out if not on the screen
-    if x > 1334 or x < 0 or y > 750 or y < 0 then
+    if common.onScreen(x, y, asset.width, asset.height) then
       -- Move the spawn point over until initialization occurs
       x = x - 10
+      y = y
       return false
     end
 
     -- Setup the sprite
-    sprite = display.newSprite(image, floating)
+    sprite = display.newSprite(image, sequences)
     sprite.x = x
     sprite.y = y
     active = true
@@ -69,9 +83,22 @@ function asteroid(asset, properties)
   function M.update()
     -- Update the asteroid if initialized
     if M.initialized() then
+      -- Move
       sprite.x = sprite.x - 10
+      sprite.y = sprite.y
+
+      -- Explode if necessary
+      if sprite.x < 1000 and not exploding then
+        exploding = true
+        sprite:setSequence("exploding")
+        sprite:play()
+      end
     end
   end
+
+  -- Convert props as necessary
+  asset.width = tonumber(asset.width)
+  asset.height = tonumber(asset.height)
 
   -- Load the image
   load(asset)
