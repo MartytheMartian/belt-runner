@@ -14,33 +14,6 @@ local entityConstructors = {
   asteroid = asteroid
 }
 
--- Load the missles in
-local function initializeMissle()
-  -- Create the player asset options
-  local options = {
-    width = 32,
-    height = 8,
-    numFrames = 4,
-    sheetContentWidth = 128,
-    sheetContentHeight = 32
-  }
-
-  -- Load the image
-  local image = graphics.newImageSheet("assets/fireball.png", options)
-
-  -- Insert the missle asset
-  assets["missle"] = image
-
-  -- Insert the player entity
-  entities[2] = {
-    type = "missle",
-    x = 667,
-    y = 375,
-    active = false,
-    destroyed = false
-  }
-end
-
 -- Initialize the level
 local function initialize(level)
   -- Read the map XML file

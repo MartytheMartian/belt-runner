@@ -8,7 +8,8 @@ local sequences = {
   {
     name = "floating",
     start = 1,
-    count = 64,
+    count = 63,
+    rotation = 100,
     time = 2400,
     loopCount = 0,
     loopDirection = "forward"
@@ -72,6 +73,9 @@ function asteroid(asset, properties)
     sprite.x = x
     sprite.y = y
     active = true
+
+    -- Randomize the start frame for each asteroid
+    sprite:setFrame(math.random(1, 45))
 
     -- Start animation
     sprite:play()
