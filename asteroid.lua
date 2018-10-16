@@ -2,22 +2,25 @@ local common = require("common")
 
 -- The asset used by the asteroid
 local image = nil
+local w = nil
+local h = nil
+local r = nil
 
 -- Supported sequences
 local sequences = {
   {
     name = "floating",
     start = 1,
-    count = 63,
+    count = 32,
     rotation = 100,
-    time = 2400,
+    time = 1200,
     loopCount = 0,
     loopDirection = "forward"
   },
   {
     name = "exploding",
-    start = 65,
-    count = 16,
+    start = 32,
+    count = 17,
     time = 1000,
     loopCount = 1,
     loopDirection = "forward"
@@ -28,9 +31,13 @@ local sequences = {
 local function load(asset)
   -- Load in the asset if it hasn't been loaded yet
   if image == nil then
+    w = tonumber(asset.width)
+    h = tonumber(asset.height)
+    r = w / 2 - 15
+
     local options = {
-      width = asset.width,
-      height = asset.height,
+      width = w,
+      height = h,
       numFrames = asset.numFrames,
       sheetContentWidth = asset.sheetContentWidth,
       sheetContentHeight = asset.sheetContentHeight
@@ -46,36 +53,36 @@ function asteroid(asset, properties)
   -- Return instance
   local M = {}
 
-  -- Local variables
+  -- 'Public' properties
+  M.type = "asteroid"
+  M.active = false
+
   local sprite = nil
-  local x = tonumber(properties.x)
-  local y = tonumber(properties.y)
-  local active = false
+  local vX = tonumber(properties.vX)
+  local vY = tonumber(properties.vY)
+  local delay = tonumber(properties.delay)
   local exploding = false
 
   -- Initializes the asteroid to the screen
   function M.initialized()
     -- Back out if already active
-    if active then
+    if M.active or exploding then
       return true
     end
 
-    -- Back out if not on the screen
-    if common.onScreen(x, y, asset.width, asset.height) then
-      -- Move the spawn point over until initialization occurs
-      x = x - 10
-      y = y
+    -- Back out if the delay has not been reached
+    if common.frames < delay then
       return false
     end
 
     -- Setup the sprite
     sprite = display.newSprite(image, sequences)
-    sprite.x = x
-    sprite.y = y
-    active = true
+    sprite.x = properties.x
+    sprite.y = properties.y
+    M.active = true
 
     -- Randomize the start frame for each asteroid
-    sprite:setFrame(math.random(1, 45))
+    sprite:setFrame(math.random(1, 32))
 
     -- Start animation
     sprite:play()
@@ -88,24 +95,63 @@ function asteroid(asset, properties)
     -- Update the asteroid if initialized
     if M.initialized() then
       -- Move
-      sprite.x = sprite.x - 10
-      sprite.y = sprite.y
+      sprite.x = sprite.x + vX
+      sprite.y = sprite.y + vY
 
-      -- Explode if necessary
-      if sprite.x < 1000 and not exploding then
-        exploding = true
-        sprite:setSequence("exploding")
-        sprite:play()
+      if exploding then
+        -- Decrease velocity gradually
+        if vX ~= 0 then
+          vX = vX * .95
+        end
+
+        if vY ~= 0 then
+          vY = vY * .95
+        end
+      else
+        -- Reset rotation
+        if sprite.rotation > 360 then
+          sprite.rotation = 0
+        end
+
+        -- Increment rotation
+        sprite.rotation = sprite.rotation + 10
       end
     end
   end
 
-  -- Convert props as necessary
-  asset.width = tonumber(asset.width)
-  asset.height = tonumber(asset.height)
+  -- Get position
+  function M.position()
+    return {
+      x = sprite.x,
+      y = sprite.y
+    }
+  end
+
+  -- Get size
+  function M.size()
+    return {
+      x = sprite.x,
+      y = sprite.y,
+      w = w,
+      h = h,
+      r = r
+    }
+  end
+
+  -- Kill
+  function M.kill()
+    -- Update flags
+    M.active = false
+    exploding = true
+
+    -- Update to exploding
+    sprite:setSequence("exploding")
+    sprite:play()
+  end
 
   -- Load the image
   load(asset)
+
   return M
 end
 

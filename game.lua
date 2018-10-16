@@ -1,13 +1,14 @@
 -- External references
 local xml = require("xml").newParser()
 local asteroid = require("asteroid")
+local background = require("background")
+local common = require("common")
+local missle = require("missle")
 local player = require("player")
+local turret = require("turret")
 
 -- Export object
 local M = {}
-
--- Variables
-local entities = {}
 
 -- Map table for entity constructors
 local entityConstructors = {
@@ -28,74 +29,85 @@ local function initialize(level)
     assets[asset.properties.type] = asset.properties
   end
 
-  -- Keep track of the entity count
-  local entityCount = 0
-
   -- Loop through each layer to get the objects
   for i, layer in ipairs(mapFile.child[2].child) do
     -- Store entities in layers
     for j, object in ipairs(layer.child) do
       -- Increment the loaded entity count
-      entityCount = entityCount + 1
+      common.entityCount = common.entityCount + 1
 
       -- Extract the object properties and asset
       local properties = object.properties
       local asset = assets[properties.type]
 
       -- Build the entity and add it
-      entities[entityCount] = entityConstructors[properties.type](asset, properties)
+      common.entities[common.entityCount] = entityConstructors[properties.type](asset, properties)
     end
   end
 
+  -- Load the background up
+  common.background = background()
+
   -- Load the player up
-  entities[entityCount + 1] = player()
-end
+  common.player = player()
 
--- Draws items to the screen
-local function draw(i)
-  -- Sequence data for the asteroid sprite
-  local sequenceData = {
-    name = "walking",
-    start = 1,
-    count = 64,
-    time = 2400,
-    loopCount = 0,
-    loopDirection = "bounce"
-  }
-
-  -- Grab the entity and asset
-  local entity = entities[i]
-  local asset = assets[entity.type]
-
-  -- Display the thing
-  entity.sprite = display.newSprite(asset, sequenceData)
-  entity.sprite.x = entity.x
-  entity.sprite.y = entity.y
-
-  sequenceData.loopCount = 1
-
-  -- Start animation
-  entity.sprite:play()
-
-  -- Setup velocity
-  if entity.type == "asteroid" then
-    entity.xVel = math.random(-10, 10)
-    entity.yVel = math.random(-10, 10)
-  else
-    entity.xVel = 0
-    entity.yVel = 0
-  end
-
-  -- Do not draw this again
-  entity.active = true
+  -- Load the turret up
+  common.turret = turret()
 end
 
 -- Updates crap
 local function update(event)
+  -- Update the world time
+  common.frames = common.frames + 1
+
   -- Loop through each entity and process it
-  for i, entity in ipairs(entities) do
+  for i, entity in ipairs(common.entities) do
     entity.update()
   end
+
+  -- Update the player and turret
+  common.background.update()
+  common.player.update()
+  common.turret.update()
+end
+
+-- Handle touch events
+local function touch(event)
+  -- Ignore if player is dead
+  if not common.player.alive() then
+    return
+  end
+
+  -- Create missle properties
+  local properties = {
+    x = 670,
+    y = 375,
+    vX = 0,
+    vY = 0
+  }
+
+  -- Set destination
+  local destination = {
+    x = event.x,
+    y = event.y
+  }
+
+  -- Calculate velocity
+  local velocity = common.calculateVelocity(properties, destination, 18)
+  properties.vX = velocity.x
+  properties.vY = velocity.y
+
+  -- Calculate rotation
+  properties.rotation = common.calculateRotation(properties, destination)
+
+  -- Determine missle index
+  common.entityCount = common.entityCount + 1
+
+  -- Spawn missle
+  common.entities[common.entityCount] = missle(properties)
+
+  -- Set turret rotation to match the missle
+  common.turret.rotate(properties.rotation)
 end
 
 -- Start the target level
@@ -105,6 +117,9 @@ function M.start(level)
 
   -- Render the game
   Runtime:addEventListener("enterFrame", update)
+
+  -- Listen for user interaction
+  Runtime:addEventListener("touch", touch)
 end
 
 return M
