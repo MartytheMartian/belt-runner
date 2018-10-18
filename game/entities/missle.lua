@@ -21,11 +21,13 @@ function missle(properties, graphic)
     graphic.rotate(properties.rotation)
 
     M.initialized = true
+    M.destroyed = false
+    M.collidable = true
   end
 
   -- Update the missle
   function M.update()
-    if not M.initialized then
+    if not M.initialized or M.destroyed then
       return
     end
 
@@ -33,6 +35,7 @@ function missle(properties, graphic)
     local size = graphic.size()
     if not collision.onScreen(properties.x, properties.y, size.width, size.height) then
       M.destroyed = true
+      M.collidable = false
       return
     end
 
@@ -65,6 +68,7 @@ function missle(properties, graphic)
   function M.collided(entity)
     if entity.type == "asteroid" then
       M.destroyed = true
+      M.collidable = false
     end
   end
 

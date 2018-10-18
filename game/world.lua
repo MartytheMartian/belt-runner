@@ -39,6 +39,11 @@ function M.update()
   -- Update each entity
   for i, entity in pairs(resources.entities) do
     repeat
+      -- Do not update destroyed entities
+      if entity.destroyed then
+        return
+      end
+
       -- Initialize the entity if necessary
       if not entity.initialized then
         if entity.delay <= frames then
