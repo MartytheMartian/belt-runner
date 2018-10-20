@@ -39,7 +39,7 @@ function asteroid(properties, graphic)
     end
 
     -- Move it
-    graphic.move(properties.vX, properties.vY)
+    graphic.move(position.x + properties.vX, position.y + properties.vY)
   end
 
   -- Gets the position
@@ -70,7 +70,7 @@ function asteroid(properties, graphic)
     if entity.type ~= "player" and entity.type ~= "missle" then
       return
     end
-    
+
     -- No longer collidable
     M.collidable = false
 

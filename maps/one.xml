@@ -1,8 +1,13 @@
 <map>
     <info name="A Pension Well Earned" />
     <graphics>
-        <graphic id="nebula" type="static" path="assets/nebula.png" width="800" height="622" />
-		<graphic id="turret" type="static" path="assets/turret.png" width="54" height="37" />
+        <graphic id="nebula" type="static" path="assets/neb.png" width="800" height="622" />
+        <graphic id="nebula-invert" type="static" path="assets/nebinv.png" width="800" height="622" />
+        <graphic id="nebula-sepia" type="static" path="assets/nebsep.png" width="800" height="622" />
+        <graphic id="nebula-small" type="static" path="assets/neb - small.png" width="200" height="156" />
+        <graphic id="nebula-invert-small" type="static" path="assets/nebinv - small.png" width="200" height="156" />
+        <graphic id="nebula-sepia-small" type="static" path="assets/nebsep - small.png" width="200" height="156" />
+		    <graphic id="turret" type="static" path="assets/turret.png" width="54" height="37" />
         <graphic id="background" type="scrolling" path="assets/background.png" width="1334" height="750" />
         <graphic id="asteroid" type="animated" path="assets/asteroid.png" width="100" height="100" numFrames="48" sheetContentWidth="800" sheetContentHeight="600">
             <sequence name="floating" start="1" count="32" rotation="100" time="1200" loopCount="0" loopDirection="forward" />
@@ -16,10 +21,18 @@
         </graphic>
     </graphics>
     <entities>
-        <entity id="1" type="background" graphic="background" x="667" y="375" vX="10" vY="0" />
+        <entity type="background" graphic="background" x="667" y="375" vX="10" vY="0" />
         <entity id="player" type="player" graphic="player" x="667" y="375" />
         <entity id="turret" type="turret" graphic="turret" x="667" y="375" />
-        <entity id="2" type="nebula" graphic="nebula" x="1400" y="600" vX="-3" vY="0" delay="60" />
-        <entity id="3" type="asteroid" graphic="asteroid" x="-10" y="375" vX="10" vY="0" delay="120" />
+        <entity type="asteroid" graphic="asteroid" x="1344" y="375" vX="-10" vY="0" delay="120" />
+        <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="240" />
+        <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="320" />
+        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="350" />
+        <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
+        <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
+        <entity type="nebula" graphic="nebula-sepia-small" x="1994" y="100" vX="-3" vY="0" delay="500" />
+        <entity type="nebula" graphic="nebula-sepia" x="1994" y="600" vX="-3" vY="0" delay="800" />
+        <entity type="nebula" graphic="nebula-small" x="1994" y="700" vx="-3" vy="0" delay="460" />
+        <entity type="nebula" graphic="nebula-invert" x="1994" y="10" vX="-3" vY="0" delay="1200" />
     </entities>
 </map>

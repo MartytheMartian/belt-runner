@@ -8,6 +8,9 @@ function player(properties, graphic)
   M.collidable = true
   M.shape = "rectangle"
 
+  -- Events the player can trigger
+  local died = nil
+
   -- Initialize the player
   function M.initialize()
     if M.initialized then
@@ -43,6 +46,23 @@ function player(properties, graphic)
 
   -- Called when the player has collided with something
   function M.collided(entity)
+    if entity.type == "asteroid" then
+      -- Disable colliding
+      M.collidable = false
+
+      -- Start exploding
+      graphic.setGraphic("exploding")
+
+      -- Trigger death handler if necessary
+      if died ~= nil then
+        died()
+      end
+    end
+  end
+
+  -- Called to register the event for death
+  function M.setDiedHandler(handler)
+    died = handler
   end
 
   -- Release the player

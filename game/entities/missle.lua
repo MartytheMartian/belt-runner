@@ -17,9 +17,32 @@ function missle(properties, graphic)
       return
     end
 
-    graphic.initialize()
-    graphic.rotate(properties.rotation)
+    -- Initialize the entity but make sure it isn't 'active' yet
+    -- Missles get handled differently
+    M.initialized = true
+    M.destroyed = true
+    M.collidable = false
+  end
 
+  -- Spawn the missle into the world
+  function M.spawn(x, y, vX, vY, rotation)
+    if not M.initialized then
+      return
+    end
+
+    -- Reset the velocity and rotation
+    properties.vX = vX
+    properties.vY = vY
+    properties.rotation = rotation
+
+    -- Initialize the missle and set its position
+    graphic.initialize()
+    graphic.move(x, y)
+
+    -- Rotate the missle
+    graphic.rotate(rotation)
+
+    -- Set flags
     M.initialized = true
     M.destroyed = false
     M.collidable = true
@@ -31,15 +54,18 @@ function missle(properties, graphic)
       return
     end
 
+    -- Get the position
+    local position = graphic.position()
+
     -- Destroy if off-screen
     local size = graphic.size()
-    if not collision.onScreen(properties.x, properties.y, size.width, size.height) then
+    if not collision.onScreen(position.x, position.y, size.width, size.height) then
       M.destroyed = true
       M.collidable = false
       return
     end
 
-    graphic.move(properties.vX, properties.vY)
+    graphic.move(position.x + properties.vX, position.y + properties.vY)
   end
 
   -- Gets the position
@@ -67,8 +93,12 @@ function missle(properties, graphic)
   -- Called when the missle has collided with something
   function M.collided(entity)
     if entity.type == "asteroid" then
+      -- Flag as destroyed
       M.destroyed = true
       M.collidable = false
+
+      -- Move off screen
+      graphic.move(-32, -32)
     end
   end
 

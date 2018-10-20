@@ -5,6 +5,7 @@ function turret(properties, graphic)
   M.id = properties.id
   M.type = "turret"
   M.initialized = false
+  M.destroyed = false
   M.collidable = false
   M.shape = "rectangle"
 

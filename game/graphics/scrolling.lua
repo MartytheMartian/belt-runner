@@ -69,9 +69,9 @@ function generator(graphic)
     end
 
     -- Move the sprite
-    function M.move(velX, velY)
-      sprite.x = sprite.x + velX
-      sprite.y = sprite.y + velY
+    function M.move(x, y)
+      sprite.x = x
+      sprite.y = y
     end
 
     -- Scroll the sprite

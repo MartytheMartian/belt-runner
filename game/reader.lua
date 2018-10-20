@@ -243,33 +243,30 @@ local function parseEntities(entitiesXML)
       error("'entity' must have 'type', 'graphic', 'x', and 'y' attributes")
     end
 
-    -- Determine the id
-    local id = entityXML.properties.id
-
     -- Set properties with default values for optionals initially
-    parsedEntities[id] = {}
-    parsedEntities[id].id = id
-    parsedEntities[id].type = entityXML.properties.type
-    parsedEntities[id].graphic = entityXML.properties.graphic
-    parsedEntities[id].x = tonumber(entityXML.properties.x)
-    parsedEntities[id].y = tonumber(entityXML.properties.y)
-    parsedEntities[id].vX = 0
-    parsedEntities[id].vY = 0
-    parsedEntities[id].delay = 0
+    parsedEntities[i] = {}
+    parsedEntities[i].id = entityXML.properties.id
+    parsedEntities[i].type = entityXML.properties.type
+    parsedEntities[i].graphic = entityXML.properties.graphic
+    parsedEntities[i].x = tonumber(entityXML.properties.x)
+    parsedEntities[i].y = tonumber(entityXML.properties.y)
+    parsedEntities[i].vX = 0
+    parsedEntities[i].vY = 0
+    parsedEntities[i].delay = 0
 
     -- Read 'X' velocity if necessary
     if entityXML.properties.vX ~= nil then
-      parsedEntities[id].vX = tonumber(entityXML.properties.vX)
+      parsedEntities[i].vX = tonumber(entityXML.properties.vX)
     end
 
     -- Read 'Y' velocity if necessary
     if entityXML.properties.vY ~= nil then
-      parsedEntities[id].vY = tonumber(entityXML.properties.vY)
+      parsedEntities[i].vY = tonumber(entityXML.properties.vY)
     end
 
     -- Read 'delay' if necessary
     if entityXML.properties.delay ~= nil then
-      parsedEntities[id].delay = tonumber(entityXML.properties.delay)
+      parsedEntities[i].delay = tonumber(entityXML.properties.delay)
     end
   end
 

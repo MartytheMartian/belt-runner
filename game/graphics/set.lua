@@ -103,8 +103,8 @@ function generator(graphic)
     end
 
     -- Move the sprite
-    function M.move(velX, velY)
-      return activeGraphic.move(velX, velY)
+    function M.move(x, y)
+      return activeGraphic.move(x, y)
     end
 
     -- Release the set

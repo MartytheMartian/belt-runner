@@ -12,9 +12,15 @@ local turret = require("game.entities.turret")
 -- Return instance
 local M = {}
 
--- Exposed properties
+-- Game resources
 M.graphics = {}
 M.entities = nil
+
+-- Track number of entities
+local entityCount = 0
+
+-- Mapper for ID's to entity
+local idMap = {}
 
 -- Graphic constructor map
 local graphicConstructors = {
@@ -64,14 +70,9 @@ function M.createEntity(entity)
     M.entities = {}
   end
 
-  -- Duplicate entries
-  if M.entities[entity.id] ~= nil then
-    error("Duplicate entity entries detected with an id of " .. entity.id)
-  end
-
   -- Need a type to load correctly
   if entity.type == nil then
-    error("Entity entry with a missing type found with an id of " .. entity.id)
+    error("Entity entry with a missing type found")
   end
 
   -- Determine the constructor to use
@@ -90,11 +91,24 @@ function M.createEntity(entity)
   -- Create the correct graphic
   local graphic = M.graphics[entity.graphic](entity)
 
+  -- Increment entity count
+  entityCount = entityCount + 1
+
   -- Create the entity
-  M.entities[entity.id] = constructor(entity, graphic)
+  M.entities[entityCount] = constructor(entity, graphic)
 
   -- Set the delay
-  M.entities[entity.id].delay = entity.delay
+  M.entities[entityCount].delay = entity.delay
+
+  -- Map ID if necessary
+  if entity.id ~= nil then
+    idMap[entity.id] = entityCount
+  end
+end
+
+-- Get a specific entity by ID
+function M.getEntityByID(id)
+  return M.entities[idMap[id]]
 end
 
 -- Load in defaults

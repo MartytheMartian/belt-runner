@@ -70,14 +70,14 @@ function generator(graphic)
     end
 
     -- Move the sprite
-    function M.move(vX, vY)
-      sprite.x = sprite.x + vX
-      sprite.y = sprite.y + vY
+    function M.move(x, y)
+      sprite.x = x
+      sprite.y = y
     end
 
     -- Rotate the sprite
     function M.rotate(rotation)
-      sprite:rotate(rotation)
+      sprite.rotation = rotation
     end
 
     -- Release the static

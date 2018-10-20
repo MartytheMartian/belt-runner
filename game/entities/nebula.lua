@@ -5,6 +5,7 @@ function nebula(properties, graphic)
   M.id = properties.id
   M.type = "nebula"
   M.initialized = false
+  M.destroyed = false
   M.collidable = false
   M.shape = "rectangle"
 
@@ -25,7 +26,18 @@ function nebula(properties, graphic)
       return
     end
 
-    graphic.move(properties.vX, properties.vY)
+    -- Get the position and size
+    local position = graphic.position()
+    local size = graphic.size()
+
+    -- Release the nebula if off screen
+    if position.x + size.width <= 0 then
+      M.release()
+      return
+    end
+
+    -- Move it
+    graphic.move(position.x + properties.vX, position.y + properties.vY)
   end
 
   -- Gets the position
@@ -55,6 +67,7 @@ function nebula(properties, graphic)
     graphic.release()
 
     M.initialized = false
+    M.destroyed = true
   end
 
   return M

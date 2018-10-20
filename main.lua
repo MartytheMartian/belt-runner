@@ -4,7 +4,7 @@ local game = require("game.game")
 math.randomseed(os.time())
 
 -- Setup debugging
-require("mobdebug").start()
+-- require("mobdebug").start()
 
 -- Because I feel like it
 display.setDefault("textureWrapX", "repeat")

@@ -75,7 +75,8 @@ function generator(graphic)
 
       return {
         x = sprite.x,
-        y = sprite.y
+        y = sprite.y,
+        rotation = sprite.rotation
       }
     end
 
@@ -92,18 +93,18 @@ function generator(graphic)
     end
 
     -- Move the sprite
-    function M.move(velX, velY)
+    function M.move(x, y)
       if sprite == nil then
         error("Cannot move an animated sprite if it has not been drawn yet")
       end
 
-      sprite.x = sprite.x + velX
-      sprite.y = sprite.y + velY
+      sprite.x = x
+      sprite.y = y
     end
 
     -- Rotate the sprite
     function M.rotate(rotation)
-      sprite:rotate(rotation)
+      sprite.rotation = rotation
     end
 
     -- Update the animation
