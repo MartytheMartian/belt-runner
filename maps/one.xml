@@ -27,7 +27,7 @@
         <entity type="asteroid" graphic="asteroid" x="1344" y="375" vX="-10" vY="0" delay="120" />
         <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="240" />
         <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="320" />
-        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="350" />
+        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="400" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
         <entity type="nebula" graphic="nebula-sepia-small" x="1994" y="100" vX="-3" vY="0" delay="500" />

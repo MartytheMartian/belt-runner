@@ -14,6 +14,15 @@ local frames = 0
 -- Track the last frame the player touched
 local lastTouchFrame = -1000
 
+-- Handles player death
+local function playerDied()
+  -- Get the turret
+  local turret = resources.getEntityByID("turret")
+
+  -- Kill the turret
+  turret.release()
+end
+
 -- Initialize the world
 function M.initialize(level)
   -- Read each graphic
@@ -38,7 +47,11 @@ function M.initialize(level)
     resources.getEntityByID(missle.id).initialize()
   end
 
-  --
+  -- Get the player
+  local player = resources.getEntityByID("player")
+
+  -- Set player events
+  player.setDiedHandler(playerDied)
 
   -- Set the world as initialized
   initialized = true

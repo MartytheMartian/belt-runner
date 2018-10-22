@@ -62,6 +62,10 @@ function player(properties, graphic)
 
   -- Called to register the event for death
   function M.setDiedHandler(handler)
+    if type(handler) ~= "function" then
+      error("Died handler must be a function")
+    end
+
     died = handler
   end
 
