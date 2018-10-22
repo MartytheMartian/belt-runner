@@ -1,6 +1,7 @@
 local collision = require("game.collision")
 local resources = require("game.resources")
 local weapon = require("game.weapon")
+local gameAudio = require("game.sounds")
 
 -- Exposed properties of the world
 local M = {}
@@ -25,6 +26,9 @@ function M.initialize(level)
   for i, entity in ipairs(level.entities) do
     resources.createEntity(entity)
   end
+
+  -- Initialize the audio
+  gameAudio.initializeAudio()
 
   -- Prepare 10 missles
   for i = 1, 10 do
@@ -144,6 +148,10 @@ function M.release()
   for i, entity in ipairs(resources.entities) do
     entity.release()
   end
+
+  -- Release the audio
+  gameAudio.disposeAudio()
+
 end
 
 -- Return the world

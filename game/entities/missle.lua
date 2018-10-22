@@ -1,4 +1,5 @@
 local collision = require("game.collision")
+local gameAudio = require("game.sounds")
 
 -- Create a missle
 function missle(properties, graphic)
@@ -46,6 +47,9 @@ function missle(properties, graphic)
     M.initialized = true
     M.destroyed = false
     M.collidable = true
+
+    -- Play missile firing audio on spawn
+    gameAudio.playMissleSound()
   end
 
   -- Update the missle
@@ -96,6 +100,9 @@ function missle(properties, graphic)
       -- Flag as destroyed
       M.destroyed = true
       M.collidable = false
+
+      -- Play explosion
+      gameAudio.playBasicExplosionSound()
 
       -- Move off screen
       graphic.move(-32, -32)

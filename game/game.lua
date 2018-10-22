@@ -1,5 +1,6 @@
 local read = require("game.reader")
 local world = require("game.world")
+local gameAudio = require("game.sounds")
 
 local M = {}
 
@@ -34,6 +35,9 @@ function M.start(file)
 
   -- Initialize the world with the map
   world.initialize(level)
+
+  -- Start playing background music
+  gameAudio.playBackgroundMusic()
 
   -- Render the game
   Runtime:addEventListener("enterFrame", update)

@@ -1,3 +1,5 @@
+local gameAudio = require("game.sounds")
+
 -- Create a player
 function player(properties, graphic)
   local M = {}
@@ -52,6 +54,9 @@ function player(properties, graphic)
 
       -- Start exploding
       graphic.setGraphic("exploding")
+
+      -- Play player explosion sound
+      gameAudio.playBasicExplosionSound()
 
       -- Trigger death handler if necessary
       if died ~= nil then
