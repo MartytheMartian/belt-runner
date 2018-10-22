@@ -55,6 +55,8 @@ function M.disposeAudio()
         audio.dispose(effectSoundTable[s])
         effectSoundTable[s] = nil
     end
+
+    initialized = false
 end
 
 return M
