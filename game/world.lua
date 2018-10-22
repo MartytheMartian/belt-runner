@@ -107,13 +107,18 @@ end
 
 -- Handle touch events in the world
 function M.touch(x, y)
-  -- Touch thorttlin. One a half a second for now.
+  -- Touch thorttling. One a half a second for now.
   if frames - lastTouchFrame < 30 then
     return
   end
 
   -- Get the player
   local player = resources.getEntityByID("player")
+
+  -- Do nothing if the player is dead
+  if player.destroyed then
+    return
+  end
 
   -- Prepare to read a missle
   local missle = nil

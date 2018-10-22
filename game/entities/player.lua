@@ -7,6 +7,7 @@ function player(properties, graphic)
   M.id = properties.id
   M.type = "player"
   M.initialized = false
+  M.destroyed = false
   M.collidable = true
   M.shape = "rectangle"
 
@@ -22,6 +23,7 @@ function player(properties, graphic)
     graphic.initialize("alive")
 
     M.initialized = true
+    M.destroyed = false
   end
 
   -- Update the player
@@ -57,6 +59,9 @@ function player(properties, graphic)
 
       -- Play player explosion sound
       gameAudio.playBasicExplosionSound()
+
+      -- Flag as dead
+      M.destroyed = true
 
       -- Trigger death handler if necessary
       if died ~= nil then

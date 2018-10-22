@@ -61,6 +61,7 @@ function turret(properties, graphic)
     graphic.release()
 
     M.initialized = false
+    M.destroyed = true
   end
 
   return M
