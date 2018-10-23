@@ -13,6 +13,12 @@
             <sequence name="floating" start="1" count="32" rotation="100" time="1200" loopCount="0" loopDirection="forward" />
             <sequence name="exploding" start="32" count="17" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
         </graphic>
+        <graphic id="alien" type="set">
+            <graphic id="alive" type="static" path="assets/alien.png" width="116" height="63" />
+            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+                <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
+            </graphic>
+        </graphic>
         <graphic id="player" type="set">
             <graphic id="alive" type="static" path="assets/player.png" width="133" height="62" />
             <graphic id="exploding" type="animated" path="assets/shipexplosion.png" width="128" height="128" numFrames="20" sheetContentWidth="640" sheetContentHeight="512">
@@ -24,6 +30,7 @@
         <entity type="background" graphic="background" x="667" y="375" vX="10" vY="0" />
         <entity id="player" type="player" graphic="player" x="667" y="375" />
         <entity id="turret" type="turret" graphic="turret" x="667" y="375" />
+        <entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="460" />
         <entity type="asteroid" graphic="asteroid" x="1344" y="375" vX="-10" vY="0" delay="120" />
         <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="240" />
         <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="320" />

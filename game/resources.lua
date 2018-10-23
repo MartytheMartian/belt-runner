@@ -1,3 +1,4 @@
+local alien = require("game.entities.alien")
 local animated = require("game.graphics.animated")
 local asteroid = require("game.entities.asteroid")
 local background = require("game.entities.background")
@@ -32,6 +33,7 @@ local graphicConstructors = {
 
 -- Entity constructor map
 local entityConstructors = {
+  alien = alien,
   asteroid = asteroid,
   background = background,
   missle = missle,
@@ -80,12 +82,12 @@ function M.createEntity(entity)
 
   -- Type unsupported
   if constructor == nil then
-    error("Entity entry with an unsupported type found with an id of " .. entity.id)
+    error("Entity entry with an unsupported type found")
   end
 
   -- Graphic type unsupported
   if entity.graphic == nil or M.graphics[entity.graphic] == nil then
-    error("Entity entry with an unloaded graphic type found with an id of " .. entity.id)
+    error("Entity entry with an unloaded graphic type found")
   end
 
   -- Create the correct graphic
