@@ -17,9 +17,6 @@ function background(properties, graphic)
     -- Initialize
     graphic.initialize()
 
-    -- Start scrolling immediately
-    graphic.scroll(150000, properties.vX, 0)
-
     M.initialized = true
   end
 
@@ -28,6 +25,8 @@ function background(properties, graphic)
     if not M.initialized then
       return
     end
+
+    graphic.scroll(-2)
   end
 
   -- Gets the position

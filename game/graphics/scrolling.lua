@@ -31,37 +31,37 @@ function generator(graphic)
       error("Scrollings cannot have a nil y position")
     end
 
-    -- Sprite to use
-    local sprite = nil
+    -- Sprites to use
+    local sprite1 = nil
+    local sprite2 = nil
+    local sprite3 = nil
 
     -- Initialize the scrolling
     function M.initialize()
-      -- Initialize the sprite
-      sprite = display.newRect(entity.x, entity.y, width, height)
+      -- Initialize the sprites
+      sprite1 = display.newImageRect(path, width, height)
+      sprite2 = display.newImageRect(path, width, height)
+      sprite3 = display.newImageRect(path, width, height)
 
-      -- Set the sprite image
-      sprite.fill = {type = "image", filename = path}
+      -- Set the starting points
+      sprite1.x = entity.x
+      sprite1.y = entity.y
+      sprite2.x = sprite1.x + width
+      sprite2.y = entity.y
+      sprite3.x = sprite2.x + width
+      sprite3.y = entity.y
     end
 
     -- Get current position
     function M.position()
-      -- No position if there is no sprite
-      if sprite == nil then
-        error("Cannot get position of a scrolling if it has not been drawn yet")
-      end
-
       return {
-        x = sprite.x,
-        y = sprite.y
+        x = entity.x,
+        y = entity.y
       }
     end
 
     -- Get size
     function M.size()
-      if sprite == nil then
-        error("Cannot get position of a scrolling if it has not been drawn yet")
-      end
-
       return {
         width = width,
         height = height
@@ -70,20 +70,41 @@ function generator(graphic)
 
     -- Move the sprite
     function M.move(x, y)
-      sprite.x = x
-      sprite.y = y
+      -- Do nothing for scrollings
     end
 
     -- Scroll the sprite
-    function M.scroll(time, scrollX, scrollY)
-      transition.to(sprite.fill, {time = time, x = sprite.fill.x + scrollX, iterations = -1})
+    function M.scroll(scrollX, scrollY)
+      -- Update each sprite
+      sprite1.x = sprite1.x + scrollX
+      sprite2.x = sprite2.x + scrollX
+      sprite3.x = sprite3.x + scrollX
+
+      -- Reset the first sprite if necessary
+      if sprite1.x < -667 then
+        sprite1.x = 3335
+      end
+
+      -- Reset the second sprite if necessary
+      if sprite2.x < -667 then
+        sprite2.x = 3335
+      end
+
+      -- Reset the third sprite if necessary
+      if sprite3.x < -667 then
+        sprite3.x = 3335
+      end
     end
 
     -- Release the scrolling
     function M.release()
-      -- Clear out the sprite and set it to nothing
-      sprite:removeSelf()
-      sprite = nil
+      -- Clear out the sprites and set them to nothing
+      sprite1:removeSelf()
+      sprite2:removeSelf()
+      sprite3:removeSelf()
+      sprite1 = nil
+      sprite2 = nil
+      sprite3 = nil
     end
 
     return M
