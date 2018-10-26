@@ -62,14 +62,26 @@ function M.detectCollision(target, entities)
         r = entitySize.radius
       }
 
+      -- Check rect status
+      local targetRectangle = target.shape == "rectangle"
+      local entityRectangle = entity.shape == "rectangle"
+
+      -- Both entity and target are rectangles
+      if targetRectangle and entityRectangle then
+        if M.rectangleCollision(targetBounds, entityBounds) then return entity
+        else break end
+      end
+
       -- Target is a rectangle
-      if target.shape == "rectangle" and M.rectangleCircleCollision(targetBounds, entityBounds) then
-        return entity
+      if targetRectangle then
+        if M.rectangleCircleCollision(targetBounds, entityBounds) then return entity
+        else break end
       end
 
       -- Entity is a rectangle
-      if entity.shape == "rectangle" and M.rectangleCircleCollision(entityBounds, targetBounds) then
-        return entity
+      if entityRectangle then
+        if M.rectangleCircleCollision(entityBounds, targetBounds) then return entity
+        else break end
       end
 
       -- Must be circle-circle
@@ -94,6 +106,13 @@ function M.circleCollision(obj1, obj2)
   end
 
   return false
+end
+
+function M.rectangleCollision(obj1, obj2)
+  return obj1.x < obj2.x + obj2.w and
+    obj1.y < obj2.y + obj2.h and
+    obj2.x < obj1.x + obj1.w and
+    obj2.y < obj1.y + obj1.h
 end
 
 function M.rectangleCircleCollision(rectangle, circle)

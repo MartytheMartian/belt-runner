@@ -10,7 +10,7 @@ function missle(properties, graphic)
   M.initialized = false
   M.destroyed = false
   M.collidable = true
-  M.shape = "circle"
+  M.shape = "rectangle"
 
   -- Initialize the missle
   function M.initialize()
