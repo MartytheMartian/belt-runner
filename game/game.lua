@@ -1,10 +1,13 @@
 local read = require("game.reader")
 local world = require("game.world")
-local gameAudio = require("game.sounds")
 
 local M = {}
 
+-- Flags
 local paused = false
+
+-- Events
+local endEvent = nil
 
 -- Update the game
 local function update()
@@ -24,24 +27,25 @@ end
 
 -- Exit the game
 local function exit()
-  -- Release the world
+  -- Release the world and fire the end event
   world.release()
+  endEvent()
 end
 
--- Loads the target level
-function M.load(file)
+-- Initializes the game with a target level and end event hook
+function M.load(file, eEnd)
+  -- Track events
+  endEvent = eEnd
+
   -- Read the level
   local level = read(file)
 
   -- Initialize the world with the map
-  world.initialize(level)
+  world.initialize(level, exit)
 end
 
 -- Starts the loaded level
 function M.start()
-  -- Start playing background music
-  gameAudio.playBackgroundMusic()
-
   -- Render the game
   Runtime:addEventListener("enterFrame", update)
 

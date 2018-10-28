@@ -6,7 +6,7 @@ local scene = composer.newScene()
 
 -- Transitions to the game
 local function startGame()
-    composer.gotoScene("game", { time=800, effect="crossFade" })
+    composer.gotoScene("game")
 end
 
 -- Creates the scene

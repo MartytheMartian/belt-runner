@@ -98,13 +98,23 @@ function generator(graphic)
 
     -- Release the scrolling
     function M.release()
-      -- Clear out the sprites and set them to nothing
-      sprite1:removeSelf()
-      sprite2:removeSelf()
-      sprite3:removeSelf()
-      sprite1 = nil
-      sprite2 = nil
-      sprite3 = nil
+      -- Clear out sprite 1
+      if sprite1 ~= nil then
+        sprite1:removeSelf()
+        sprite1 = nil
+      end
+
+      -- Clear out sprite 2
+      if sprite2 ~= nil then
+        sprite2:removeSelf()
+        sprite2 = nil
+      end
+
+      -- Clear out sprite 3
+      if sprite3 ~= nil then
+        sprite3:removeSelf()
+        sprite3 = nil
+      end
     end
 
     return M

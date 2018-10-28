@@ -17,22 +17,22 @@ function M.initializeAudio()
     if not initialized then
         -- reserve the first 5 channels for background music and any other special sounds that
         --  we might want to control (volume, etc.) differently from basic sound effects.
-        audio.reserveChannels( 5 )
+        audio.reserveChannels(5)
 
         -- load in background music as a stream
-        backgroundMusic = audio.loadStream("assets/audio/genericBackMusic.mp3", { channel=1 })
+        backgroundMusic = audio.loadStream("assets/audio/genericBackMusic.mp3", {channel = 1})
 
         -- load sound effects
-         effectSoundTable = {
-             basicMissileSound = audio.loadSound("assets/audio/basicMissile.wav"),
-             basicExplosionSound = audio.loadSound("assets/audio/basicExplosion.wav")
-         }
+        effectSoundTable = {
+            basicMissileSound = audio.loadSound("assets/audio/basicMissile.wav"),
+            basicExplosionSound = audio.loadSound("assets/audio/basicExplosion.wav")
+        }
     end
 end
 
 function M.playBackgroundMusic()
     -- Play background music, looping forever
-    audio.play(backgroundMusic, { loops = -1 })
+    audio.play(backgroundMusic, {loops = -1})
 end
 
 function M.playMissleSound()
@@ -60,4 +60,3 @@ function M.disposeAudio()
 end
 
 return M
-

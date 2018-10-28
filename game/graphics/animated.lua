@@ -120,8 +120,10 @@ function generator(graphic)
     -- Release the animated
     function M.release()
       -- Clear out the sprite and set it to nothing
-      sprite:removeSelf()
-      sprite = nil
+      if sprite ~= nil then
+        sprite:removeSelf()
+        sprite = nil
+      end
     end
 
     return M

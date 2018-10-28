@@ -15,6 +15,9 @@ local frames = 0
 -- Track the last frame the player touched
 local lastTouchFrame = -1000
 
+-- Events
+local endEvent = nil
+
 -- Handles player death
 local function playerDied()
   -- Get the turret
@@ -22,10 +25,29 @@ local function playerDied()
 
   -- Kill the turret
   turret.release()
+
+  -- End the game after three seconds
+  if endEvent ~= nil then
+    timer.performWithDelay(3000, endEvent)
+  end
 end
 
--- Initialize the world
-function M.initialize(level)
+-- Initialize the world with a level and 'end' hook
+function M.initialize(level, gameOver)
+  -- Set game over hook as the end event
+  endEvent = gameOver
+
+  -- Set all defaults
+  initialized = false
+  frames = 0
+  lastTouchFrame = -1000
+
+  -- Initialize the audio
+  gameAudio.initializeAudio()
+
+  -- Setup initial resources
+  resources.setup()
+
   -- Read each graphic
   for i, graphic in ipairs(level.graphics) do
     resources.createGraphic(graphic)
@@ -35,9 +57,6 @@ function M.initialize(level)
   for i, entity in ipairs(level.entities) do
     resources.createEntity(entity)
   end
-
-  -- Initialize the audio
-  gameAudio.initializeAudio()
 
   -- Prepare 10 missles
   for i = 1, 10 do
@@ -56,6 +75,9 @@ function M.initialize(level)
 
   -- Set player events
   player.setDiedHandler(playerDied)
+
+  -- Start playing background music
+  gameAudio.playBackgroundMusic()
 
   -- Set the world as initialized
   initialized = true
@@ -157,7 +179,7 @@ function M.touch(x, y)
   lastTouchFrame = frames
 end
 
--- Relase the world
+-- Release the world
 function M.release()
   if not initialized then
     return
@@ -170,6 +192,9 @@ function M.release()
   for i, entity in ipairs(resources.entities) do
     entity.release()
   end
+
+  -- Clear out resources
+  resources.clear()
 
   -- Release the audio
   gameAudio.disposeAudio()

@@ -110,32 +110,44 @@ function M.createEntity(entity)
   end
 end
 
+-- Setup initial resources
+function M.setup()
+  -- Load in defaults
+  local missle = {
+    id = "missle",
+    type = "animated",
+    path = "assets/fireball.png",
+    width = 32,
+    height = 32,
+    numFrames = 4,
+    sheetContentWidth = 32,
+    sheetContentHeight = 128,
+    sequences = {
+      name = "flying",
+      start = 1,
+      count = 3,
+      rotation = 0,
+      time = 400,
+      loopCount = 0,
+      loopDirection = "forward"
+    }
+  }
+
+  M.createGraphic(missle)
+end
+
+-- Clear out all resources
+function M.clear()
+  -- Reset all flags
+  M.graphics = {}
+  M.entities = nil
+  entityCount = 0
+  idMap = {}
+end
+
 -- Get a specific entity by ID
 function M.getEntityByID(id)
   return M.entities[idMap[id]]
 end
-
--- Load in defaults
-local missle = {
-  id = "missle",
-  type = "animated",
-  path = "assets/fireball.png",
-  width = 32,
-  height = 32,
-  numFrames = 4,
-  sheetContentWidth = 32,
-  sheetContentHeight = 128,
-  sequences = {
-    name = "flying",
-    start = 1,
-    count = 3,
-    rotation = 0,
-    time = 400,
-    loopCount = 0,
-    loopDirection = "forward"
-  }
-}
-
-M.createGraphic(missle)
 
 return M
