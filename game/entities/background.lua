@@ -26,7 +26,7 @@ function background(properties, graphic)
       return
     end
 
-    graphic.scroll(-2)
+    graphic.scroll(properties.vX)
   end
 
   -- Gets the position

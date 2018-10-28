@@ -6,33 +6,33 @@ local collidableEntities = {
   player = true
 }
 
--- Create a alien
-function alien(properties, graphic)
+-- Create a debris
+function debris(properties, graphic)
   local M = {}
 
   M.id = properties.id
-  M.type = "alien"
+  M.type = "debris"
   M.initialized = false
   M.collidable = false
   M.destroyed = false
+  M.exploding = false
   M.shape = "rectangle"
 
-  local lastShot = 45
-
-  -- Initialize the alien
+  -- Initialize the debris
   function M.initialize()
     if M.initialized then
       return
     end
 
-    graphic.initialize("alive")
+    graphic.initialize("floating")
 
     M.collidable = true
     M.initialized = true
+    M.exploding = false
     M.destroyed = false
   end
 
-  -- Update the alien
+  -- Update the debris
   function M.update()
     if not M.initialized then
       return
@@ -42,7 +42,7 @@ function alien(properties, graphic)
     local position = graphic.position()
 
     -- Slowly decrease velocity if exploding
-    if exploding then
+    if M.exploding then
       properties.vX = properties.vX * .95
       properties.vY = properties.vY * .95
     end
@@ -69,7 +69,7 @@ function alien(properties, graphic)
     return graphic.size()
   end
 
-  -- Can collide with a given entity
+  -- Is the entity collidable right now
   function M.canCollide(type)
     if not M.collidable then
       return false
@@ -78,22 +78,20 @@ function alien(properties, graphic)
     return collidableEntities[type] ~= nil
   end
 
-  -- Called when the alien has collided with something
+  -- Called when the debris has collided with something
   function M.collided(entity)
     -- Disable colliding
     M.collidable = false
 
     -- Start exploding
     graphic.setGraphic("exploding")
+    M.exploding = true
 
-    -- Play alien explosion sound
+    -- Play debris explosion sound
     gameAudio.playBasicExplosionSound()
-
-    -- Flag as dead
-    M.destroyed = true
   end
 
-  -- Release the alien
+  -- Release the debris
   function M.release()
     if not M.initialized then
       return
@@ -107,4 +105,4 @@ function alien(properties, graphic)
   return M
 end
 
-return alien
+return debris

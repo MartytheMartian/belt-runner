@@ -5,8 +5,8 @@ function nebula(properties, graphic)
   M.id = properties.id
   M.type = "nebula"
   M.initialized = false
-  M.destroyed = false
   M.collidable = false
+  M.destroyed = false
   M.shape = "rectangle"
 
   -- Initialize the nebula

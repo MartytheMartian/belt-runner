@@ -1,3 +1,9 @@
+-- Entities that this entity can collide with
+local collidableEntities = {
+  missle = true,
+  player = true
+}
+
 -- Create a asteroid
 function asteroid(properties, graphic)
   local M = {}
@@ -5,7 +11,7 @@ function asteroid(properties, graphic)
   M.id = properties.id
   M.type = "asteroid"
   M.initialized = false
-  M.collidable = true
+  M.collidable = false
   M.shape = "circle"
 
   local exploding = false
@@ -18,6 +24,7 @@ function asteroid(properties, graphic)
 
     graphic.initialize("floating")
 
+    M.collidable = true
     M.initialized = true
   end
 
@@ -64,20 +71,23 @@ function asteroid(properties, graphic)
     return size
   end
 
-  -- Called when the asteroid has collided with something
-  function M.collided(entity)
-    -- Only care if the entity is a player or missle
-    if entity.type ~= "player" and entity.type ~= "missle" then
-      return
+  function M.canCollide(type)
+    if not M.collidable then
+      return false
     end
 
+    return collidableEntities[type] ~= nil
+  end
+
+  -- Called when the asteroid has collided with something
+  function M.collided(entity)
     -- No longer collidable
     M.collidable = false
 
     -- Explode
     graphic.setSequence("exploding")
 
-    -- Mark as exploded
+    -- Mark as exploding
     exploding = true
   end
 

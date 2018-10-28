@@ -46,7 +46,8 @@ function M.detectCollision(target, entities)
   -- Check against other entities
   for i, entity in ipairs(entities) do
     repeat
-      if not entity.collidable or not entity.initialized or entity.id == target.id then
+      -- Move on if not collidable, not initialized, is the current target, or not collidable type
+      if not entity.initialized or not entity.collidable or not target.canCollide(entity.type) or entity.id == target.id then
         break
       end
 

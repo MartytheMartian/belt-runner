@@ -1,5 +1,12 @@
 local gameAudio = require("game.sounds")
 
+-- Entities that this entity can collide with
+local collidableEntities = {
+  asteroid = true,
+  alien = true,
+  debris = true
+}
+
 -- Create a player
 function player(properties, graphic)
   local M = {}
@@ -7,8 +14,8 @@ function player(properties, graphic)
   M.id = properties.id
   M.type = "player"
   M.initialized = false
+  M.collidable = false
   M.destroyed = false
-  M.collidable = true
   M.shape = "rectangle"
 
   -- Events the player can trigger
@@ -22,6 +29,7 @@ function player(properties, graphic)
 
     graphic.initialize("alive")
 
+    M.collidable = true
     M.initialized = true
     M.destroyed = false
   end
@@ -48,25 +56,32 @@ function player(properties, graphic)
     return graphic.size()
   end
 
+  -- Is the entity collidable right now
+  function M.canCollide(type)
+    if not M.collidable then
+      return false
+    end
+
+    return collidableEntities[type] ~= nil
+  end
+
   -- Called when the player has collided with something
   function M.collided(entity)
-    if entity.type == "asteroid" then
-      -- Disable colliding
-      M.collidable = false
+    -- Disable colliding
+    M.collidable = false
 
-      -- Start exploding
-      graphic.setGraphic("exploding")
+    -- Start exploding
+    graphic.setGraphic("exploding")
 
-      -- Play player explosion sound
-      gameAudio.playBasicExplosionSound()
+    -- Play player explosion sound
+    gameAudio.playBasicExplosionSound()
 
-      -- Flag as dead
-      M.destroyed = true
+    -- Flag as dead
+    M.destroyed = true
 
-      -- Trigger death handler if necessary
-      if died ~= nil then
-        died()
-      end
+    -- Trigger death handler if necessary
+    if died ~= nil then
+      died()
     end
   end
 

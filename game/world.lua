@@ -92,10 +92,14 @@ function M.update()
         -- Determine if collided with something
         local collider = collision.detectCollision(entity, resources.entities)
 
-        -- Let each entity know it collided with something
+        -- Let the entity know it collided if necessary
         if collider ~= nil then
           entity.collided(collider)
-          collider.collided(entity)
+
+          -- Let the collider know if necessary
+          if collider.canCollide(entity.type) then
+            collider.collided(entity)
+          end
         end
       end
 
@@ -169,7 +173,6 @@ function M.release()
 
   -- Release the audio
   gameAudio.disposeAudio()
-
 end
 
 -- Return the world

@@ -1,6 +1,13 @@
 local collision = require("game.collision")
 local gameAudio = require("game.sounds")
 
+-- Entities that this entity can collide with
+local collidableEntities = {
+  asteroid = true,
+  alien = true,
+  debris = true
+}
+
 -- Create a missle
 function missle(properties, graphic)
   local M = {}
@@ -8,8 +15,8 @@ function missle(properties, graphic)
   M.id = properties.id
   M.type = "missle"
   M.initialized = false
+  M.collidable = false
   M.destroyed = false
-  M.collidable = true
   M.shape = "rectangle"
 
   -- Initialize the missle
@@ -20,9 +27,9 @@ function missle(properties, graphic)
 
     -- Initialize the entity but make sure it isn't 'active' yet
     -- Missles get handled differently
+    M.collidable = false
     M.initialized = true
     M.destroyed = true
-    M.collidable = false
   end
 
   -- Spawn the missle into the world
@@ -45,8 +52,8 @@ function missle(properties, graphic)
 
     -- Set flags
     M.initialized = true
-    M.destroyed = false
     M.collidable = true
+    M.destroyed = false
 
     -- Play missile firing audio on spawn
     gameAudio.playMissleSound()
@@ -64,8 +71,8 @@ function missle(properties, graphic)
     -- Destroy if off-screen
     local size = graphic.size()
     if not collision.onScreen(position.x, position.y, size.width, size.height) then
-      M.destroyed = true
       M.collidable = false
+      M.destroyed = true
       return
     end
 
@@ -94,19 +101,26 @@ function missle(properties, graphic)
     return size
   end
 
+  -- Is the entity collidable right now
+  function M.canCollide(type)
+    if not M.collidable then
+      return false
+    end
+
+    return collidableEntities[type] ~= nil
+  end
+
   -- Called when the missle has collided with something
   function M.collided(entity)
-    if entity.type == "asteroid" then
-      -- Flag as destroyed
-      M.destroyed = true
-      M.collidable = false
+    -- Flag as destroyed
+    M.collidable = false
+    M.destroyed = true
 
-      -- Play explosion
-      gameAudio.playBasicExplosionSound()
+    -- Play explosion
+    gameAudio.playBasicExplosionSound()
 
-      -- Move off screen
-      graphic.move(-32, -32)
-    end
+    -- Move off screen
+    graphic.move(-32, -32)
   end
 
   -- Release the missle
