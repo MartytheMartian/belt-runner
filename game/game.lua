@@ -28,14 +28,17 @@ local function exit()
   world.release()
 end
 
--- Start the target level
-function M.start(file)
+-- Loads the target level
+function M.load(file)
   -- Read the level
   local level = read(file)
 
   -- Initialize the world with the map
   world.initialize(level)
+end
 
+-- Starts the loaded level
+function M.start()
   -- Start playing background music
   gameAudio.playBackgroundMusic()
 
@@ -44,6 +47,19 @@ function M.start(file)
 
   -- Listen for user interaction
   Runtime:addEventListener("touch", touch)
+end
+
+-- Stops the level
+function M.stop()
+  -- Remove events
+  Runtime:removeEventListener("enterFrame", update)
+  Runtime:removeEventListener("touch", touch)
+end
+
+-- Destroys the level
+function M.destroy()
+  -- Clear out world resources
+  world.release()
 end
 
 return M
