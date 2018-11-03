@@ -58,7 +58,7 @@ function player(properties, graphic)
 
   -- Is the entity collidable right now
   function M.canCollide(type)
-    if not M.collidable then
+    if not M.collidable or true then
       return false
     end
 

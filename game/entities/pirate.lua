@@ -1,36 +1,40 @@
+local resources = require("game.resources")
 local gameAudio = require("game.sounds")
+local weapon = require("game.weapon")
 
 -- Entities that this entity can collide with
 local collidableEntities = {
-  missle = true,
-  player = true
+  missle = true
 }
 
--- Create a asteroid
-function asteroid(properties, graphic)
+-- Create a pirate
+function pirate(properties, graphic)
   local M = {}
 
   M.id = properties.id
-  M.type = "asteroid"
+  M.type = "pirate"
   M.initialized = false
   M.collidable = false
-  M.shape = "circle"
+  M.shape = "rectangle"
 
   local exploding = false
+  local shotFired = false
 
-  -- Initialize the asteroid
+  -- Initialize the pirate
   function M.initialize()
     if M.initialized then
       return
     end
 
-    graphic.initialize("floating")
+    -- Flying
+    graphic.initialize("alive")
 
+    -- Set flags
     M.collidable = true
     M.initialized = true
   end
 
-  -- Update the asteroid
+  -- Update the pirate
   function M.update()
     if not M.initialized then
       return
@@ -43,11 +47,16 @@ function asteroid(properties, graphic)
     if exploding then
       properties.vX = properties.vX * .95
       properties.vY = properties.vY * .95
-    else
-      graphic.rotate(10)
     end
 
-    -- Move it
+    -- Fire the shot if necessary
+    if not shotFired and position.x > 750 then
+      local missleSetup = weapon.createMissle("P1")
+      local missle = resources.
+      weapon.fireMissle(position, { x = 667, y = 750 }, missle)
+      shotFired = true
+    end
+
     graphic.move(position.x + properties.vX, position.y + properties.vY)
   end
 
@@ -66,13 +75,10 @@ function asteroid(properties, graphic)
       return nil
     end
 
-    -- Append radius
-    local size = graphic.size()
-    size.radius = size.width / 2
-
-    return size
+    return graphic.size()
   end
 
+  -- Can this entity collide with a given type
   function M.canCollide(type)
     if not M.collidable then
       return false
@@ -81,22 +87,22 @@ function asteroid(properties, graphic)
     return collidableEntities[type] ~= nil
   end
 
-  -- Called when the asteroid has collided with something
+  -- Called when the pirate has collided with something
   function M.collided(entity)
     -- No longer collidable
     M.collidable = false
 
     -- Explode
-    graphic.setSequence("exploding")
+    graphic.setGraphic("exploding")
 
-    -- Play alien explosion sound
+    -- Play explosion sound
     gameAudio.playBasicExplosionSound()
 
     -- Mark as exploding
     exploding = true
   end
 
-  -- Release the asteroid
+  -- Release the pirate
   function M.release()
     if not M.initialized then
       return
@@ -110,4 +116,4 @@ function asteroid(properties, graphic)
   return M
 end
 
-return asteroid
+return pirate

@@ -1,7 +1,7 @@
 local composer = require("composer")
 local menu = require("menu.menu")
 
--- Create the game scene
+-- Create the menu scene
 local scene = composer.newScene()
 
 -- Transitions to the game

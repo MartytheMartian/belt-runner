@@ -5,6 +5,7 @@ local background = require("game.entities.background")
 local debris = require("game.entities.debris")
 local missle = require("game.entities.missle")
 local nebula = require("game.entities.nebula")
+local pirate = require("game.entities.pirate")
 local player = require("game.entities.player")
 local scrolling = require("game.graphics.scrolling")
 local set = require("game.graphics.set")
@@ -41,6 +42,7 @@ local entityConstructors = {
   missle = missle,
   nebula = nebula,
   player = player,
+  pirate = pirate,
   turret = turret
 }
 
@@ -117,11 +119,11 @@ function M.setup()
     id = "missle",
     type = "animated",
     path = "assets/fireball.png",
-    width = 32,
-    height = 32,
+    width = 22,
+    height = 12,
     numFrames = 4,
-    sheetContentWidth = 32,
-    sheetContentHeight = 128,
+    sheetContentWidth = 22,
+    sheetContentHeight = 48,
     sequences = {
       name = "flying",
       start = 1,

@@ -252,6 +252,9 @@ local function parseEntities(entitiesXML)
     parsedEntities[i].y = tonumber(entityXML.properties.y)
     parsedEntities[i].vX = 0
     parsedEntities[i].vY = 0
+    parsedEntities[i].dX = 0
+    parsedEntities[i].dY = 0
+    parsedEntities[i].s = 0
     parsedEntities[i].delay = 0
 
     -- Read 'X' velocity if necessary
@@ -262,6 +265,21 @@ local function parseEntities(entitiesXML)
     -- Read 'Y' velocity if necessary
     if entityXML.properties.vY ~= nil then
       parsedEntities[i].vY = tonumber(entityXML.properties.vY)
+    end
+
+    -- Read 'X' destination if necessary
+    if entityXML.properties.dX ~= nil then
+      parsedEntities[i].dX = tonumber(entityXML.properties.dX)
+    end
+
+    -- Read 'Y' destination if necessary
+    if entityXML.properties.dY ~= nil then
+      parsedEntities[i].dY = tonumber(entityXML.properties.dY)
+    end
+
+    -- Read 'speed' if necessary
+    if entityXML.properties.s ~= nil then
+      parsedEntities[i].s = tonumber(entityXML.properties.s)
     end
 
     -- Read 'delay' if necessary

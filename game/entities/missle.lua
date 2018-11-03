@@ -5,7 +5,8 @@ local gameAudio = require("game.sounds")
 local collidableEntities = {
   asteroid = true,
   alien = true,
-  debris = true
+  debris = true,
+  pirate = true
 }
 
 -- Create a missle
@@ -115,9 +116,6 @@ function missle(properties, graphic)
     -- Flag as destroyed
     M.collidable = false
     M.destroyed = true
-
-    -- Play explosion
-    gameAudio.playBasicExplosionSound()
 
     -- Move off screen
     graphic.move(-32, -32)

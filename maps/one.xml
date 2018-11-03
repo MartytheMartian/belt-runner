@@ -7,14 +7,14 @@
         <graphic id="nebula-small" type="static" path="assets/neb - small.png" width="200" height="156" />
         <graphic id="nebula-invert-small" type="static" path="assets/nebinv - small.png" width="200" height="156" />
         <graphic id="nebula-sepia-small" type="static" path="assets/nebsep - small.png" width="200" height="156" />
-		<graphic id="turret" type="static" path="assets/turret.png" width="54" height="37" />
+        <graphic id="turret" type="static" path="assets/turret.png" width="54" height="37" />
         <graphic id="background" type="scrolling" path="assets/background.png" width="1334" height="750" />
         <graphic id="asteroid" type="animated" path="assets/asteroid.png" width="100" height="100" numFrames="48" sheetContentWidth="800" sheetContentHeight="600">
             <sequence name="floating" start="1" count="32" rotation="100" time="1200" loopCount="0" loopDirection="forward" />
             <sequence name="exploding" start="32" count="17" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
         </graphic>
         <graphic id="alien" type="set">
-            <graphic id="alive" type="static" path="assets/alien.png" width="116" height="63" />
+            <graphic id="alive" type="static" path="assets/alien.png" width="120" height="71" />
             <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
                 <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
@@ -31,6 +31,12 @@
                 <sequence name="exploding" start="1" count="19" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
+        <graphic id="pirate" type="set">
+            <graphic id="alive" type="static" path="assets/pirate.png" width="132" height="64" />
+            <graphic id="exploding" type="animated" path="assets/shipexplosion.png" width="128" height="128" numFrames="20" sheetContentWidth="640" sheetContentHeight="512">
+                <sequence name="exploding" start="1" count="19" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
+            </graphic>
+        </graphic>
     </graphics>
     <entities>
         <entity type="background" graphic="background" x="667" y="375" vX="-2" vY="0" />
@@ -41,6 +47,7 @@
         <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="240" />
         <entity type="asteroid" graphic="asteroid" x="1344" y="-10" vX="-13" vY="8" delay="320" />
         <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="400" />
+        <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="60" />
         <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />

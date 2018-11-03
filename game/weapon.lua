@@ -1,5 +1,4 @@
 local math = require("game.math")
-local resources = require("game.resources")
 
 local M = {}
 
