@@ -1,4 +1,4 @@
-local resources = require("game.resources")
+-- local resources = require("game.resources")
 local gameAudio = require("game.sounds")
 local weapon = require("game.weapon")
 
@@ -50,12 +50,12 @@ function pirate(properties, graphic)
     end
 
     -- Fire the shot if necessary
-    if not shotFired and position.x > 750 then
-      local missleSetup = weapon.createMissle("P1")
-      local missle = resources.
-      weapon.fireMissle(position, { x = 667, y = 750 }, missle)
-      shotFired = true
-    end
+    -- if not shotFired and position.x > 750 then
+    --   local missleSetup = weapon.createMissle("P1")
+    --   local missle = resources.
+    --   weapon.fireMissle(position, { x = 667, y = 750 }, missle)
+    --   shotFired = true
+    -- end
 
     graphic.move(position.x + properties.vX, position.y + properties.vY)
   end
