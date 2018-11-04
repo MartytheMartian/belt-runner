@@ -12,6 +12,8 @@ local set = require("game.graphics.set")
 local static = require("game.graphics.static")
 local turret = require("game.entities.turret")
 local moonComplete = require("game.entities.moon-complete")
+local moonTop = require("game.entities.moon-top")
+local moonBottom = require("game.entities.moon-bottom")
 
 -- Return instance
 local M = {}
@@ -45,7 +47,9 @@ local entityConstructors = {
   player = player,
   pirate = pirate,
   turret = turret,
-  moonComplete = moonComplete
+  moonComplete = moonComplete,
+  moonTop = moonTop,
+  moonBottom = moonBottom
 }
 
 -- Create graphics

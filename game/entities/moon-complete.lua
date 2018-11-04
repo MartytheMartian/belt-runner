@@ -5,10 +5,6 @@
 local collidableEntities = {
   }
 
--- Entities that this entity can collide with
-local collidableEntities = {
-  }
-
 -- Create a moon
 function moonComplete(properties, graphic)
 
