@@ -11,6 +11,7 @@ local scrolling = require("game.graphics.scrolling")
 local set = require("game.graphics.set")
 local static = require("game.graphics.static")
 local turret = require("game.entities.turret")
+local moonComplete = require("game.entities.moon-complete")
 
 -- Return instance
 local M = {}
@@ -43,7 +44,8 @@ local entityConstructors = {
   nebula = nebula,
   player = player,
   pirate = pirate,
-  turret = turret
+  turret = turret,
+  moonComplete = moonComplete
 }
 
 -- Create graphics
