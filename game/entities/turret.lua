@@ -25,6 +25,11 @@ function turret(properties, graphic)
     -- Only here to satisfy entity requirements
   end
 
+  -- Do anything that needs to be done if the world has stopped moving
+  function M.handleWorldStoppedMoving()
+    
+  end
+
   -- Gets the position
   function M.position()
     if not M.initialized then

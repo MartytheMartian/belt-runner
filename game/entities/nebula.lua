@@ -2,6 +2,8 @@
 function nebula(properties, graphic)
   local M = {}
 
+  local stopMoving = false
+
   M.id = properties.id
   M.type = "nebula"
   M.initialized = false
@@ -37,7 +39,14 @@ function nebula(properties, graphic)
     end
 
     -- Move it
-    graphic.move(position.x + properties.vX, position.y + properties.vY)
+    if not stopMoving then
+      graphic.move(position.x + properties.vX, position.y + properties.vY)
+    end
+  end
+
+  -- Do anything that needs to be done if the world has stopped moving
+  function M.handleWorldStoppedMoving()
+    stopMoving = true;
   end
 
   -- Gets the position
@@ -68,6 +77,7 @@ function nebula(properties, graphic)
 
     M.initialized = false
     M.destroyed = true
+    stopMoving = false
   end
 
   return M

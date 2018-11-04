@@ -60,6 +60,11 @@ function pirate(properties, graphic)
     graphic.move(position.x + properties.vX, position.y + properties.vY)
   end
 
+  -- Do anything that needs to be done if the world has stopped moving
+  function M.handleWorldStoppedMoving()
+
+  end
+
   -- Gets the position
   function M.position()
     if not M.initialized then

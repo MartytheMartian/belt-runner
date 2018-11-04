@@ -8,6 +8,7 @@ local collidableEntities = {
 function moonBottom(properties, graphic)
 
   local M = {}
+  local stopMoving = false
 
   M.id = properties.id
   M.type = "moonBottom"
@@ -45,7 +46,14 @@ function moonBottom(properties, graphic)
         end
     
         -- Move it
-        graphic.move(position.x + properties.vX, position.y + properties.vY)
+        if not stopMoving then
+          graphic.move(position.x + properties.vX, position.y + properties.vY)
+        end
+  end
+
+  -- Do anything that needs to be done if the world has stopped moving
+  function M.handleWorldStoppedMoving()
+    stopMoving = true;
   end
 
   -- Gets the position
@@ -66,7 +74,7 @@ function M.size()
   return graphic.size()
 end
 
--- Release the turret
+-- Release the moon
 function M.release()
   if not M.initialized then
     return
@@ -76,6 +84,7 @@ function M.release()
 
   M.initialized = false
   M.destroyed = true
+  stopMoving = false
 end
 
 return M

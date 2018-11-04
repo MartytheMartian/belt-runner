@@ -1,6 +1,7 @@
 -- Create a background
 function background(properties, graphic)
   local M = {}
+  local stopMoving = false;
 
   M.id = properties.id
   M.type = "background"
@@ -26,7 +27,14 @@ function background(properties, graphic)
       return
     end
 
-    graphic.scroll(properties.vX)
+    if not stopMoving then
+      graphic.scroll(properties.vX)
+    end
+  end
+
+  -- Do anything that needs to be done if the world has stopped moving
+  function M.handleWorldStoppedMoving()
+    stopMoving = true;
   end
 
   -- Gets the position
@@ -56,6 +64,7 @@ function background(properties, graphic)
     graphic.release()
 
     M.initialized = false
+    stopMoving = false
   end
 
   return M

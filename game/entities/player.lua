@@ -4,7 +4,8 @@ local gameAudio = require("game.sounds")
 local collidableEntities = {
   asteroid = true,
   alien = true,
-  debris = true
+  debris = true,
+  tentacle = true
 }
 
 -- Create a player
@@ -20,6 +21,7 @@ function player(properties, graphic)
 
   -- Events the player can trigger
   local died = nil
+  local stopped = nil
 
   -- Initialize the player
   function M.initialize()
@@ -36,6 +38,11 @@ function player(properties, graphic)
 
   -- Update the player
   function M.update()
+  end
+
+  -- Do anything that needs to be done if the world has stopped moving
+  function M.handleWorldStoppedMoving()
+
   end
 
   -- Gets the position
@@ -58,7 +65,7 @@ function player(properties, graphic)
 
   -- Is the entity collidable right now
   function M.canCollide(type)
-    if not M.collidable or true then
+    if not M.collidable then
       return false
     end
 
@@ -70,18 +77,37 @@ function player(properties, graphic)
     -- Disable colliding
     M.collidable = false
 
-    -- Start exploding
-    graphic.setGraphic("exploding")
-
-    -- Play player explosion sound
-    gameAudio.playBasicExplosionSound()
+    if entity.type ~= "tentacle" then
+      handleGeneralCollision()
+    else
+      print(entity.type)
+      handleTentacleCollision()
+    end
 
     -- Flag as dead
     M.destroyed = true
+  end
 
-    -- Trigger death handler if necessary
+  function handleGeneralCollision()
+     -- Start exploding
+     graphic.setGraphic("exploding")
+
+     -- Play player explosion sound
+     gameAudio.playBasicExplosionSound()
+
+    if stopped ~= nil then
+      stopped()
+    end
+
+     -- Trigger death handler if necessary
     if died ~= nil then
       died()
+    end
+  end
+
+  function handleTentacleCollision()
+    if stopped ~= nil then
+      stopped()
     end
   end
 
@@ -92,6 +118,15 @@ function player(properties, graphic)
     end
 
     died = handler
+  end
+
+  -- Called to register the event for player stopped moving
+  function M.setStopHandler(handler)
+    if type(handler) ~= "function" then
+      error("Stop handler must be a function")
+    end
+
+    stopped = handler
   end
 
   -- Release the player

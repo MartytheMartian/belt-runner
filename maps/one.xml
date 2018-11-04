@@ -59,8 +59,9 @@
         <entity type="nebula" graphic="nebula-sepia" x="1994" y="600" vX="-3" vY="0" delay="800" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="700" vx="-3" vy="0" delay="460" />
         <entity type="nebula" graphic="nebula-invert" x="1994" y="10" vX="-3" vY="0" delay="1200" />
-        <entity type="moonComplete" graphic="moon-complete" x="1700" y="675" vX="-3" vY="0" delay="100" />
-        <entity type="moonTop" graphic="moon-top" x="1700" y="612" vX="-3" vY="0" delay="300" />
-        <entity type="moonBottom" graphic="moon-bottom" x="1700" y="775" vX="-3" vY="0" delay="300" />
+        <entity type="moonComplete" graphic="moon-complete" x="1700" y="654" vX="-3" vY="0" delay="100" />
+        <entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
+        <entity type="tentacle" graphic="tentacle" x="1600" y="750" vX="-3" vY="0" delay="500" />
+        <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
     </entities>
 </map>

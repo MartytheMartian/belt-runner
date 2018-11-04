@@ -14,6 +14,7 @@ local turret = require("game.entities.turret")
 local moonComplete = require("game.entities.moon-complete")
 local moonTop = require("game.entities.moon-top")
 local moonBottom = require("game.entities.moon-bottom")
+local tentacle = require("game.entities.tentacle")
 
 -- Return instance
 local M = {}
@@ -49,6 +50,7 @@ local entityConstructors = {
   turret = turret,
   moonComplete = moonComplete,
   moonTop = moonTop,
+  tentacle = tentacle,
   moonBottom = moonBottom
 }
 

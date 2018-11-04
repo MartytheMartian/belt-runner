@@ -15,6 +15,9 @@ local frames = 0
 -- Track the last frame the player touched
 local lastTouchFrame = -1000
 
+-- Has the player stopped moving
+local playerDidStop = false
+
 -- Events
 local endEvent = nil
 
@@ -29,6 +32,20 @@ local function playerDied()
   -- End the game after three seconds
   if endEvent ~= nil then
     timer.performWithDelay(3000, endEvent)
+  end
+end
+
+-- Handles when the player has stopped because of death or special enemy interaction
+local function playerStopped()
+  print("playerSTopped called")
+  playerDidStop = true
+
+  for i, entity in ipairs(resources.entities) do
+    repeat
+      --if playerDidStop then
+        entity.handleWorldStoppedMoving()
+      --end
+    until true
   end
 end
 
@@ -75,6 +92,7 @@ function M.initialize(level, gameOver)
 
   -- Set player events
   player.setDiedHandler(playerDied)
+  player.setStopHandler(playerStopped)
 
   -- Start playing background music
   gameAudio.playBackgroundMusic()
@@ -102,7 +120,7 @@ function M.update()
 
       -- Initialize the entity if necessary
       if not entity.initialized then
-        if entity.delay <= frames then
+        if entity.delay <= frames and not playerDidStop then
           entity.initialize()
         else
           break
@@ -187,6 +205,8 @@ function M.release()
 
   -- Reset initialized status
   initialized = false
+
+  playerDidStop = false
 
   -- Release each entity
   for i, entity in ipairs(resources.entities) do
