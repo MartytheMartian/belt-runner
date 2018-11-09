@@ -110,10 +110,16 @@ function M.circleCollision(obj1, obj2)
 end
 
 function M.rectangleCollision(obj1, obj2)
-  return obj1.x < obj2.x + obj2.w and
-    obj1.y < obj2.y + obj2.h and
-    obj2.x < obj1.x + obj1.w and
-    obj2.y < obj1.y + obj1.h
+  -- Set x and y coordinates to upper left corner of rectangles rather than the center
+  local obj1X = obj1.x - (obj1.w / 2)
+  local obj2X = obj2.x - (obj2.w / 2)
+  local obj1Y = obj1.y - (obj1.h / 2)
+  local obj2Y = obj2.y - (obj2.h / 2)
+
+  return obj1X < obj2X + obj2.w and
+  obj1X + obj1.w > obj2X and
+  obj1Y < obj2Y + obj2.h and
+  obj1Y + obj1.h > obj2Y
 end
 
 function M.rectangleCircleCollision(rectangle, circle)

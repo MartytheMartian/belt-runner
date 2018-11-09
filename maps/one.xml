@@ -12,7 +12,10 @@
         <graphic id="moon-complete" type="static" path="assets/moon.png" width="870" height="192" />
         <graphic id="moon-top" type="static" path="assets/moon-top.png" width="870" height="129" />
         <graphic id="moon-bottom" type="static" path="assets/moon-bottom.png" width="870" height="63" />
-        <graphic id="tentacle" type="static" path="assets/tentacle.png" width="250" height="300" />
+        <graphic id="tentacle" type="animated" path="assets/tentacle.png" width="310" height="700" numFrames="2" sheetContentWidth="620" sheetContentHeight="700">
+            <sequence name="attacking" start="1" count="1" rotation="0" time="1" loopCount="0" loopDirection="forward" />
+            <sequence name="killing" start="2" count="1" rotation="0" time="1" loopCount="0" loopDirection="forward" />
+        </graphic>
         <graphic id="asteroid" type="animated" path="assets/asteroid.png" width="100" height="100" numFrames="48" sheetContentWidth="800" sheetContentHeight="600">
             <sequence name="floating" start="1" count="32" rotation="100" time="1200" loopCount="0" loopDirection="forward" />
             <sequence name="exploding" start="32" count="17" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
@@ -61,7 +64,7 @@
         <entity type="nebula" graphic="nebula-invert" x="1994" y="10" vX="-3" vY="0" delay="1200" />
         <entity type="moonComplete" graphic="moon-complete" x="1700" y="654" vX="-3" vY="0" delay="100" />
         <entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
-        <entity type="tentacle" graphic="tentacle" x="1600" y="750" vX="-3" vY="0" delay="500" />
+        <entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
         <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
     </entities>
 </map>

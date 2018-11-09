@@ -37,7 +37,7 @@ end
 
 -- Handles when the player has stopped because of death or special enemy interaction
 local function playerStopped()
-  print("playerSTopped called")
+  print("playerStopped called")
   playerDidStop = true
 
   for i, entity in ipairs(resources.entities) do

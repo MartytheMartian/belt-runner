@@ -21,13 +21,13 @@ function tentacle(properties, graphic)
   M.destroyed = false
   M.shape = "rectangle"
 
-  -- Initialize the moon
+  -- Initialize the tentacle
   function M.initialize()
       if M.initialized then
         return
       end
   
-      graphic.initialize()
+      graphic.initialize("attacking")
   
       M.initialized = true
     end
@@ -43,8 +43,8 @@ function tentacle(properties, graphic)
         local size = graphic.size()
 
         -- Move the tentacle towards the player if it nears the player
-        if position.x <= 790 and position.y >= 405 then
-          properties.vY = -3
+        if position.x <= 1350 and position.y >= 505 then
+          properties.vY = -3.2
         else
           properties.vY = 0
         end
@@ -96,13 +96,16 @@ function tentacle(properties, graphic)
 
   -- Called when the tentacle has collided with something
   function M.collided(entity)
-
+    --print(entity.type);
     -- TODO: When collided with a missile, it will be momentarily stunned
     --       If colliding with player, world movement stops and the player gets pulled into the moon
 
     -- Disable colliding
     --M.collidable = false
 
+    if(entity.type == "player") then
+      graphic.setSequence("killing")
+    end
     -- Start exploding
     --graphic.setGraphic("exploding")
 
