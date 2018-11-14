@@ -27,7 +27,9 @@ function turret(properties, graphic)
 
   -- Do anything that needs to be done if the world has stopped moving
   function M.handleWorldStoppedMoving()
-    
+    -- NOTE: Making assumption here that if the world stops we want the main player (or turret)
+    --       graphic to disappear because a death animation or such from another asset will take over
+    graphic.release();
   end
 
   -- Gets the position
