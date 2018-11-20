@@ -6,7 +6,8 @@ local collidableEntities = {
   asteroid = true,
   alien = true,
   debris = true,
-  pirate = true
+  pirate = true,
+  tentacle = true
 }
 
 -- Create a missle

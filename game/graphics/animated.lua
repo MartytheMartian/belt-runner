@@ -117,6 +117,10 @@ function generator(graphic)
       sprite:play()
     end
 
+    function M.setFillColor(r, g, b, a)
+      return sprite:setFillColor(r, g, b, a)
+    end
+
     -- Release the animated
     function M.release()
       -- Clear out the sprite and set it to nothing

@@ -111,6 +111,7 @@ function player(properties, graphic)
     if stopped ~= nil then
       stopped()
     end
+    timer.performWithDelay(3000, function() if died ~= nil then died() end end)
   end
 
   -- Called to register the event for death

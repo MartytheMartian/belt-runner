@@ -13,6 +13,9 @@ function tentacle(properties, graphic)
 
   local M = {}
   local stopMoving = false
+  local isDying = false;
+  local isPullingPlayerIntoHole = false
+  local hitPoints = 3;
 
   M.id = properties.id
   M.type = "tentacle"
@@ -36,17 +39,28 @@ function tentacle(properties, graphic)
   function M.update()
       if not M.initialized then
           return
-        end
-    
+      end
+
         -- Get the position and size
         local position = graphic.position()
         local size = graphic.size()
 
-        -- Move the tentacle towards the player if it nears the player
-        if position.x <= 1350 and position.y >= 505 then
-          properties.vY = -3.2
+        -- Handle dying, e.g. retract into hole
+        if ((isDying or isPullingPlayerIntoHole) and position.y <= 1070) then
+          properties.vY = 4.5
+        elseif (isDying and position.y == 2000) then
+          graphic.move(position.x, 2000)
+          M.destroyed = true;
+        elseif (isPullingPlayerIntoHole and position.y == 2000) then
+          -- TODO: Do something here when tentacle has fully dragged player into hole
+          M.destroyed = true;
         else
-          properties.vY = 0
+          -- Move the tentacle towards the player if it nears the player
+          if position.x <= 1350 and position.y >= 505 then
+            properties.vY = -3.2
+          else
+            properties.vY = 0
+          end
         end
     
         -- Release the tentacle if off screen
@@ -59,6 +73,8 @@ function tentacle(properties, graphic)
         -- Move it
         if not stopMoving then
           graphic.move(position.x + properties.vX, position.y + properties.vY)
+        else
+          graphic.move(position.x, position.y + properties.vY)
         end
   end
 
@@ -97,23 +113,37 @@ function tentacle(properties, graphic)
   -- Called when the tentacle has collided with something
   function M.collided(entity)
     --print(entity.type);
-    -- TODO: When collided with a missile, it will be momentarily stunned
-    --       If colliding with player, world movement stops and the player gets pulled into the moon
-
-    -- Disable colliding
-    --M.collidable = false
 
     if(entity.type == "player") then
       graphic.setSequence("killing")
+      isPullingPlayerIntoHole = true;
+      M.collidable = false
+    elseif(entity.type == "missle") then
+      if(hitPoints > 1) then
+        doInjuredFlicker()
+        hitPoints = hitPoints - 1
+        -- Play tentacle hit sound
+        --gameAudio.playBasicExplosionSound()
+        print("Tentacle hitpoints: " .. hitPoints)
+      else
+        doInjuredFlicker()
+        -- Play tentacle critically injured and retracting sound
+        --gameAudio.playBasicExplosionSound()
+        isDying = true;
+        M.collidable = false;
+        print("Tentacle dying")
+      end
     end
-    -- Start exploding
-    --graphic.setGraphic("exploding")
 
-    -- Play tentacle hit sound
-    --gameAudio.playBasicExplosionSound()
+  end
 
-    -- Flag as dead
-    --M.destroyed = true
+  function doInjuredFlicker()
+        graphic.setFillColor(1, 0, 0, 0.8)
+        timer.performWithDelay(50, function() graphic.setFillColor(1, 1, 1, 1.0) end)
+        timer.performWithDelay(100, function() graphic.setFillColor(1, 0, 0, 0.8) end)
+        timer.performWithDelay(150, function() graphic.setFillColor(1, 1, 1, 1.0) end)
+        timer.performWithDelay(200, function() graphic.setFillColor(1, 0, 0, 0.8) end)
+        timer.performWithDelay(250, function() graphic.setFillColor(1, 1, 1, 1.0) end)
   end
 
   -- Release the tentacle

@@ -80,6 +80,10 @@ function generator(graphic)
       sprite.rotation = rotation
     end
 
+    function M.setFillColor(r, g, b, a)
+      sprite:setFillColor(r, g, b, a)
+    end
+
     -- Release the static
     function M.release()
       -- Clear out the sprite and set it to nothing

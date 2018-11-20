@@ -107,6 +107,10 @@ function generator(graphic)
       return activeGraphic.move(x, y)
     end
 
+    function M.setFillColor(r, g, b, a)
+      return activeGraphic.setFillColor(r, g, b, a)
+    end
+    
     -- Release the set
     function M.release()
       -- Release the active graphic
