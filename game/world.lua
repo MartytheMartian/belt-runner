@@ -42,11 +42,29 @@ local function playerStopped()
 
   for i, entity in ipairs(resources.entities) do
     repeat
-      --if playerDidStop then
         entity.handleWorldStoppedMoving()
-      --end
     until true
   end
+end
+
+-- Handles when a powerup (or power down) is activated by destroying a crate
+local function cratePowerActivated(crateEntityId)
+  local crate = resources.getEntityByID(crateEntityId)
+  print("power activated " .. crate.id .. " " .. crate.powerUp)
+
+  -- If the powerup is a lurcher, handle that as a special case since only one lurcher will become active.
+  --  Otherwise, call handleCratePowerActivated on all entities and let them handle the power if needed
+  if(crate.powerUp == "lurcher") then
+    local theLurcher = resources.getEntityByID(crate.lurcherId)
+    theLurcher.handleCratePowerActivated(crate.powerUp)
+  else
+    for i, entity in ipairs(resources.entities) do
+      repeat
+          entity.handleCratePowerActivated(crate.powerUp)
+      until true
+    end
+  end
+
 end
 
 -- Initialize the world with a level and 'end' hook
@@ -73,6 +91,11 @@ function M.initialize(level, gameOver)
   -- Read each entity
   for i, entity in ipairs(level.entities) do
     resources.createEntity(entity)
+    -- Add crate events to any items that are crates
+    if(entity.type == "crate") then
+      local crate = resources.getEntityByID(entity.id)
+      crate.setPowerActivatedHandler(cratePowerActivated)
+    end
   end
 
   -- Prepare 10 missles

@@ -29,7 +29,11 @@ function turret(properties, graphic)
   function M.handleWorldStoppedMoving()
     -- NOTE: Making assumption here that if the world stops we want the main player (or turret)
     --       graphic to disappear because a death animation or such from another asset will take over
-    graphic.release();
+    graphic.release()
+  end
+
+  -- Do anything that needs to be done if a powerup affecting this entity is activated
+  function M.handleCratePowerActivated(powerUpName)
   end
 
   -- Gets the position

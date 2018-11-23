@@ -97,6 +97,11 @@ function generator(graphic)
       return activeGraphic.position()
     end
 
+    -- Rotate the sprite
+    function M.rotate(rotation)
+      activeGraphic.rotate(rotation)
+    end
+
     -- Get size
     function M.size()
       return activeGraphic.size()

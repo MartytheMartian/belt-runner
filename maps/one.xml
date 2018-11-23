@@ -44,6 +44,22 @@
                 <sequence name="exploding" start="1" count="19" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
+        <graphic id="crate" type="set">
+            <graphic id="floating" type="animated" path="assets/crate.png" width="57" height="57" numFrames="1" sheetContentWidth="57" sheetContentHeight="57">
+                <sequence name="floating" start="1" count="1" rotation="100" time="1000" loopCount="0" loopDirection="forward" />
+            </graphic>
+            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+                <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
+            </graphic>
+        </graphic>
+        <graphic id="lurcher" type="set">
+            <graphic id="alive" type="animated" path="assets/lurcher.png" width="56" height="43" numFrames="1" sheetContentWidth="56" sheetContentHeight="43">
+                <sequence name="alive" start="1" count="1" rotation="0" time="1000" loopCount="0" loopDirection="forward" />
+            </graphic>
+            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+                <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
+            </graphic>
+        </graphic>
     </graphics>
     <entities>
         <entity type="background" graphic="background" x="667" y="375" vX="-2" vY="0" />
@@ -66,5 +82,7 @@
         <entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
         <entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
         <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
+        <entity id="lurcher1" type="lurcher" graphic="lurcher" x="1100" y="-20" vX="-3" vY="0" delay="0"/>
+        <entity id="crate1" type="crate" graphic="crate" x="1100" y="70" vX="-3" vY="0" delay="0" powerUp="lurcher" lurcherId="lurcher1"/>
     </entities>
 </map>

@@ -256,6 +256,18 @@ local function parseEntities(entitiesXML)
     parsedEntities[i].dY = 0
     parsedEntities[i].s = 0
     parsedEntities[i].delay = 0
+    parsedEntities[i].powerUp = "none"
+    parsedEntities[i].lurcherId = "none"
+
+    -- Read 'powerUp' if necessary
+    if entityXML.properties.powerUp ~= nil then
+      parsedEntities[i].powerUp = entityXML.properties.powerUp
+    end
+
+    -- Read 'lurcherId' if necessary
+    if entityXML.properties.lurcherId ~= nil then
+      parsedEntities[i].lurcherId = entityXML.properties.lurcherId
+    end
 
     -- Read 'X' velocity if necessary
     if entityXML.properties.vX ~= nil then

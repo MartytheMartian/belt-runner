@@ -104,7 +104,7 @@ function generator(graphic)
 
     -- Rotate the sprite
     function M.rotate(rotation)
-      sprite.rotation = rotation
+      sprite.rotation = sprite.rotation + rotation
     end
 
     -- Update the animation

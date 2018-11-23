@@ -44,7 +44,7 @@ function asteroid(properties, graphic)
       properties.vX = properties.vX * .95
       properties.vY = properties.vY * .95
     else
-      graphic.rotate(10)
+      graphic.rotate(3)
     end
 
     -- Move it
@@ -53,7 +53,10 @@ function asteroid(properties, graphic)
 
   -- Do anything that needs to be done if the world has stopped moving
   function M.handleWorldStoppedMoving()
-    
+  end
+
+  -- Do anything that needs to be done if a powerup affecting this entity is activated
+  function M.handleCratePowerActivated(powerUpName)
   end
 
   -- Gets the position
@@ -94,7 +97,7 @@ function asteroid(properties, graphic)
     -- Explode
     graphic.setSequence("exploding")
 
-    -- Play alien explosion sound
+    -- Play asteroid explosion sound
     gameAudio.playBasicExplosionSound()
 
     -- Mark as exploding

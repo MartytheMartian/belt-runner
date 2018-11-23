@@ -10,12 +10,11 @@ local collidableEntities = {
 
 -- Create a tentacle
 function tentacle(properties, graphic)
-
   local M = {}
   local stopMoving = false
-  local isDying = false;
+  local isDying = false
   local isPullingPlayerIntoHole = false
-  local hitPoints = 3;
+  local hitPoints = 3
 
   M.id = properties.id
   M.type = "tentacle"
@@ -26,61 +25,65 @@ function tentacle(properties, graphic)
 
   -- Initialize the tentacle
   function M.initialize()
-      if M.initialized then
-        return
-      end
-  
-      graphic.initialize("attacking")
-  
-      M.initialized = true
+    if M.initialized then
+      return
     end
+
+    graphic.initialize("attacking")
+
+    M.initialized = true
+  end
 
   -- Update the tentacle
   function M.update()
-      if not M.initialized then
-          return
+    if not M.initialized then
+      return
+    end
+
+    -- Get the position and size
+    local position = graphic.position()
+    local size = graphic.size()
+
+    -- Handle dying, e.g. retract into hole
+    if ((isDying or isPullingPlayerIntoHole) and position.y <= 1070) then
+      properties.vY = 4.5
+    elseif (isDying and position.y == 2000) then
+      graphic.move(position.x, 2000)
+      M.destroyed = true
+    elseif (isPullingPlayerIntoHole and position.y == 2000) then
+      -- TODO: Do something here when tentacle has fully dragged player into hole
+      M.destroyed = true
+    else
+      -- Move the tentacle towards the player if it nears the player
+      if position.x <= 1350 and position.y >= 505 then
+        properties.vY = -3.2
+      else
+        properties.vY = 0
       end
+    end
 
-        -- Get the position and size
-        local position = graphic.position()
-        local size = graphic.size()
+    -- Release the tentacle if off screen
+    -- TODO: we may not want to actually release mid level. Might want to wait to clean up at end of level
+    if position.x + size.width <= 0 then
+      M.release()
+      return
+    end
 
-        -- Handle dying, e.g. retract into hole
-        if ((isDying or isPullingPlayerIntoHole) and position.y <= 1070) then
-          properties.vY = 4.5
-        elseif (isDying and position.y == 2000) then
-          graphic.move(position.x, 2000)
-          M.destroyed = true;
-        elseif (isPullingPlayerIntoHole and position.y == 2000) then
-          -- TODO: Do something here when tentacle has fully dragged player into hole
-          M.destroyed = true;
-        else
-          -- Move the tentacle towards the player if it nears the player
-          if position.x <= 1350 and position.y >= 505 then
-            properties.vY = -3.2
-          else
-            properties.vY = 0
-          end
-        end
-    
-        -- Release the tentacle if off screen
-        -- TODO: we may not want to actually release mid level. Might want to wait to clean up at end of level
-        if position.x + size.width <= 0 then
-          M.release()
-          return
-        end
-    
-        -- Move it
-        if not stopMoving then
-          graphic.move(position.x + properties.vX, position.y + properties.vY)
-        else
-          graphic.move(position.x, position.y + properties.vY)
-        end
+    -- Move it
+    if not stopMoving then
+      graphic.move(position.x + properties.vX, position.y + properties.vY)
+    else
+      graphic.move(position.x, position.y + properties.vY)
+    end
   end
 
   -- Do anything that needs to be done if the world has stopped moving
   function M.handleWorldStoppedMoving()
-    stopMoving = true;
+    stopMoving = true
+  end
+
+  -- Do anything that needs to be done if a powerup affecting this entity is activated
+  function M.handleCratePowerActivated(powerUpName)
   end
 
   -- Gets the position
@@ -92,7 +95,7 @@ function tentacle(properties, graphic)
     return graphic.position()
   end
 
--- Gets the size
+  -- Gets the size
   function M.size()
     if not M.initialized then
       return nil
@@ -114,12 +117,12 @@ function tentacle(properties, graphic)
   function M.collided(entity)
     --print(entity.type);
 
-    if(entity.type == "player") then
+    if (entity.type == "player") then
       graphic.setSequence("killing")
-      isPullingPlayerIntoHole = true;
+      isPullingPlayerIntoHole = true
       M.collidable = false
-    elseif(entity.type == "missle") then
-      if(hitPoints > 1) then
+    elseif (entity.type == "missle") then
+      if (hitPoints > 1) then
         doInjuredFlicker()
         hitPoints = hitPoints - 1
         -- Play tentacle hit sound
@@ -129,21 +132,45 @@ function tentacle(properties, graphic)
         doInjuredFlicker()
         -- Play tentacle critically injured and retracting sound
         --gameAudio.playBasicExplosionSound()
-        isDying = true;
-        M.collidable = false;
+        isDying = true
+        M.collidable = false
         print("Tentacle dying")
       end
     end
-
   end
 
   function doInjuredFlicker()
+    graphic.setFillColor(1, 0, 0, 0.8)
+    timer.performWithDelay(
+      50,
+      function()
+        graphic.setFillColor(1, 1, 1, 1.0)
+      end
+    )
+    timer.performWithDelay(
+      100,
+      function()
         graphic.setFillColor(1, 0, 0, 0.8)
-        timer.performWithDelay(50, function() graphic.setFillColor(1, 1, 1, 1.0) end)
-        timer.performWithDelay(100, function() graphic.setFillColor(1, 0, 0, 0.8) end)
-        timer.performWithDelay(150, function() graphic.setFillColor(1, 1, 1, 1.0) end)
-        timer.performWithDelay(200, function() graphic.setFillColor(1, 0, 0, 0.8) end)
-        timer.performWithDelay(250, function() graphic.setFillColor(1, 1, 1, 1.0) end)
+      end
+    )
+    timer.performWithDelay(
+      150,
+      function()
+        graphic.setFillColor(1, 1, 1, 1.0)
+      end
+    )
+    timer.performWithDelay(
+      200,
+      function()
+        graphic.setFillColor(1, 0, 0, 0.8)
+      end
+    )
+    timer.performWithDelay(
+      250,
+      function()
+        graphic.setFillColor(1, 1, 1, 1.0)
+      end
+    )
   end
 
   -- Release the tentacle

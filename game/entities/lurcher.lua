@@ -6,33 +6,32 @@ local collidableEntities = {
   player = true
 }
 
--- Create a debris
-function debris(properties, graphic)
+-- Create a lurcher
+function lurcher(properties, graphic)
   local M = {}
 
   M.id = properties.id
-  M.type = "debris"
+  M.type = "lurcher"
   M.initialized = false
   M.collidable = false
-  M.destroyed = false
-  M.exploding = false
-  M.shape = "rectangle"
+  M.shape = "circle"
 
-  -- Initialize the debris
+  local exploding = false
+  local killedPlayer = false
+
+  -- Initialize the lurcher
   function M.initialize()
     if M.initialized then
       return
     end
 
-    graphic.initialize("floating")
+    graphic.initialize("alive")
 
     M.collidable = true
     M.initialized = true
-    M.exploding = false
-    M.destroyed = false
   end
 
-  -- Update the debris
+  -- Update the lurcher
   function M.update()
     if not M.initialized then
       return
@@ -42,13 +41,15 @@ function debris(properties, graphic)
     local position = graphic.position()
 
     -- Slowly decrease velocity if exploding
-    if M.exploding then
+    if exploding then
       properties.vX = properties.vX * .95
       properties.vY = properties.vY * .95
     end
 
     -- Move it
-    graphic.move(position.x + properties.vX, position.y + properties.vY)
+    if (not killedPlayer) then
+      graphic.move(position.x + properties.vX, position.y + properties.vY)
+    end
   end
 
   -- Do anything that needs to be done if the world has stopped moving
@@ -74,10 +75,13 @@ function debris(properties, graphic)
       return nil
     end
 
-    return graphic.size()
+    -- Append radius
+    local size = graphic.size()
+    size.radius = size.width / 2
+
+    return size
   end
 
-  -- Is the entity collidable right now
   function M.canCollide(type)
     if not M.collidable then
       return false
@@ -86,20 +90,25 @@ function debris(properties, graphic)
     return collidableEntities[type] ~= nil
   end
 
-  -- Called when the debris has collided with something
+  -- Called when the lurcher has collided with something
   function M.collided(entity)
-    -- Disable colliding
+    -- No longer collidable
     M.collidable = false
 
-    -- Start exploding
-    graphic.setGraphic("exploding")
-    M.exploding = true
+    if (entity.type == "player") then
+      -- TODO: Play lurcher laugh audio and set another graphic if desired
+      -- Stop the lurcher where the player left off so it can laugh at the player
+      killedPlayer = true
+    else
+      -- Play lurcher explosion sound
+      gameAudio.playBasicExplosionSound()
 
-    -- Play debris explosion sound
-    gameAudio.playBasicExplosionSound()
+      -- Mark as exploding
+      exploding = true
+    end
   end
 
-  -- Release the debris
+  -- Release the lurcher
   function M.release()
     if not M.initialized then
       return
@@ -113,4 +122,4 @@ function debris(properties, graphic)
   return M
 end
 
-return debris
+return lurcher

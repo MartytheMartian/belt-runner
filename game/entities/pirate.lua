@@ -62,7 +62,10 @@ function pirate(properties, graphic)
 
   -- Do anything that needs to be done if the world has stopped moving
   function M.handleWorldStoppedMoving()
+  end
 
+  -- Do anything that needs to be done if a powerup affecting this entity is activated
+  function M.handleCratePowerActivated(powerUpName)
   end
 
   -- Gets the position

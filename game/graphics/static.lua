@@ -77,7 +77,7 @@ function generator(graphic)
 
     -- Rotate the sprite
     function M.rotate(rotation)
-      sprite.rotation = rotation
+      sprite.rotation = sprite.rotation + rotation
     end
 
     function M.setFillColor(r, g, b, a)

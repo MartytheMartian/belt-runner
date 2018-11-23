@@ -44,7 +44,11 @@ function player(properties, graphic)
   function M.handleWorldStoppedMoving()
     -- NOTE: Making assumption here that if the world stops we want the main player
     --       graphic to disappear because a death animation or such from another asset will take over
-    graphic.release();
+    graphic.release()
+  end
+
+  -- Do anything that needs to be done if a powerup affecting this entity is activated
+  function M.handleCratePowerActivated(powerUpName)
   end
 
   -- Gets the position
@@ -91,17 +95,17 @@ function player(properties, graphic)
   end
 
   function handleGeneralCollision()
-     -- Start exploding
-     graphic.setGraphic("exploding")
+    -- Start exploding
+    graphic.setGraphic("exploding")
 
-     -- Play player explosion sound
-     gameAudio.playBasicExplosionSound()
+    -- Play player explosion sound
+    gameAudio.playBasicExplosionSound()
 
     if stopped ~= nil then
       stopped()
     end
 
-     -- Trigger death handler if necessary
+    -- Trigger death handler if necessary
     if died ~= nil then
       died()
     end
@@ -111,7 +115,14 @@ function player(properties, graphic)
     if stopped ~= nil then
       stopped()
     end
-    timer.performWithDelay(3000, function() if died ~= nil then died() end end)
+    timer.performWithDelay(
+      3000,
+      function()
+        if died ~= nil then
+          died()
+        end
+      end
+    )
   end
 
   -- Called to register the event for death

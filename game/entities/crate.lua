@@ -2,23 +2,27 @@ local gameAudio = require("game.sounds")
 
 -- Entities that this entity can collide with
 local collidableEntities = {
-  missle = true,
-  player = true
+  missle = true
 }
 
--- Create a debris
-function debris(properties, graphic)
+-- Create a crate
+function crate(properties, graphic)
   local M = {}
 
   M.id = properties.id
-  M.type = "debris"
+  M.type = "crate"
   M.initialized = false
   M.collidable = false
-  M.destroyed = false
-  M.exploding = false
   M.shape = "rectangle"
+  M.powerUp = properties.powerUp
+  M.lurcherId = properties.lurcherId
 
-  -- Initialize the debris
+  -- Events the crate can trigger
+  local powerActivated = nil
+
+  local exploding = false
+
+  -- Initialize the crate
   function M.initialize()
     if M.initialized then
       return
@@ -28,11 +32,9 @@ function debris(properties, graphic)
 
     M.collidable = true
     M.initialized = true
-    M.exploding = false
-    M.destroyed = false
   end
 
-  -- Update the debris
+  -- Update the crate
   function M.update()
     if not M.initialized then
       return
@@ -42,9 +44,11 @@ function debris(properties, graphic)
     local position = graphic.position()
 
     -- Slowly decrease velocity if exploding
-    if M.exploding then
+    if exploding then
       properties.vX = properties.vX * .95
       properties.vY = properties.vY * .95
+    else
+      graphic.rotate(-.2)
     end
 
     -- Move it
@@ -74,10 +78,13 @@ function debris(properties, graphic)
       return nil
     end
 
-    return graphic.size()
+    -- Append radius
+    local size = graphic.size()
+    size.radius = size.width / 2
+
+    return size
   end
 
-  -- Is the entity collidable right now
   function M.canCollide(type)
     if not M.collidable then
       return false
@@ -86,20 +93,33 @@ function debris(properties, graphic)
     return collidableEntities[type] ~= nil
   end
 
-  -- Called when the debris has collided with something
-  function M.collided(entity)
-    -- Disable colliding
-    M.collidable = false
+  function M.setPowerActivatedHandler(handler)
+    if type(handler) ~= "function" then
+      error("Power activated handler must be a function")
+    end
 
-    -- Start exploding
-    graphic.setGraphic("exploding")
-    M.exploding = true
-
-    -- Play debris explosion sound
-    gameAudio.playBasicExplosionSound()
+    powerActivated = handler
   end
 
-  -- Release the debris
+  -- Called when the crate has collided with something
+  function M.collided(entity)
+    -- No longer collidable
+    M.collidable = false
+
+    -- Explode
+    graphic.setGraphic("exploding")
+
+    -- Play crate explosion sound
+    gameAudio.playBasicExplosionSound()
+
+    -- Mark as exploding
+    exploding = true
+
+    -- Call global handler to activate power up
+    powerActivated(M.id)
+  end
+
+  -- Release the crate
   function M.release()
     if not M.initialized then
       return
@@ -113,4 +133,4 @@ function debris(properties, graphic)
   return M
 end
 
-return debris
+return crate
