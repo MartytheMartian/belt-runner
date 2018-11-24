@@ -61,19 +61,20 @@ function lurcher(properties, graphic)
     if (powerUpName == "lurcher") then
       attacking = true
       -- TODO: Play any attacking sound and/or animation if needed
-      graphic.moveTransition({x = 667, y = 375, time = 1000})
-      timer.performWithDelay(200, becomeCollidable)
+      
+      gameAudio.playLurcherAttackSound()
+      timer.performWithDelay(3000, becomeCollidable)
     end
   end
 
   function becomeCollidable()
     M.collidable = true
-    gameAudio.playBasicExplosionSound()
+    graphic.moveTransition({x = 667, y = 375, time = 300, onComplete  = attackComplete})
   end
 
   -- listener to invoke after attack transition is completed
   function attackComplete()
-
+    
   end
 
   -- Gets the position
@@ -112,9 +113,9 @@ function lurcher(properties, graphic)
     M.collidable = false
 
     if (entity.type == "player") then
-      -- TODO: Play lurcher laugh audio and set another graphic if desired
       -- Stop the lurcher where the player left off so it can laugh at the player
       killedPlayer = true
+      gameAudio.playLurcherLaughSound()
     else
       -- Explode
       graphic.setGraphic("exploding")

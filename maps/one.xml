@@ -84,5 +84,7 @@
         <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
         <entity id="lurcher1" type="lurcher" graphic="lurcher" x="1100" y="70" vX="-3" vY="0" delay="0"/>
         <entity id="crate1" type="crate" graphic="crate" x="1100" y="70" vX="-3" vY="0" delay="0" powerUp="lurcher" lurcherId="lurcher1"/>
+        <entity id="crate2" type="crate" graphic="crate" x="1200" y="70" vX="-3" vY="0" delay="0" powerUp="killAll"/>
+        <entity id="crate3" type="crate" graphic="crate" x="1300" y="70" vX="-3" vY="0" delay="0" powerUp="fasterEnemies"/>
     </entities>
 </map>

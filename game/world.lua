@@ -42,7 +42,7 @@ local function playerStopped()
 
   for i, entity in ipairs(resources.entities) do
     repeat
-        entity.handleWorldStoppedMoving()
+      entity.handleWorldStoppedMoving()
     until true
   end
 end
@@ -52,19 +52,29 @@ local function cratePowerActivated(crateEntityId)
   local crate = resources.getEntityByID(crateEntityId)
   print("power activated " .. crate.id .. " " .. crate.powerUp)
 
-  -- If the powerup is a lurcher, handle that as a special case since only one lurcher will become active.
+  -- If the powerup is a lurcher, handle that as a special case since only one specific lurcher will become active.
   --  Otherwise, call handleCratePowerActivated on all entities and let them handle the power if needed
-  if(crate.powerUp == "lurcher") then
+  if (crate.powerUp == "lurcher") then
     local theLurcher = resources.getEntityByID(crate.lurcherId)
     theLurcher.handleCratePowerActivated(crate.powerUp)
   else
     for i, entity in ipairs(resources.entities) do
       repeat
-          entity.handleCratePowerActivated(crate.powerUp)
+        entity.handleCratePowerActivated(crate.powerUp)
+        if (crate.powerUp == "fasterEnemies") then
+          timer.performWithDelay(5000, setNormalEnemySpeed)
+        end
       until true
     end
   end
+end
 
+local function setNormalEnemySpeed()
+  for i, entity in ipairs(resources.entities) do
+    repeat
+      entity.handleCratePowerActivated("normalSpeedEnemies")
+    until true
+  end
 end
 
 -- Initialize the world with a level and 'end' hook
@@ -92,7 +102,7 @@ function M.initialize(level, gameOver)
   for i, entity in ipairs(level.entities) do
     resources.createEntity(entity)
     -- Add crate events to any items that are crates
-    if(entity.type == "crate") then
+    if (entity.type == "crate") then
       local crate = resources.getEntityByID(entity.id)
       crate.setPowerActivatedHandler(cratePowerActivated)
     end

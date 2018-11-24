@@ -1,6 +1,7 @@
 -- local resources = require("game.resources")
 local gameAudio = require("game.sounds")
 local weapon = require("game.weapon")
+local collision = require("game.collision")
 
 -- Entities that this entity can collide with
 local collidableEntities = {
@@ -16,9 +17,16 @@ function pirate(properties, graphic)
   M.initialized = false
   M.collidable = false
   M.shape = "rectangle"
+  M.increasedSpeedPowerupActivated = false
+  M.increasedSpeedPowerupActivatedSet = false
+  M.originalvX = properties.vX
+  M.originalvY = properties.vY
 
   local exploding = false
   local shotFired = false
+  local increasedSpeedPowerupActivated = false
+  local originalvX = properties.vX
+  local originalvY = properties.vY
 
   -- Initialize the pirate
   function M.initialize()
@@ -66,6 +74,39 @@ function pirate(properties, graphic)
 
   -- Do anything that needs to be done if a powerup affecting this entity is activated
   function M.handleCratePowerActivated(powerUpName)
+    local isActive = false
+    local onScreen = false
+
+    if M.initialized and not M.destroyed then
+      isActive = true
+      local position = graphic.position()
+      local size = graphic.size()
+      onScreen = collision.onScreen(position.x, position.y, size.width, size.height)
+    --print("onScreen " .. onScreen)
+    end
+
+    if (powerUpName == "killAll" and onScreen and isActive) then
+      graphic.setGraphic("exploding")
+      exploding = true
+      M.destroyed = true
+      M.collidable = false
+    elseif (powerUpName == "fasterEnemies") then
+      M.setPowerUpIncreasedSpeed()
+    elseif (powerUpName == "normalSpeedEnemies") then
+      M.setNormalSpeed()
+    end
+  end
+
+  function M.setPowerUpIncreasedSpeed()
+    M.increasedSpeedPowerupActivated = true
+    M.increasedSpeedPowerupActivatedSet = false
+  end
+
+  function M.setNormalSpeed()
+    M.increasedSpeedPowerupActivated = false
+    M.increasedSpeedPowerupActivatedSet = false
+    --properties.vX = M.originalvX
+    --properties.vY = M.originalvY
   end
 
   -- Gets the position
@@ -108,6 +149,8 @@ function pirate(properties, graphic)
 
     -- Mark as exploding
     exploding = true
+    M.destroyed = true
+    M.collidable = false
   end
 
   -- Release the pirate
