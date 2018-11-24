@@ -52,6 +52,12 @@ local function cratePowerActivated(crateEntityId)
   local crate = resources.getEntityByID(crateEntityId)
   print("power activated " .. crate.id .. " " .. crate.powerUp)
 
+  -- Prepare to set back to normal speed after a set delay
+  if (crate.powerUp == "fasterEnemies") then
+    print("in world fasterEnemy")
+    timer.performWithDelay(5000, M.setNormalEnemySpeed)
+  end
+
   -- If the powerup is a lurcher, handle that as a special case since only one specific lurcher will become active.
   --  Otherwise, call handleCratePowerActivated on all entities and let them handle the power if needed
   if (crate.powerUp == "lurcher") then
@@ -61,15 +67,12 @@ local function cratePowerActivated(crateEntityId)
     for i, entity in ipairs(resources.entities) do
       repeat
         entity.handleCratePowerActivated(crate.powerUp)
-        if (crate.powerUp == "fasterEnemies") then
-          timer.performWithDelay(5000, setNormalEnemySpeed)
-        end
       until true
     end
   end
 end
 
-local function setNormalEnemySpeed()
+function M.setNormalEnemySpeed()
   for i, entity in ipairs(resources.entities) do
     repeat
       entity.handleCratePowerActivated("normalSpeedEnemies")

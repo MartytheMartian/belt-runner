@@ -55,6 +55,14 @@ function alien(properties, graphic)
       properties.vY = properties.vY * .95
     end
 
+    -- Set increased speed because of crate power up if needed
+    if M.increasedSpeedPowerupActivated and not M.increasedSpeedPowerupActivatedSet then
+      print("sped up alien in update")
+      M.increasedSpeedPowerupActivatedSet = true
+      --properties.vX = properties.vX * 1.50
+      --properties.vY = properties.vY * 1.50
+    end
+
     -- Move it
     graphic.move(position.x + properties.vX, position.y + properties.vY)
   end

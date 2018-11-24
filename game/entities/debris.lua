@@ -54,7 +54,7 @@ function debris(properties, graphic)
 
     -- Set increased speed because of crate power up if needed
     if M.increasedSpeedPowerupActivated and not M.increasedSpeedPowerupActivatedSet then
-      print("sped up asteroid in update")
+      print("sped up debris in update")
       M.increasedSpeedPowerupActivatedSet = true
       properties.vX = properties.vX * 2.50
       properties.vY = properties.vY * 2.50

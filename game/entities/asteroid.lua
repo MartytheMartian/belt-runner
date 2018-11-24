@@ -101,6 +101,7 @@ function asteroid(properties, graphic)
   end
 
   function M.setNormalSpeed()
+    print("normal speed asteroid set")
     M.increasedSpeedPowerupActivated = false
     M.increasedSpeedPowerupActivatedSet = false
     properties.vX = M.originalvX
