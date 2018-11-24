@@ -17,6 +17,7 @@ function lurcher(properties, graphic)
   M.shape = "circle"
 
   local exploding = false
+  local attacking = false
   local killedPlayer = false
 
   -- Initialize the lurcher
@@ -27,7 +28,6 @@ function lurcher(properties, graphic)
 
     graphic.initialize("alive")
 
-    M.collidable = true
     M.initialized = true
   end
 
@@ -47,7 +47,7 @@ function lurcher(properties, graphic)
     end
 
     -- Move it
-    if (not killedPlayer) then
+    if (not killedPlayer and not attacking) then
       graphic.move(position.x + properties.vX, position.y + properties.vY)
     end
   end
@@ -58,6 +58,22 @@ function lurcher(properties, graphic)
 
   -- Do anything that needs to be done if a powerup affecting this entity is activated
   function M.handleCratePowerActivated(powerUpName)
+    if (powerUpName == "lurcher") then
+      attacking = true
+      -- TODO: Play any attacking sound and/or animation if needed
+      graphic.moveTransition({x = 667, y = 375, time = 1000})
+      timer.performWithDelay(200, becomeCollidable)
+    end
+  end
+
+  function becomeCollidable()
+    M.collidable = true
+    gameAudio.playBasicExplosionSound()
+  end
+
+  -- listener to invoke after attack transition is completed
+  function attackComplete()
+
   end
 
   -- Gets the position
@@ -100,6 +116,9 @@ function lurcher(properties, graphic)
       -- Stop the lurcher where the player left off so it can laugh at the player
       killedPlayer = true
     else
+      -- Explode
+      graphic.setGraphic("exploding")
+
       -- Play lurcher explosion sound
       gameAudio.playBasicExplosionSound()
 

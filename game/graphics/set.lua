@@ -112,10 +112,16 @@ function generator(graphic)
       return activeGraphic.move(x, y)
     end
 
+    -- Move to a location over a set time 
+    -- (params is a set using the transition.moveTo options from Corona https://docs.coronalabs.com/api/library/transition/moveTo.html)
+    function M.moveTransition(params)
+      activeGraphic.moveTransition(params)
+    end
+
     function M.setFillColor(r, g, b, a)
       return activeGraphic.setFillColor(r, g, b, a)
     end
-    
+
     -- Release the set
     function M.release()
       -- Release the active graphic

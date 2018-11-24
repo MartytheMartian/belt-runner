@@ -107,6 +107,15 @@ function generator(graphic)
       sprite.rotation = sprite.rotation + rotation
     end
 
+    function M.oneRotation(rotation)
+      sprite.rotation = rotation
+    end
+
+    -- Move to a location over a set time
+    function M.moveTransition(params)
+      transition.moveTo(sprite, params)
+    end
+
     -- Update the animation
     function M.setSequence(sequence)
       if sprite == nil then

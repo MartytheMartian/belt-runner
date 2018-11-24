@@ -60,7 +60,7 @@ function turret(properties, graphic)
       return
     end
 
-    graphic.rotate(rotation)
+    graphic.oneRotation(rotation)
   end
 
   -- Release the turret

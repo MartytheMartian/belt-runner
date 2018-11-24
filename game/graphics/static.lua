@@ -75,9 +75,18 @@ function generator(graphic)
       sprite.y = y
     end
 
+    -- Move to a location over a set time
+    function M.moveTransition(params)
+      transition.moveTo(sprite, params)
+    end
+
     -- Rotate the sprite
     function M.rotate(rotation)
       sprite.rotation = sprite.rotation + rotation
+    end
+
+    function M.oneRotation(rotation)
+      sprite.rotation = rotation
     end
 
     function M.setFillColor(r, g, b, a)

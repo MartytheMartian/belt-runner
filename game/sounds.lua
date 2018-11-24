@@ -25,7 +25,9 @@ function M.initializeAudio()
         -- load sound effects
         effectSoundTable = {
             basicMissileSound = audio.loadSound("assets/audio/basicMissile.wav"),
-            basicExplosionSound = audio.loadSound("assets/audio/basicExplosion.wav")
+            basicExplosionSound = audio.loadSound("assets/audio/basicExplosion.wav"),
+            lurcherAttackSound = audio.loadSound("assets/audio/lurcherAttack.wav"),
+            lurcherLaughSound = audio.loadSound("assets/audio/lurcherLaugh.wav")
         }
     end
 end
@@ -41,6 +43,14 @@ end
 
 function M.playBasicExplosionSound()
     audio.play(effectSoundTable["basicExplosionSound"])
+end
+
+function M.playLurcherAttackSound()
+    audio.play(effectSoundTable["lurcherAttackSound"])
+end
+
+function M.playLurcherLaughSound()
+    audio.play(effectSoundTable["lurcherLaughSound"])
 end
 
 function M.disposeAudio()

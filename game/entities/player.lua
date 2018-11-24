@@ -5,7 +5,8 @@ local collidableEntities = {
   asteroid = true,
   alien = true,
   debris = true,
-  tentacle = true
+  tentacle = true,
+  lurcher = true
 }
 
 -- Create a player
