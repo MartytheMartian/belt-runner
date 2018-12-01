@@ -32,18 +32,18 @@ function Sound.initialize()
 end
 
 -- Plays background music on a loop
-function M.playBackground()
+function Sound.playBackground()
     -- Play background music, looping forever
     audio.play(background, {loops = -1})
 end
 
 -- Plays a sound one time
-function M.play(file)
+function Sound.play(file)
     audio.play(effects[file])
 end
 
 -- Dispose of all audio
-function M.dispose()
+function Sound.dispose()
     -- stop all channels of audio
     audio.stop()
 

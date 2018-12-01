@@ -1,8 +1,8 @@
+local Resources = require("game.resources")
+
 Events = {}
 
--- Subscribes an entity to events
-function Events.subscribe(entity)
-
+function Events:fire(event)
 end
 
 return Events
