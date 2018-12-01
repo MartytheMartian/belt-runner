@@ -13,6 +13,7 @@ Asteroid =
     type = "asteroid",
     exploding = false,
     destroyed = false,
+    collidables = collidables,
     shape = "circle"
   }
 )

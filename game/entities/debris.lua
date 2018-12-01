@@ -13,7 +13,8 @@ Debris =
     {
         type = "debris",
         exploding = false,
-        destroyed = false
+        destroyed = false,
+        collidables = collidables
     }
 )
 

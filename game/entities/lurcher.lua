@@ -13,6 +13,7 @@ Lurcher =
         attacking = false,
         exploding = false,
         destroyed = false,
+        collidbales = collidables,
         shape = "circle"
     }
 )

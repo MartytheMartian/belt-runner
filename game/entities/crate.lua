@@ -11,7 +11,9 @@ Crate =
     {
         type = "crate",
         exploding = false,
-        destroyed = false
+        destroyed = false,
+        collidables = collidables,
+        lurcherId = nil
     }
 )
 
