@@ -1,7 +1,7 @@
-local read = require("game.reader")
-local world = require("game.world")
+local Reader = require("game.reader")
+local World = require("game.world")
 
-local M = {}
+local Game = {}
 
 -- Flags
 local paused = false
@@ -13,7 +13,7 @@ local endEvent = nil
 local function update()
   -- Update the world if not paused
   if not paused then
-    world.update()
+    World.update()
   end
 end
 
@@ -21,31 +21,31 @@ end
 local function touch(event)
   -- Let the world handle it if not paused
   if not paused then
-    world.touch(event.x, event.y)
+    World.touch(event.x, event.y)
   end
 end
 
 -- Exit the game
 local function exit()
   -- Release the world and fire the end event
-  world.release()
+  World.release()
   endEvent()
 end
 
 -- Initializes the game with a target level and end event hook
-function M.load(file, eEnd)
+function Game.load(file, eEnd)
   -- Track events
   endEvent = eEnd
 
   -- Read the level
-  local level = read(file)
+  local level = Reader(file)
 
   -- Initialize the world with the map
-  world.initialize(level, exit)
+  World.initialize(level, exit)
 end
 
 -- Starts the loaded level
-function M.start()
+function Game.start()
   -- Render the game
   Runtime:addEventListener("enterFrame", update)
 
@@ -54,16 +54,16 @@ function M.start()
 end
 
 -- Stops the level
-function M.stop()
+function Game.stop()
   -- Remove events
   Runtime:removeEventListener("enterFrame", update)
   Runtime:removeEventListener("touch", touch)
 end
 
 -- Destroys the level
-function M.destroy()
+function Game.destroy()
   -- Clear out world resources
-  world.release()
+  World.release()
 end
 
-return M
+return Game

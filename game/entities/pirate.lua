@@ -1,178 +1,108 @@
--- local resources = require("game.resources")
-local gameAudio = require("game.sounds")
-local weapon = require("game.weapon")
 local collision = require("game.collision")
+local Entity = require("game.entities.entity")
 
--- Entities that this entity can collide with
-local collidableEntities = {
-  missle = true
+-- Define a static table for collidable entities
+local collidables = {
+    missile = true
 }
 
--- Create a pirate
-function pirate(properties, graphic)
-  local M = {}
+-- Create metatable
+Pirate =
+    Entity:new(
+    {
+        type = "pirate",
+        exploding = false,
+        destroyed = false,
+        collidables = collidables
+    }
+)
 
-  M.id = properties.id
-  M.type = "pirate"
-  M.initialized = false
-  M.collidable = false
-  M.shape = "rectangle"
-  M.increasedSpeedPowerupActivated = false
-  M.increasedSpeedPowerupActivatedSet = false
-  M.originalvX = properties.vX
-  M.originalvY = properties.vY
+-- Constructor
+function Pirate:new(properties, graphic)
+    -- Default to an entity
+    local entity = Entity:new(properties, graphic)
 
-  local exploding = false
-  local shotFired = false
-  local increasedSpeedPowerupActivated = false
-  local originalvX = properties.vX
-  local originalvY = properties.vY
+    -- Setup metatable
+    setmetatable(entity, self)
+    self.__index = self
 
-  -- Initialize the pirate
-  function M.initialize()
-    if M.initialized then
-      return
+    -- Return new instance
+    return entity
+end
+
+-- Initialize the entity
+function Pirate:initialize()
+    if self.initialized then
+        return
     end
 
-    -- Flying
-    graphic.initialize("alive")
+    -- Initialize the graphic
+    self.graphic.initialize("alive")
 
-    -- Set flags
-    M.collidable = true
-    M.initialized = true
-  end
+    self.initialized = true
+    self.collidable = true
+    self.destroyed = false
+end
 
-  -- Update the pirate
-  function M.update()
-    if not M.initialized then
-      return
+-- Update the entity
+function Alien:update()
+    if not self.initialized then
+        return
     end
 
     -- Check the current position
-    local position = graphic.position()
+    local position = self.graphic.position()
 
     -- Slowly decrease velocity if exploding
-    if exploding then
-      properties.vX = properties.vX * .95
-      properties.vY = properties.vY * .95
+    if self.exploding then
+        self.vX = self.vX * .95
+        self.vY = self.vY * .95
     end
 
-    -- Set increased speed because of crate power up if needed
-    if M.increasedSpeedPowerupActivated and not M.increasedSpeedPowerupActivatedSet then
-      print("sped up pirate in update")
-      M.increasedSpeedPowerupActivatedSet = true
-      --properties.vX = properties.vX * 1.50
-      --properties.vY = properties.vY * 1.50
-    end
-
-    -- Fire the shot if necessary
-    -- if not shotFired and position.x > 750 then
-    --   local missleSetup = weapon.createMissle("P1")
-    --   local missle = resources.
-    --   weapon.fireMissle(position, { x = 667, y = 750 }, missle)
-    --   shotFired = true
-    -- end
-
-    graphic.move(position.x + properties.vX, position.y + properties.vY)
-  end
-
-  -- Do anything that needs to be done if the world has stopped moving
-  function M.handleWorldStoppedMoving()
-  end
-
-  -- Do anything that needs to be done if a powerup affecting this entity is activated
-  function M.handleCratePowerActivated(powerUpName)
-    local isActive = false
-    local onScreen = false
-
-    if M.initialized and not M.destroyed then
-      isActive = true
-      local position = graphic.position()
-      local size = graphic.size()
-      onScreen = collision.onScreen(position.x, position.y, size.width, size.height)
-    --print("onScreen " .. onScreen)
-    end
-
-    if (powerUpName == "killAll" and onScreen and isActive) then
-      graphic.setGraphic("exploding")
-      exploding = true
-      M.destroyed = true
-      M.collidable = false
-    elseif (powerUpName == "fasterEnemies") then
-      M.setPowerUpIncreasedSpeed()
-    elseif (powerUpName == "normalSpeedEnemies") then
-      M.setNormalSpeed()
-    end
-  end
-
-  function M.setPowerUpIncreasedSpeed()
-    M.increasedSpeedPowerupActivated = true
-    M.increasedSpeedPowerupActivatedSet = false
-  end
-
-  function M.setNormalSpeed()
-    M.increasedSpeedPowerupActivated = false
-    M.increasedSpeedPowerupActivatedSet = false
-    --properties.vX = M.originalvX
-    --properties.vY = M.originalvY
-  end
-
-  -- Gets the position
-  function M.position()
-    if not M.initialized then
-      return nil
-    end
-
-    return graphic.position()
-  end
-
-  -- Gets the size
-  function M.size()
-    if not M.initialized then
-      return nil
-    end
-
-    return graphic.size()
-  end
-
-  -- Can this entity collide with a given type
-  function M.canCollide(type)
-    if not M.collidable then
-      return false
-    end
-
-    return collidableEntities[type] ~= nil
-  end
-
-  -- Called when the pirate has collided with something
-  function M.collided(entity)
-    -- No longer collidable
-    M.collidable = false
-
-    -- Explode
-    graphic.setGraphic("exploding")
-
-    -- Play explosion sound
-    gameAudio.playBasicExplosionSound()
-
-    -- Mark as exploding
-    exploding = true
-    M.destroyed = true
-    M.collidable = false
-  end
-
-  -- Release the pirate
-  function M.release()
-    if not M.initialized then
-      return
-    end
-
-    graphic.release()
-
-    M.initialized = false
-  end
-
-  return M
+    -- Move it
+    self.graphic.move(position.x + self.vX, position.y + self.vY)
 end
 
-return pirate
+-- Cause the alien to explode
+function Pirate:explode()
+    -- Swap animations
+    self.graphic.setGraphic("exploding")
+
+    -- Play audio
+
+    -- Set flags
+    self.exploding = true
+    self.destroyed = true
+    self.collidable = false
+end
+
+-- Handles fast enemy powerup calls
+function Pirate:fast()
+    self.vX = self.vX * 1.1
+    self.vY = self.vY * 1.1
+end
+
+-- Handles fast enemy powerup calls
+function Pirate:slow()
+    self.vX = self.vX / 1.1
+    self.vY = self.vY / 1.1
+end
+
+-- Handles 'kill all' powerup calls
+function Pirate:killAll()
+    self.explode()
+end
+
+-- Handles collision
+function Pirate:collided(entity)
+    self.explode()
+end
+
+-- Release
+function Pirate:release()
+    self.exploding = false
+    self.destroyed = true
+    Entity.release(self)
+end
+
+return Pirate

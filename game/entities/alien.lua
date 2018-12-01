@@ -1,168 +1,105 @@
-local gameAudio = require("game.sounds")
-local collision = require("game.collision")
+local Entity = require("game.entities.entity")
 
--- Entities that this entity can collide with
-local collidableEntities = {
-  missle = true,
-  player = true
+-- Define a static table for collidable entities
+local collidables = {
+  missile = true
 }
 
-local exploding = false
-local increasedSpeedPowerupActivated = false
+-- Create metatable
+Alien =
+  Entity:new(
+  {
+    type = "alien",
+    exploding = false,
+    destroyed = false,
+    collidables = collidables
+  }
+)
 
--- Create a alien
-function alien(properties, graphic)
-  local M = {}
+-- Constructor
+function Alien:new(properties, graphic)
+  -- Default to an entity
+  local entity = Entity:new(properties, graphic)
 
-  M.id = properties.id
-  M.type = "alien"
-  M.initialized = false
-  M.collidable = false
-  M.destroyed = false
-  M.shape = "rectangle"
-  M.increasedSpeedPowerupActivated = false
-  M.increasedSpeedPowerupActivatedSet = false
-  M.originalvX = properties.vX
-  M.originalvY = properties.vY
+  -- Setup metatable
+  setmetatable(entity, self)
+  self.__index = self
 
-  local lastShot = 45
-
-  -- Initialize the alien
-  function M.initialize()
-    if M.initialized then
-      return
-    end
-
-    graphic.initialize("alive")
-
-    M.collidable = true
-    M.initialized = true
-    M.destroyed = false
-  end
-
-  -- Update the alien
-  function M.update()
-    if not M.initialized then
-      return
-    end
-
-    -- Check the current position
-    local position = graphic.position()
-
-    -- Slowly decrease velocity if exploding
-    if exploding then
-      properties.vX = properties.vX * .95
-      properties.vY = properties.vY * .95
-    end
-
-    -- Set increased speed because of crate power up if needed
-    if M.increasedSpeedPowerupActivated and not M.increasedSpeedPowerupActivatedSet then
-      print("sped up alien in update")
-      M.increasedSpeedPowerupActivatedSet = true
-      --properties.vX = properties.vX * 1.50
-      --properties.vY = properties.vY * 1.50
-    end
-
-    -- Move it
-    graphic.move(position.x + properties.vX, position.y + properties.vY)
-  end
-
-  -- Do anything that needs to be done if the world has stopped moving
-  function M.handleWorldStoppedMoving()
-  end
-
-  -- Do anything that needs to be done if a powerup affecting this entity is activated
-  function M.handleCratePowerActivated(powerUpName)
-    local isActive = false
-    local onScreen = false
-
-    if M.initialized and not M.destroyed then
-      isActive = true
-      local position = graphic.position()
-      local size = graphic.size()
-      onScreen = collision.onScreen(position.x, position.y, size.width, size.height)
-    --print("onScreen " .. onScreen)
-    end
-
-    if (powerUpName == "killAll" and onScreen and isActive) then
-      graphic.setGraphic("exploding")
-      exploding = true
-      M.destroyed = true
-      M.collidable = false
-    elseif (powerUpName == "fasterEnemies") then
-      M.setPowerUpIncreasedSpeed()
-    elseif (powerUpName == "normalSpeedEnemies") then
-      M.setNormalSpeed()
-    end
-  end
-
-  function M.setPowerUpIncreasedSpeed()
-    M.increasedSpeedPowerupActivated = true
-    M.increasedSpeedPowerupActivatedSet = false
-  end
-
-  function M.setNormalSpeed()
-    M.increasedSpeedPowerupActivated = false
-    M.increasedSpeedPowerupActivatedSet = false
-    --properties.vX = M.originalvX
-    --properties.vY = M.originalvY
-  end
-
-  -- Gets the position
-  function M.position()
-    if not M.initialized then
-      return nil
-    end
-
-    return graphic.position()
-  end
-
-  -- Gets the size
-  function M.size()
-    if not M.initialized then
-      return nil
-    end
-
-    return graphic.size()
-  end
-
-  -- Can collide with a given entity
-  function M.canCollide(type)
-    if not M.collidable then
-      return false
-    end
-
-    return collidableEntities[type] ~= nil
-  end
-
-  -- Called when the alien has collided with something
-  function M.collided(entity)
-    -- Disable colliding
-    M.collidable = false
-
-    -- Start exploding
-    graphic.setGraphic("exploding")
-    exploding = true
-
-    -- Play alien explosion sound
-    gameAudio.playBasicExplosionSound()
-
-    -- Flag as dead
-    M.destroyed = true
-  end
-
-  -- Release the alien
-  function M.release()
-    if not M.initialized then
-      return
-    end
-
-    graphic.release()
-
-    M.initialized = false
-  end
-
-  return M
+  -- Return new instance
+  return entity
 end
 
-return alien
+-- Initialize the entity
+function Alien:initialize()
+  if self.initialized then
+    return
+  end
+
+  -- Initialize the graphic
+  self.graphic.initialize("alive")
+
+  self.initialized = true
+  self.collidable = true
+  self.destroyed = false
+end
+
+-- Update the entity
+function Alien:update()
+  if not self.initialized then
+    return
+  end
+
+  -- Check the current position
+  local position = self.graphic.position()
+
+  -- Slowly decrease velocity if exploding
+  if self.exploding then
+    self.vX = self.vX * .95
+    self.vY = self.vY * .95
+  end
+
+  -- Move it
+  self.graphic.move(position.x + self.vX, position.y + self.vY)
+end
+
+-- Cause the alien to explode
+function Alien:explode()
+  -- Swap animations
+  self.graphic.setGraphic("exploding")
+
+  -- Play audio
+
+  -- Set flags
+  self.exploding = true
+  self.destroyed = true
+  self.collidable = false
+end
+
+-- Handles fast enemy powerup calls
+function Alien:fast()
+  -- Update firing frequency here
+end
+
+-- Handles fast enemy powerup calls
+function Alien:slow()
+  -- Update firing frequency here
+end
+
+-- Handles 'kill all' powerup calls
+function Alien:killAll()
+  self.explode()
+end
+
+-- Handles collision
+function Alien:collided(entity)
+  self.explode()
+end
+
+-- Release
+function Alien:release()
+  self.destroyed = true
+  self.exploding = false
+  Entity.release(self)
+end
+
+return Alien

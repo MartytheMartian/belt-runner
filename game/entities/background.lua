@@ -1,77 +1,46 @@
--- Create a background
-function background(properties, graphic)
-  local M = {}
-  local stopMoving = false
+local Entity = require("game.entities.entity")
 
-  M.id = properties.id
-  M.type = "background"
-  M.initialized = false
-  M.collidable = false
-  M.shape = "rectangle"
+-- Create metatable
+Background =
+    Entity:new(
+    {
+        type = "background"
+    }
+)
 
-  -- Initialize the background
-  function M.initialize()
-    if M.initialized then
-      return
-    end
+-- Constructor
+function Background:new(properties, graphic)
+    -- Default to an entity
+    local entity = Entity:new(properties, graphic)
 
-    -- Initialize
-    graphic.initialize()
+    -- Setup metatable
+    setmetatable(entity, self)
+    self.__index = self
 
-    M.initialized = true
-  end
-
-  -- Update the background
-  function M.update()
-    if not M.initialized then
-      return
-    end
-
-    if not stopMoving then
-      graphic.scroll(properties.vX)
-    end
-  end
-
-  -- Do anything that needs to be done if the world has stopped moving
-  function M.handleWorldStoppedMoving()
-    stopMoving = true
-  end
-
-  -- Do anything that needs to be done if a powerup affecting this entity is activated
-  function M.handleCratePowerActivated(powerUpName)
-  end
-
-  -- Gets the position
-  function M.position()
-    if not M.initialized then
-      return nil
-    end
-
-    return graphic.position()
-  end
-
-  -- Gets the size
-  function M.size()
-    if not M.initialized then
-      return nil
-    end
-
-    return graphic.size()
-  end
-
-  -- Release the background
-  function M.release()
-    if not M.initialized then
-      return
-    end
-
-    graphic.release()
-
-    M.initialized = false
-    stopMoving = false
-  end
-
-  return M
+    -- Return new instance
+    return entity
 end
 
-return background
+-- Initialize the entity
+function Background:initialize()
+    if self.initialized then
+        return
+    end
+
+    -- Initialize the graphic
+    self.graphic.initialize()
+
+    self.initialized = true
+end
+
+-- Update the entity
+function Background:update()
+    if self.stopped or not self.initialized then
+        return
+    end
+
+    -- Scroll
+    self.graphic.scroll(self.vX)
+end
+
+return Background

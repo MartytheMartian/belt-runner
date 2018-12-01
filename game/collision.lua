@@ -1,6 +1,6 @@
-local M = {}
+local Collision = {}
 
-function M.onScreen(x, y, w, h)
+function Collision.onScreen(x, y, w, h)
   -- Calculate face positions
   local right = x + w / 2
   local left = x - w / 2
@@ -30,7 +30,7 @@ function M.onScreen(x, y, w, h)
   return true
 end
 
-function M.detectCollision(target, entities)
+function Collision.detectCollision(target, entities)
   -- Get position and size of the target
   local targetPosition = target.position()
   local targetSize = target.size()
@@ -69,24 +69,24 @@ function M.detectCollision(target, entities)
 
       -- Both entity and target are rectangles
       if targetRectangle and entityRectangle then
-        if M.rectangleCollision(targetBounds, entityBounds) then return entity
+        if Collision.rectangleCollision(targetBounds, entityBounds) then return entity
         else break end
       end
 
       -- Target is a rectangle
       if targetRectangle then
-        if M.rectangleCircleCollision(targetBounds, entityBounds) then return entity
+        if Collision.rectangleCircleCollision(targetBounds, entityBounds) then return entity
         else break end
       end
 
       -- Entity is a rectangle
       if entityRectangle then
-        if M.rectangleCircleCollision(entityBounds, targetBounds) then return entity
+        if Collision.rectangleCircleCollision(entityBounds, targetBounds) then return entity
         else break end
       end
 
       -- Must be circle-circle
-      if M.circleCollision(targetBounds, entityBounds) then
+      if Collision.circleCollision(targetBounds, entityBounds) then
         return entity
       end
     until true
@@ -95,7 +95,7 @@ function M.detectCollision(target, entities)
   return nil
 end
 
-function M.circleCollision(obj1, obj2)
+function Collision.circleCollision(obj1, obj2)
   local dx = obj1.x - obj2.x
   local dy = obj1.y - obj2.y
 
@@ -109,7 +109,7 @@ function M.circleCollision(obj1, obj2)
   return false
 end
 
-function M.rectangleCollision(obj1, obj2)
+function Collision.rectangleCollision(obj1, obj2)
   -- Set x and y coordinates to upper left corner of rectangles rather than the center
   local obj1X = obj1.x - (obj1.w / 2)
   local obj2X = obj2.x - (obj2.w / 2)
@@ -122,7 +122,7 @@ function M.rectangleCollision(obj1, obj2)
   obj1Y + obj1.h > obj2Y
 end
 
-function M.rectangleCircleCollision(rectangle, circle)
+function Collision.rectangleCircleCollision(rectangle, circle)
   local circleDistance_x = math.abs(circle.x - rectangle.x)
   local circleDistance_y = math.abs(circle.y - rectangle.y)
 

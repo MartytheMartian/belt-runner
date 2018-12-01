@@ -1,136 +1,110 @@
-local gameAudio = require("game.sounds")
+local Entity = require("game.entities.entity")
 
--- Entities that this entity can collide with
-local collidableEntities = {
-  missle = true
+-- Define a static table for collidable entities
+local collidables = {
+    missile = true
 }
 
--- Create a crate
-function crate(properties, graphic)
-  local M = {}
+-- Create metatable
+Crate =
+    Entity:new(
+    {
+        type = "crate",
+        exploding = false,
+        destroyed = false
+    }
+)
 
-  M.id = properties.id
-  M.type = "crate"
-  M.initialized = false
-  M.collidable = false
-  M.shape = "rectangle"
-  M.powerUp = properties.powerUp
-  M.lurcherId = properties.lurcherId
+-- Constructor
+function Crate:new(properties, graphic)
+    -- Default to an entity
+    local entity = Entity:new(properties, graphic)
 
-  -- Events the crate can trigger
-  local powerActivated = nil
+    -- Setup metatable
+    setmetatable(entity, self)
+    self.__index = self
 
-  local exploding = false
+    -- Pull additional properties
+    self.powerup = properties.powerup
+    self.lurcherId = properties.lurcher
 
-  -- Initialize the crate
-  function M.initialize()
-    if M.initialized then
-      return
+    -- Return new instance
+    return entity
+end
+
+-- Initialize the entity
+function Crate:initialize()
+    if self.initialized then
+        return
     end
 
-    graphic.initialize("floating")
+    -- Initialize the graphic
+    self.graphic.initialize("floating")
 
-    M.collidable = true
-    M.initialized = true
-  end
+    self.initialized = true
+    self.collidable = true
+    self.destroyed = false
+end
 
-  -- Update the crate
-  function M.update()
-    if not M.initialized then
-      return
+-- Update the entity
+function Crate:update()
+    if not self.initialized then
+        return
     end
 
     -- Check the current position
-    local position = graphic.position()
+    local position = self.graphic.position()
 
     -- Slowly decrease velocity if exploding
-    if exploding then
-      properties.vX = properties.vX * .95
-      properties.vY = properties.vY * .95
+    if self.exploding then
+        self.vX = self.vX * .95
+        self.vY = self.vY * .95
     else
-      graphic.rotate(-.2)
+        graphic.rotate(-.2)
     end
 
     -- Move it
-    graphic.move(position.x + properties.vX, position.y + properties.vY)
-  end
+    self.graphic.move(position.x + self.vX, position.y + self.vY)
+end
 
-  -- Do anything that needs to be done if the world has stopped moving
-  function M.handleWorldStoppedMoving()
-  end
+-- Cause the crate to explode
+function Crate:explode()
+    -- Swap animations
+    self.graphic.setGraphic("exploding")
 
-  -- Do anything that needs to be done if a powerup affecting this entity is activated
-  function M.handleCratePowerActivated(powerUpName)
-  end
+    -- Play audio
 
-  -- Gets the position
-  function M.position()
-    if not M.initialized then
-      return nil
-    end
+    -- Set flags
+    self.exploding = true
+    self.destroyed = true
+    self.collidable = false
+end
 
-    return graphic.position()
-  end
+-- Handles collision
+function Crate:collided(entity)
+    -- Explode
+    self.explode()
 
-  -- Gets the size
-  function M.size()
-    if not M.initialized then
-      return nil
+    -- Activate powerup here
+end
+
+-- Get the size
+function Crate:size()
+    if not self.initialized then
+        return nil
     end
 
     -- Append radius
-    local size = graphic.size()
+    local size = self.graphic.size()
     size.radius = size.width / 2
 
     return size
-  end
-
-  function M.canCollide(type)
-    if not M.collidable then
-      return false
-    end
-
-    return collidableEntities[type] ~= nil
-  end
-
-  function M.setPowerActivatedHandler(handler)
-    if type(handler) ~= "function" then
-      error("Power activated handler must be a function")
-    end
-
-    powerActivated = handler
-  end
-
-  -- Called when the crate has collided with something
-  function M.collided(entity)
-    -- No longer collidable
-    M.collidable = false
-
-    -- Explode
-    graphic.setGraphic("exploding")
-
-    -- Play crate explosion sound
-    gameAudio.playBasicExplosionSound()
-
-    -- Mark as exploding
-    exploding = true
-
-    -- Call global handler to activate power up
-    powerActivated(M.id)
-  end
-
-  -- Release the crate
-  function M.release()
-    if not M.initialized then
-      return
-    end
-
-    graphic.release()
-
-    M.initialized = false
-  end
-
-  return M
 end
 
-return crate
+-- Release
+function Crate:release()
+    self.destroyed = true
+    Entity.release(self)
+end
+
+return Crate

@@ -4,7 +4,7 @@ local weapon = require("game.weapon")
 local gameAudio = require("game.sounds")
 
 -- Exposed properties of the world
-local M = {}
+local World = {}
 
 -- Is the level initialized
 local initialized = false
@@ -72,7 +72,7 @@ local function cratePowerActivated(crateEntityId)
   end
 end
 
-function M.setNormalEnemySpeed()
+function World.setNormalEnemySpeed()
   for i, entity in ipairs(resources.entities) do
     repeat
       entity.handleCratePowerActivated("normalSpeedEnemies")
@@ -81,7 +81,7 @@ function M.setNormalEnemySpeed()
 end
 
 -- Initialize the world with a level and 'end' hook
-function M.initialize(level, gameOver)
+function World.initialize(level, gameOver)
   -- Set game over hook as the end event
   endEvent = gameOver
 

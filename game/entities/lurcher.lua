@@ -1,145 +1,136 @@
-local gameAudio = require("game.sounds")
+local Entity = require("game.entities.entity")
 
--- Entities that this entity can collide with
-local collidableEntities = {
-  missle = true,
-  player = true
+-- Define a static table for collidable entities
+local collidables = {
+    missile = true
 }
 
--- Create a lurcher
-function lurcher(properties, graphic)
-  local M = {}
+-- Create metatable
+Lurcher =
+    Entity:new(
+    {
+        type = "lurcher",
+        attacking = false,
+        exploding = false,
+        destroyed = false,
+        shape = "circle"
+    }
+)
 
-  M.id = properties.id
-  M.type = "lurcher"
-  M.initialized = false
-  M.collidable = false
-  M.shape = "circle"
+-- Constructor
+function Lurcher:new(properties, graphic)
+    -- Default to an entity
+    local entity = Entity:new(properties, graphic)
 
-  local exploding = false
-  local attacking = false
-  local killedPlayer = false
+    -- Setup metatable
+    setmetatable(entity, self)
+    self.__index = self
 
-  -- Initialize the lurcher
-  function M.initialize()
-    if M.initialized then
-      return
+    -- Return new instance
+    return entity
+end
+
+-- Initialize the entity
+function Lurcher:initialize()
+    if self.initialized then
+        return
     end
 
-    graphic.initialize("alive")
+    -- Initialize the graphic
+    self.graphic.initialize("alive")
 
-    M.initialized = true
-  end
+    self.initialized = true
+    self.attacking = false
+    self.exploding = false
+    self.destroyed = false
+end
 
-  -- Update the lurcher
-  function M.update()
-    if not M.initialized then
-      return
+-- Update the entity
+function Lurcher:update()
+    if self.attacking or not self.initialized then
+        return
     end
 
     -- Check the current position
-    local position = graphic.position()
+    local position = self.graphic.position()
 
     -- Slowly decrease velocity if exploding
-    if exploding then
-      properties.vX = properties.vX * .95
-      properties.vY = properties.vY * .95
+    if self.exploding then
+        self.vX = self.vX * .95
+        self.vY = self.vY * .95
     end
 
     -- Move it
-    if (not killedPlayer and not attacking) then
-      graphic.move(position.x + properties.vX, position.y + properties.vY)
-    end
-  end
+    self.graphic.move(position.x + self.vX, position.y + self.vY)
+end
 
-  -- Do anything that needs to be done if the world has stopped moving
-  function M.handleWorldStoppedMoving()
-  end
+-- Cause the lurcher to explode
+function Lurcher:explode()
+    -- Swap animations
+    self.graphic.setGraphic("exploding")
 
-  -- Do anything that needs to be done if a powerup affecting this entity is activated
-  function M.handleCratePowerActivated(powerUpName)
-    if (powerUpName == "lurcher") then
-      attacking = true
-      -- TODO: Play any attacking sound and/or animation if needed
-      
-      gameAudio.playLurcherAttackSound()
-      timer.performWithDelay(3000, becomeCollidable)
-    end
-  end
+    -- Play audio
 
-  function becomeCollidable()
-    M.collidable = true
-    graphic.moveTransition({x = 667, y = 375, time = 300, onComplete  = attackComplete})
-  end
+    -- Set flags
+    self.exploding = true
+    self.destroyed = true
+    self.collidable = false
+    self.attacking = false
+end
 
-  -- listener to invoke after attack transition is completed
-  function attackComplete()
-    
-  end
+-- Cause the lurcher to initiate an attack
+function Lurcher:attack()
+    -- Flag as attacking
+    self.attacking = true
 
-  -- Gets the position
-  function M.position()
-    if not M.initialized then
-      return nil
-    end
+    -- Play audio here
 
-    return graphic.position()
-  end
+    -- Wait three seconds before lurching
+    timer.performWithDelay(3000, moveToPlayer)
+end
 
-  -- Gets the size
-  function M.size()
-    if not M.initialized then
-      return nil
+-- Cause the lurcher to attack
+function Lurcher:moveToPlayer()
+    -- Move to the player
+    self.graphic.moveTransition(
+        {
+            x = 667,
+            y = 375,
+            time = 300
+        }
+    )
+end
+
+-- Handles collision
+function Lurcher:collided(entity)
+    -- Freeze on collision
+    self.vX = 0
+    self.vY = 0
+    self.move(self.graphic.x, self.graphic.y)
+
+    -- Explode
+    self.explode()
+end
+
+-- Get the size
+function Lurcher:size()
+    if not self.initialized then
+        return nil
     end
 
     -- Append radius
-    local size = graphic.size()
+    local size = self.graphic.size()
     size.radius = size.width / 2
 
     return size
-  end
-
-  function M.canCollide(type)
-    if not M.collidable then
-      return false
-    end
-
-    return collidableEntities[type] ~= nil
-  end
-
-  -- Called when the lurcher has collided with something
-  function M.collided(entity)
-    -- No longer collidable
-    M.collidable = false
-
-    if (entity.type == "player") then
-      -- Stop the lurcher where the player left off so it can laugh at the player
-      killedPlayer = true
-      gameAudio.playLurcherLaughSound()
-    else
-      -- Explode
-      graphic.setGraphic("exploding")
-
-      -- Play lurcher explosion sound
-      gameAudio.playBasicExplosionSound()
-
-      -- Mark as exploding
-      exploding = true
-    end
-  end
-
-  -- Release the lurcher
-  function M.release()
-    if not M.initialized then
-      return
-    end
-
-    graphic.release()
-
-    M.initialized = false
-  end
-
-  return M
 end
 
-return lurcher
+-- Release
+function Lurcher:release()
+    self.destroyed = true
+    self.attacking = false
+    self.exploding = false
+    Entity.release(self)
+end
+
+return Crate

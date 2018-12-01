@@ -1,9 +1,9 @@
-local math = require("game.math")
+local Math = require("game.math")
 
-local M = {}
+local Weapon = {}
 
 -- Create a missle entity
-function M.createMissle(id)
+function Weapon.createMissle(id)
   return {
     id = id,
     type = "missle",
@@ -18,15 +18,15 @@ function M.createMissle(id)
 end
 
 -- Fires a missle in the direction specified
-function M.fireMissle(missle, start, destination)
+function Weapon.fireMissle(missle, start, destination)
   -- Calculate the velocity
-  local velocity = math.calculateVelocity(start, destination, 20)
+  local velocity = Math.calculateVelocity(start, destination, 20)
 
   -- Determine the rotation
-  local rotation = math.calculateRotation(start, destination)
+  local rotation = Math.calculateRotation(start, destination)
 
   -- Spawn the missle
   missle.spawn(start.x, start.y, velocity.x, velocity.y, rotation)
 end
 
-return M
+return Weapon

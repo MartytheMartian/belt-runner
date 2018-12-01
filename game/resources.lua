@@ -1,29 +1,28 @@
-local alien = require("game.entities.alien")
-local animated = require("game.graphics.animated")
-local asteroid = require("game.entities.asteroid")
-local background = require("game.entities.background")
-local debris = require("game.entities.debris")
-local crate = require("game.entities.crate")
-local lurcher = require("game.entities.lurcher")
-local missle = require("game.entities.missle")
-local nebula = require("game.entities.nebula")
-local pirate = require("game.entities.pirate")
-local player = require("game.entities.player")
-local scrolling = require("game.graphics.scrolling")
-local set = require("game.graphics.set")
-local static = require("game.graphics.static")
-local turret = require("game.entities.turret")
-local moonComplete = require("game.entities.moon-complete")
-local moonTop = require("game.entities.moon-top")
-local moonBottom = require("game.entities.moon-bottom")
-local tentacle = require("game.entities.tentacle")
+local Alien = require("game.entities.alien")
+local Animated = require("game.graphics.animated")
+local Asteroid = require("game.entities.asteroid")
+local Background = require("game.entities.background")
+local Crate = require("game.entities.crate")
+local Debris = require("game.entities.debris")
+local Lurcher = require("game.entities.lurcher")
+local Missle = require("game.entities.missle")
+local MoonBottom = require("game.entities.moon-bottom")
+local MoonComplete = require("game.entities.moon-complete")
+local MoonTop = require("game.entities.moon-top")
+local Nebula = require("game.entities.nebula")
+local Pirate = require("game.entities.pirate")
+local Player = require("game.entities.player")
+local Scrolling = require("game.graphics.scrolling")
+local Set = require("game.graphics.set")
+local Static = require("game.graphics.static")
+local Tentacle = require("game.entities.tentacle")
+local Turret = require("game.entities.turret")
 
 -- Return instance
-local M = {}
-
--- Game resources
-M.graphics = {}
-M.entities = nil
+Resources = {
+  graphics = {},
+  entities = nil
+}
 
 -- Track number of entities
 local entityCount = 0
@@ -41,27 +40,27 @@ local graphicConstructors = {
 
 -- Entity constructor map
 local entityConstructors = {
-  alien = alien,
-  asteroid = asteroid,
-  background = background,
-  debris = debris,
-  crate = crate,
-  lurcher = lurcher,
-  missle = missle,
-  nebula = nebula,
-  player = player,
-  pirate = pirate,
-  turret = turret,
-  moonComplete = moonComplete,
-  moonTop = moonTop,
-  tentacle = tentacle,
-  moonBottom = moonBottom
+  alien = Alien,
+  asteroid = Asteroid,
+  background = Background,
+  crate = Crate,
+  debris = Debris,
+  lurcher = Lurcher,
+  missle = Missle,
+  moonBottom = MoonBottom,
+  moonComplete = MoonComplete,
+  moonTop = MoonTop,
+  nebula = Nebula,
+  player = Player,
+  pirate = Pirate,
+  tentacle = Tentacle,
+  turret = Turret
 }
 
 -- Create graphics
-function M.createGraphic(graphic)
+function Resources.createGraphic(graphic)
   -- Duplicate entries
-  if M.graphics[graphic.id] ~= nil then
+  if Resources.graphics[graphic.id] ~= nil then
     error("Duplicate graphic entries detected with an id of " .. graphic.id)
   end
 
@@ -78,14 +77,14 @@ function M.createGraphic(graphic)
     error("Graphic entry with an unsupported type found with an id of " .. graphic.id)
   end
 
-  M.graphics[graphic.id] = constructor(graphic)
+  Resources.graphics[graphic.id] = constructor(graphic)
 end
 
 -- Create entities
-function M.createEntity(entity)
+function Resources.createEntity(entity)
   -- Initialize if necessary
-  if M.entities == nil then
-    M.entities = {}
+  if Resources.entities == nil then
+    Resources.entities = {}
   end
 
   -- Need a type to load correctly
@@ -102,21 +101,21 @@ function M.createEntity(entity)
   end
 
   -- Graphic type unsupported
-  if entity.graphic == nil or M.graphics[entity.graphic] == nil then
+  if entity.graphic == nil or Resources.graphics[entity.graphic] == nil then
     error("Entity entry with an unloaded graphic type found")
   end
 
   -- Create the correct graphic
-  local graphic = M.graphics[entity.graphic](entity)
+  local graphic = Resources.graphics[entity.graphic](entity)
 
   -- Increment entity count
   entityCount = entityCount + 1
 
   -- Create the entity
-  M.entities[entityCount] = constructor(entity, graphic)
+  Resources.entities[entityCount] = constructor:new(entity, graphic)
 
   -- Set the delay
-  M.entities[entityCount].delay = entity.delay
+  Resources.entities[entityCount].delay = entity.delay
 
   -- Map ID if necessary
   if entity.id ~= nil then
@@ -125,7 +124,7 @@ function M.createEntity(entity)
 end
 
 -- Setup initial resources
-function M.setup()
+function Resources.setup()
   -- Load in defaults
   local missle = {
     id = "missle",
@@ -147,21 +146,21 @@ function M.setup()
     }
   }
 
-  M.createGraphic(missle)
+  Resources.createGraphic(missle)
 end
 
 -- Clear out all resources
-function M.clear()
+function Resources.clear()
   -- Reset all flags
-  M.graphics = {}
-  M.entities = nil
+  Resources.graphics = {}
+  Resources.entities = nil
   entityCount = 0
   idMap = {}
 end
 
 -- Get a specific entity by ID
-function M.getEntityByID(id)
-  return M.entities[idMap[id]]
+function Resources.getEntityByID(id)
+  return Resources.entities[idMap[id]]
 end
 
-return M
+return Resources
