@@ -69,7 +69,7 @@ function Tentacle:update()
         -- TODO: Do something here when tentacle has fully dragged
         self.destroyed = true
     else
-        -- Move torwards player
+        -- Move towards player
         if position.x <= 1350 and position.y >= 505 then
             self.vY = -3.2
         else
