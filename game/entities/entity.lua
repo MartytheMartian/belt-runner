@@ -1,38 +1,28 @@
 -- Create metatable
-Entity = {
-    id = nil,
-    initialized = false,
-    collidable = false,
-    stopped = false,
-    collidables = {},
-    x = 0,
-    y = 0,
-    vX = 0,
-    vY = 0,
-    graphic = nil,
-    shape = "rectangle"
-}
+Entity = {}
 
 -- Constructor
-function Entity:new(o, properties, graphic)
+function Entity:new(properties, graphic)
     -- Default to empty
-    o = o or {}
     properties = properties or {}
 
+    -- Create instance
+    local instance = {
+        id = properties.id or nil,
+        initialized = false,
+        collidable = false,
+        stopped = false,
+        collidables = {},
+        x = properties.x or 0,
+        y = properties.y or 0,
+        vX = properties.vX or 0,
+        vY = properties.vY or 0,
+        graphic = graphic or nil,
+        shape = "rectangle"
+    }
+
     -- Setup metatable
-    setmetatable(o, self)
-    self.__index = self
-
-    -- Populate
-    self.id = properties.id or nil
-    self.x = properties.x or 0
-    self.y = properties.y or 0
-    self.vX = properties.vX or 0
-    self.vY = properties.vY or 0
-    self.graphic = graphic
-
-    -- Return new instance
-    return o
+    return setmetatable(instance, {__index = self})
 end
 
 -- Initialize the entity

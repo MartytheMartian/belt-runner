@@ -6,29 +6,22 @@ local collidables = {
 }
 
 -- Create metatable
-Lurcher =
-    Entity:new(
-    {
+Lurcher = setmetatable({}, {__index = Entity})
+
+-- Constructor
+function Lurcher:new(properties, graphic)
+    -- Create the instance
+    local instance = {
         type = "lurcher",
         attacking = false,
         exploding = false,
         destroyed = false,
-        collidbales = collidables,
+        collidables = collidables,
         shape = "circle"
     }
-)
-
--- Constructor
-function Lurcher:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -110,7 +103,7 @@ function Lurcher:collided(entity)
     self.move(self.graphic.x, self.graphic.y)
 
     -- Explode
-    self.explode()
+    self:explode()
 end
 
 -- Get the size

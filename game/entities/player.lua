@@ -11,27 +11,20 @@ local collidables = {
 }
 
 -- Create metatable
-Player =
-    Entity:new(
-    {
+Player = setmetatable({}, {__index = Entity})
+
+-- Constructor
+function Player:new(properties, graphic)
+    -- Create the instance
+    local instance = {
         type = "player",
         exploding = false,
         destroyed = false,
         collidables = collidables
     }
-)
-
--- Constructor
-function Player:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -66,7 +59,7 @@ end
 
 -- Handles collision
 function Player:collided(entity)
-    self.explode()
+    self:explode()
 end
 
 -- Release

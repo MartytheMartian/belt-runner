@@ -1,24 +1,16 @@
 local Entity = require("game.entities.entity")
 
--- Create metatable
-Background =
-    Entity:new(
-    {
-        type = "background"
-    }
-)
+Background = setmetatable({}, {__index = Entity})
 
 -- Constructor
 function Background:new(properties, graphic)
-    -- Default to an entity
-    entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
+    -- Create instance
+    local instance = {
+        type = "Background"
+    }
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Update the entity

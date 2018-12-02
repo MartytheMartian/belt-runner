@@ -7,27 +7,20 @@ local collidables = {
 }
 
 -- Create metatable
-Pirate =
-    Entity:new(
-    {
+Pirate = setmetatable({}, {__index = Entity})
+
+-- Constructor
+function Pirate:new(properties, graphic)
+    -- Create the instance
+    local instance = {
         type = "pirate",
         exploding = false,
         destroyed = false,
         collidables = collidables
     }
-)
-
--- Constructor
-function Pirate:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -90,12 +83,12 @@ end
 
 -- Handles 'kill all' powerup calls
 function Pirate:killAll()
-    self.explode()
+    self:explode()
 end
 
 -- Handles collision
 function Pirate:collided(entity)
-    self.explode()
+    self:explode()
 end
 
 -- Release

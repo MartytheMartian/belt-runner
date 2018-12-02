@@ -14,32 +14,21 @@ local powerMaps = {
 }
 
 -- Create metatable
-Crate =
-    Entity:new(
-    {
+Crate = setmetatable({}, {__index = Entity})
+
+-- Constructor
+function Crate:new(properties, graphic)
+    -- Create the instance
+    local instance = {
         type = "crate",
         exploding = false,
         destroyed = false,
         collidables = collidables,
         lurcherId = nil
     }
-)
-
--- Constructor
-function Crate:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
-
-    -- Pull additional properties
-    self.powerUp = properties.powerUp
-    self.lurcherId = properties.lurcherId
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -96,7 +85,7 @@ end
 -- Handles collision
 function Crate:collided(entity)
     -- Explode
-    self.explode()
+    self:explode()
 end
 
 -- Get the size

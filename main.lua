@@ -7,7 +7,7 @@ display.setStatusBar(display.HiddenStatusBar)
 math.randomseed(os.time())
 
 -- Setup debugging
-require("mobdebug").start()
+-- require("mobdebug").start()
 
 -- Load the menu for the game
 composer.gotoScene("menu")

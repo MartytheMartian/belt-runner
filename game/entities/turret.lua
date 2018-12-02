@@ -1,25 +1,18 @@
 local Entity = require("game.entities.entity")
 
 -- Create metatable
-Turret =
-    Entity:new(
-    {
-        type = "turret",
-        destroyed = false
-    }
-)
+Turret = setmetatable({}, {__index = Entity})
 
 -- Constructor
 function Turret:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
+    -- Create the instance
+    local instance = {
+        type = "turret",
+        destroyed = false
+    }
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -33,6 +26,15 @@ function Turret:initialize()
 
     self.initialized = true
     self.destroyed = false
+end
+
+-- Rotate the turret
+function Turret:rotate(rotation)
+    if not self.initialized then
+        return
+    end
+
+    self.graphic.setRotation(rotation)
 end
 
 -- Called when the world has stopped

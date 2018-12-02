@@ -1,24 +1,17 @@
 local Entity = require("game.entities.entity")
 
 -- Create metatable
-MoonBottom =
-    Entity:new(
-    {
-        type = "moonBottom"
-    }
-)
+MoonBottom = setmetatable({}, {__index = Entity})
 
 -- Constructor
 function MoonBottom:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
+    -- Create the instance
+    local instance = {
+        type = "moonBottom"
+    }
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity

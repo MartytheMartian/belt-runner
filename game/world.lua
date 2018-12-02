@@ -81,7 +81,7 @@ function World.update()
 
   -- Update the frame count
   frames = frames + 1
-
+  
   -- Update each entity
   for i, entity in ipairs(Resources.entities) do
     repeat
@@ -158,7 +158,7 @@ function World.touch(x, y)
   Weapon.fireMissile(missile, player:position(), {x = x, y = y})
 
   -- Turret should match missile rotation
-  Resources.getEntityByID("turret").rotate(missile:position().rotation)
+  Resources.getEntityByID("turret"):rotate(missile:position().rotation)
 
   -- Update the last successful touch
   lastTouchFrame = frames

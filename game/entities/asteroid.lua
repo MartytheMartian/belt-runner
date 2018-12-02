@@ -7,28 +7,21 @@ local collidables = {
 }
 
 -- Create metatable
-Asteroid =
-  Entity:new(
-  {
+Asteroid = setmetatable({}, {__index = Entity})
+
+-- Constructor
+function Asteroid:new(properties, graphic)
+  -- Create the instance
+  local instance = {
     type = "asteroid",
     exploding = false,
     destroyed = false,
     collidables = collidables,
     shape = "circle"
   }
-)
-
--- Constructor
-function Asteroid:new(properties, graphic)
-  -- Default to an entity
-  local entity = Entity:new(nil, properties, graphic)
-
-  -- Setup metatable
-  setmetatable(entity, self)
-  self.__index = self
 
   -- Return new instance
-  return entity
+  return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -69,7 +62,7 @@ end
 -- Cause the asteroid to explode
 function Asteroid:explode()
   -- Swap animations
-  self.graphic.setGraphic("exploding")
+  self.graphic.setSequence("exploding")
 
   -- Play audio
 
@@ -93,12 +86,12 @@ end
 
 -- Handles 'kill all' powerup calls
 function Asteroid:killAll()
-  self.explode()
+  self:explode()
 end
 
 -- Handles collision
 function Asteroid:collided(entity)
-  self.explode()
+  self:explode()
 end
 
 -- Get the size

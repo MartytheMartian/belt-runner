@@ -7,29 +7,22 @@ local collidables = {
 }
 
 -- Create metatable
-Tentacle =
-    Entity:new(
-    {
-        type = "tentacle",
-        hp = 3,
-        dying = false,
-        pulling = false,
-        destroyed = false,
-        collidables = collidables
-    }
-)
+Tentacle = setmetatable({}, {__index = Entity})
 
 -- Constructor
 function Tentacle:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
+   -- Create the instance
+   local instance = {
+    type = "tentacle",
+    hp = 3,
+    dying = false,
+    pulling = false,
+    destroyed = false,
+    collidables = collidables
+}
 
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
-
-    -- Return new instance
-    return entity
+-- Return new instance
+return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity

@@ -8,28 +8,21 @@ local collidables = {
 }
 
 -- Create metatable
-Wall =
-    Entity:new(
-    {
+Wall = setmetatable({}, {__index = Entity})
+
+-- Constructor
+function Wall:new(properties, graphic)
+    -- Create the instance
+    local instance = {
         type = "wall",
         hp = 3,
         exploding = false,
         destroyed = false,
         collidables = collidables
     }
-)
-
--- Constructor
-function Wall:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -76,7 +69,7 @@ end
 
 -- Handles 'kill all' powerup calls
 function Wall:killAll()
-    self.explode()
+    self:explode()
 end
 
 -- Handles collision
@@ -91,7 +84,7 @@ function Wall:collided(entity)
     end
 
     self.destroyed = true
-    self.explode()
+    self:explode()
 end
 
 return Wall

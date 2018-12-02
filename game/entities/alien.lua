@@ -18,15 +18,16 @@ Alien =
 
 -- Constructor
 function Alien:new(properties, graphic)
-  -- Default to an entity
-  local entity = Entity:new(nil, properties, graphic)
-
-  -- Setup metatable
-  setmetatable(entity, self)
-  self.__index = self
+  -- Create the instance
+  local instance = {
+    type = "alien",
+    exploding = false,
+    destroyed = false,
+    collidables = collidables
+  }
 
   -- Return new instance
-  return entity
+  return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -87,12 +88,12 @@ end
 
 -- Handles 'kill all' powerup calls
 function Alien:killAll()
-  self.explode()
+  self:explode()
 end
 
 -- Handles collision
 function Alien:collided(entity)
-  self.explode()
+  self:explode()
 end
 
 -- Release

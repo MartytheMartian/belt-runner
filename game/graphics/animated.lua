@@ -107,7 +107,8 @@ function generator(graphic)
       sprite.rotation = sprite.rotation + rotation
     end
 
-    function M.oneRotation(rotation)
+    -- Sets the rotation of the sprite
+    function M.setRotation(rotation)
       sprite.rotation = rotation
     end
 

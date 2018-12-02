@@ -12,26 +12,19 @@ local collidables = {
 }
 
 -- Create metatable
-Missile =
-    Entity:new(
-    {
-        type = "missile",
-        destroyed = false,
-        collidables = collidables
-    }
-)
+Missile = setmetatable({}, {__index = Entity})
 
 -- Constructor
 function Missile:new(properties, graphic)
-    -- Default to an entity
-    local entity = Entity:new(nil, properties, graphic)
-
-    -- Setup metatable
-    setmetatable(entity, self)
-    self.__index = self
+    -- Create the instance
+    local instance = {
+        type = "missile",
+        destroyed = true,
+        collidables = collidables
+    }
 
     -- Return new instance
-    return entity
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -43,15 +36,11 @@ function Missile:initialize()
     -- Don't set collidable until spawn'd
     self.initialized = false
     self.collidable = false
-    self.destroyed = false
+    self.destroyed = true
 end
 
 -- Spawn the missile
 function Missile:spawn(x, y, vX, vY, rotation)
-    if not self.initialized then
-        return
-    end
-
     -- Reset velocity and rotation
     self.vX = vX
     self.vY = vY
@@ -72,6 +61,16 @@ function Missile:spawn(x, y, vX, vY, rotation)
     -- Fire sound
 end
 
+-- 'Despawn' the missile
+function Missile:despawn()
+    -- Flag as destroyed
+    self.collidable = false
+    self.destroyed = true
+
+    -- Move off screen
+    self.graphic.move(-32, -32)
+end
+
 -- Update the entity
 function Missile:update()
     if self.destroyed or not self.initialized then
@@ -82,10 +81,9 @@ function Missile:update()
     local position = self.graphic.position()
 
     -- Destroy it off-screen
-    local size = graphic.size()
+    local size = self.graphic.size()
     if not Collision.onScreen(position.x, position.y, size.width, size.height) then
-        self.collidable = false
-        self.destroyed = true
+        self:despawn()
         return
     end
 
@@ -95,12 +93,7 @@ end
 
 -- Handles collision
 function Missile:collided(entity)
-    -- Flag as destroyed
-    self.collidable = false
-    self.destroyed = true
-
-    -- Move off screen
-    graphic.move(-32, -32)
+    self:despawn()
 end
 
 -- Release
