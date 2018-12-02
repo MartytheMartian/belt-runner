@@ -2,6 +2,7 @@ local Alien = require("game.entities.alien")
 local Animated = require("game.graphics.animated")
 local Asteroid = require("game.entities.asteroid")
 local Background = require("game.entities.background")
+local Bomb = require("game.entities.bomb")
 local Crate = require("game.entities.crate")
 local Debris = require("game.entities.debris")
 local Lurcher = require("game.entities.lurcher")
@@ -17,6 +18,7 @@ local Set = require("game.graphics.set")
 local Static = require("game.graphics.static")
 local Tentacle = require("game.entities.tentacle")
 local Turret = require("game.entities.turret")
+local Wall = require("game.entities.wall")
 
 -- Return instance
 Resources = {
@@ -43,6 +45,7 @@ local entityConstructors = {
   alien = Alien,
   asteroid = Asteroid,
   background = Background,
+  bomb = Bomb,
   crate = Crate,
   debris = Debris,
   lurcher = Lurcher,
@@ -54,7 +57,8 @@ local entityConstructors = {
   player = Player,
   pirate = Pirate,
   tentacle = Tentacle,
-  turret = Turret
+  turret = Turret,
+  wall = Wall
 }
 
 -- Create graphics

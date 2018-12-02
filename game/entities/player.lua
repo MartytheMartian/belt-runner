@@ -24,7 +24,7 @@ Player =
 -- Constructor
 function Player:new(properties, graphic)
     -- Default to an entity
-    local entity = Entity:new(properties, graphic)
+    local entity = Entity:new(nil, properties, graphic)
 
     -- Setup metatable
     setmetatable(entity, self)

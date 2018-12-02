@@ -1,7 +1,6 @@
 -- Create metatable
 Entity = {
     id = nil,
-    type = nil,
     initialized = false,
     collidable = false,
     stopped = false,
@@ -15,15 +14,21 @@ Entity = {
 }
 
 -- Constructor
-function Entity:new(o, graphic)
+function Entity:new(o, properties, graphic)
     -- Default to empty
     o = o or {}
+    properties = properties or {}
 
     -- Setup metatable
     setmetatable(o, self)
     self.__index = self
 
-    -- Set properties
+    -- Populate
+    self.id = properties.id or nil
+    self.x = properties.x or 0
+    self.y = properties.y or 0
+    self.vX = properties.vX or 0
+    self.vY = properties.vY or 0
     self.graphic = graphic
 
     -- Return new instance

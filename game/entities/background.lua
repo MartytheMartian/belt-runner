@@ -11,7 +11,7 @@ Background =
 -- Constructor
 function Background:new(properties, graphic)
     -- Default to an entity
-    entity = Entity:new(properties, graphic)
+    entity = Entity:new(nil, properties, graphic)
 
     -- Setup metatable
     setmetatable(entity, self)
