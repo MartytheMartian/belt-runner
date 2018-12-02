@@ -1,4 +1,5 @@
 local Entity = require("game.entities.entity")
+local Events = require("game.events")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -58,6 +59,9 @@ function Player:explode()
     self.exploding = true
     self.destroyed = true
     self.collidable = false
+
+    -- Fire death event
+    Events.playerDied()
 end
 
 -- Handles collision

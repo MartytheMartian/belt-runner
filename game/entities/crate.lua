@@ -1,8 +1,16 @@
 local Entity = require("game.entities.entity")
+local Events = require("game.events")
 
 -- Define a static table for collidable entities
 local collidables = {
     missile = true
+}
+
+-- Power up maps
+local powerMaps = {
+    killAll = "killAll",
+    fasterEnemies = "fasterEnemies",
+    lurcher = "lurcher"
 }
 
 -- Create metatable
@@ -27,8 +35,8 @@ function Crate:new(properties, graphic)
     self.__index = self
 
     -- Pull additional properties
-    self.powerup = properties.powerup
-    self.lurcherId = properties.lurcher
+    self.powerUp = properties.powerUp
+    self.lurcherId = properties.lurcherId
 
     -- Return new instance
     return entity
@@ -80,14 +88,15 @@ function Crate:explode()
     self.exploding = true
     self.destroyed = true
     self.collidable = false
+
+    -- Fire attached event
+    Events[powerMaps[self.powerUp]](self)
 end
 
 -- Handles collision
 function Crate:collided(entity)
     -- Explode
     self.explode()
-
-    -- Activate powerup here
 end
 
 -- Get the size

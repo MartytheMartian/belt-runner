@@ -12,7 +12,7 @@ Turret =
 -- Constructor
 function Turret:new(properties, graphic)
     -- Default to an entity
-    local entity = Turret:new(properties, graphic)
+    local entity = Entity:new(properties, graphic)
 
     -- Setup metatable
     setmetatable(entity, self)

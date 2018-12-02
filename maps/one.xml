@@ -1,62 +1,62 @@
 <map>
     <info name="A Pension Well Earned" />
     <graphics>
-        <graphic id="nebula" type="static" path="assets/neb.png" width="800" height="622" />
-        <graphic id="nebula-invert" type="static" path="assets/nebinv.png" width="800" height="622" />
-        <graphic id="nebula-sepia" type="static" path="assets/nebsep.png" width="800" height="622" />
-        <graphic id="nebula-small" type="static" path="assets/neb - small.png" width="200" height="156" />
-        <graphic id="nebula-invert-small" type="static" path="assets/nebinv - small.png" width="200" height="156" />
-        <graphic id="nebula-sepia-small" type="static" path="assets/nebsep - small.png" width="200" height="156" />
-        <graphic id="turret" type="static" path="assets/turret.png" width="54" height="37" />
-        <graphic id="background" type="scrolling" path="assets/background.png" width="1334" height="750" />
-        <graphic id="moon-complete" type="static" path="assets/moon.png" width="870" height="192" />
-        <graphic id="moon-top" type="static" path="assets/moon-top.png" width="870" height="129" />
-        <graphic id="moon-bottom" type="static" path="assets/moon-bottom.png" width="870" height="63" />
-        <graphic id="tentacle" type="animated" path="assets/tentacle.png" width="310" height="700" numFrames="2" sheetContentWidth="620" sheetContentHeight="700">
+        <graphic id="nebula" type="static" path="sprites/neb.png" width="800" height="622" />
+        <graphic id="nebula-invert" type="static" path="sprites/nebinv.png" width="800" height="622" />
+        <graphic id="nebula-sepia" type="static" path="sprites/nebsep.png" width="800" height="622" />
+        <graphic id="nebula-small" type="static" path="sprites/neb - small.png" width="200" height="156" />
+        <graphic id="nebula-invert-small" type="static" path="sprites/nebinv - small.png" width="200" height="156" />
+        <graphic id="nebula-sepia-small" type="static" path="sprites/nebsep - small.png" width="200" height="156" />
+        <graphic id="turret" type="static" path="sprites/turret.png" width="54" height="37" />
+        <graphic id="background" type="scrolling" path="sprites/background.png" width="1334" height="750" />
+        <graphic id="moon-complete" type="static" path="sprites/moon.png" width="870" height="192" />
+        <graphic id="moon-top" type="static" path="sprites/moon-top.png" width="870" height="129" />
+        <graphic id="moon-bottom" type="static" path="sprites/moon-bottom.png" width="870" height="63" />
+        <graphic id="tentacle" type="animated" path="sprites/tentacle.png" width="310" height="700" numFrames="2" sheetContentWidth="620" sheetContentHeight="700">
             <sequence name="attacking" start="1" count="1" rotation="0" time="1" loopCount="0" loopDirection="forward" />
             <sequence name="killing" start="2" count="1" rotation="0" time="1" loopCount="0" loopDirection="forward" />
         </graphic>
-        <graphic id="asteroid" type="animated" path="assets/asteroid.png" width="100" height="100" numFrames="48" sheetContentWidth="800" sheetContentHeight="600">
+        <graphic id="asteroid" type="animated" path="sprites/asteroid.png" width="100" height="100" numFrames="48" sheetContentWidth="800" sheetContentHeight="600">
             <sequence name="floating" start="1" count="32" rotation="100" time="1200" loopCount="0" loopDirection="forward" />
             <sequence name="exploding" start="32" count="17" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
         </graphic>
         <graphic id="alien" type="set">
-            <graphic id="alive" type="static" path="assets/alien.png" width="120" height="71" />
-            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+            <graphic id="alive" type="static" path="sprites/alien.png" width="120" height="71" />
+            <graphic id="exploding" type="animated" path="sprites/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
                 <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
         <graphic id="debris" type="set">
-            <graphic id="floating" type="static" path="assets/trash.png" width="128" height="128" />
-            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+            <graphic id="floating" type="static" path="sprites/trash.png" width="128" height="128" />
+            <graphic id="exploding" type="animated" path="sprites/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
                 <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
         <graphic id="player" type="set">
-            <graphic id="alive" type="static" path="assets/player.png" width="133" height="62" />
-            <graphic id="exploding" type="animated" path="assets/shipexplosion.png" width="128" height="128" numFrames="20" sheetContentWidth="640" sheetContentHeight="512">
+            <graphic id="alive" type="static" path="sprites/player.png" width="133" height="62" />
+            <graphic id="exploding" type="animated" path="sprites/shipexplosion.png" width="128" height="128" numFrames="20" sheetContentWidth="640" sheetContentHeight="512">
                 <sequence name="exploding" start="1" count="19" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
         <graphic id="pirate" type="set">
-            <graphic id="alive" type="static" path="assets/pirate.png" width="132" height="64" />
-            <graphic id="exploding" type="animated" path="assets/shipexplosion.png" width="128" height="128" numFrames="20" sheetContentWidth="640" sheetContentHeight="512">
+            <graphic id="alive" type="static" path="sprites/pirate.png" width="132" height="64" />
+            <graphic id="exploding" type="animated" path="sprites/shipexplosion.png" width="128" height="128" numFrames="20" sheetContentWidth="640" sheetContentHeight="512">
                 <sequence name="exploding" start="1" count="19" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
         <graphic id="crate" type="set">
-            <graphic id="floating" type="animated" path="assets/crate.png" width="57" height="57" numFrames="1" sheetContentWidth="57" sheetContentHeight="57">
+            <graphic id="floating" type="animated" path="sprites/crate.png" width="57" height="57" numFrames="1" sheetContentWidth="57" sheetContentHeight="57">
                 <sequence name="floating" start="1" count="1" rotation="100" time="1000" loopCount="0" loopDirection="forward" />
             </graphic>
-            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+            <graphic id="exploding" type="animated" path="sprites/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
                 <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
         <graphic id="lurcher" type="set">
-            <graphic id="alive" type="animated" path="assets/lurcher.png" width="56" height="43" numFrames="1" sheetContentWidth="56" sheetContentHeight="43">
+            <graphic id="alive" type="animated" path="sprites/lurcher.png" width="56" height="43" numFrames="1" sheetContentWidth="56" sheetContentHeight="43">
                 <sequence name="alive" start="1" count="1" rotation="0" time="1000" loopCount="0" loopDirection="forward" />
             </graphic>
-            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+            <graphic id="exploding" type="animated" path="sprites/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
                 <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>

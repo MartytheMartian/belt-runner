@@ -32,8 +32,8 @@ end
 
 function Collision.detectCollision(target, entities)
   -- Get position and size of the target
-  local targetPosition = target.position()
-  local targetSize = target.size()
+  local targetPosition = target:position()
+  local targetSize = target:size()
 
   local targetBounds = {
     x = targetPosition.x,
@@ -47,13 +47,13 @@ function Collision.detectCollision(target, entities)
   for i, entity in ipairs(entities) do
     repeat
       -- Move on if not collidable, not initialized, is the current target, or not collidable type
-      if not entity.initialized or not entity.collidable or not target.canCollide(entity.type) or entity.id == target.id then
+      if not entity.initialized or not entity.collidable or not target:canCollide(entity.type) or entity.id == target.id then
         break
       end
 
       -- Get position and size of the entity
-      local entityPosition = entity.position()
-      local entitySize = entity.size()
+      local entityPosition = entity:position()
+      local entitySize = entity:size()
 
       local entityBounds = {
         x = entityPosition.x,
@@ -146,4 +146,4 @@ function Collision.rectangleCircleCollision(rectangle, circle)
   return (cornerDistance_sq <= (circle.r ^ 2))
 end
 
-return M
+return Collision

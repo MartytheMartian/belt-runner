@@ -24,18 +24,7 @@ function Entity:new(o, graphic)
     self.__index = self
 
     -- Set properties
-    self.id = o.id or nil
-    self.type = o.type or "none"
-    self.initialized = o.initialized or false
-    self.collidable = o.collidable or false
-    self.stopped = o.stopped or false
-    self.collidables = o.collidables or {}
-    self.x = o.x or 0
-    self.y = o.y or 0
-    self.vX = o.vX or 0
-    self.vY = o.vY or 0
     self.graphic = graphic
-    self.shape = o.shape or "rectangle"
 
     -- Return new instance
     return o
@@ -94,12 +83,12 @@ function Entity:size()
 end
 
 -- Can collide
-function Entity.canCollide(type)
+function Entity:canCollide(type)
     return self.collidable and self.collidables[type] ~= nil
 end
 
 -- Handles collision
-function Entity.collided(entity)
+function Entity:collided(entity)
     -- Do nothing by default
 end
 

@@ -2,31 +2,31 @@ local Math = require("game.math")
 
 local Weapon = {}
 
--- Create a missle entity
-function Weapon.createMissle(id)
+-- Create a missile entity
+function Weapon.createMissile(id)
   return {
     id = id,
-    type = "missle",
-    graphic = "missle",
+    type = "missile",
+    graphic = "missile",
     rotation = rotation,
     x = -32,
     y = -32,
     vX = 0,
     vY = 0,
-    delay = 0 -- Missles always spawn immediately
+    delay = 0 -- Missiles always spawn immediately
   }
 end
 
--- Fires a missle in the direction specified
-function Weapon.fireMissle(missle, start, destination)
+-- Fires a missile in the direction specified
+function Weapon.fireMissile(missile, start, destination)
   -- Calculate the velocity
   local velocity = Math.calculateVelocity(start, destination, 20)
 
   -- Determine the rotation
   local rotation = Math.calculateRotation(start, destination)
 
-  -- Spawn the missle
-  missle.spawn(start.x, start.y, velocity.x, velocity.y, rotation)
+  -- Spawn the missile
+  missile:spawn(start.x, start.y, velocity.x, velocity.y, rotation)
 end
 
 return Weapon

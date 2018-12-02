@@ -1,4 +1,3 @@
-local collision = require("game.collision")
 local Entity = require("game.entities.entity")
 
 -- Define a static table for collidable entities
@@ -61,12 +60,12 @@ function Tentacle:update()
     local size = self.graphic.size()
     
     -- Different states
-    if (dying or pulling) and position.y <= 1070 then
+    if (self.dying or self.pulling) and position.y <= 1070 then
         self.vY = 4.5
-    else if dying and position.y == 2000 then
+    elseif self.dying and position.y == 2000 then
         self.graphic.move(position.x, 2000)
         self.destroyed = true
-    else if pulling and position.y == 2000 then
+    elseif self.pulling and position.y == 2000 then
         -- TODO: Do something here when tentacle has fully dragged
         self.destroyed = true
     else
@@ -79,7 +78,7 @@ function Tentacle:update()
     end
 
     -- Move it
-    if stopped then
+    if self.stopped then
         self.graphic.move(position.x, position.y + self.vY)
     else
         self.graphic.move(position.x + self.vX, position.y + self.vY)

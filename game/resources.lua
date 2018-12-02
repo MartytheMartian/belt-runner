@@ -5,7 +5,7 @@ local Background = require("game.entities.background")
 local Crate = require("game.entities.crate")
 local Debris = require("game.entities.debris")
 local Lurcher = require("game.entities.lurcher")
-local Missle = require("game.entities.missle")
+local Missile = require("game.entities.missile")
 local MoonBottom = require("game.entities.moon-bottom")
 local MoonComplete = require("game.entities.moon-complete")
 local MoonTop = require("game.entities.moon-top")
@@ -32,10 +32,10 @@ local idMap = {}
 
 -- Graphic constructor map
 local graphicConstructors = {
-  animated = animated,
-  scrolling = scrolling,
-  set = set,
-  static = static
+  animated = Animated,
+  scrolling = Scrolling,
+  set = Set,
+  static = Static
 }
 
 -- Entity constructor map
@@ -46,7 +46,7 @@ local entityConstructors = {
   crate = Crate,
   debris = Debris,
   lurcher = Lurcher,
-  missle = Missle,
+  missile = Missile,
   moonBottom = MoonBottom,
   moonComplete = MoonComplete,
   moonTop = MoonTop,
@@ -126,10 +126,10 @@ end
 -- Setup initial resources
 function Resources.setup()
   -- Load in defaults
-  local missle = {
-    id = "missle",
+  local missile = {
+    id = "missile",
     type = "animated",
-    path = "assets/fireball.png",
+    path = "sprites/fireball.png",
     width = 22,
     height = 12,
     numFrames = 4,
@@ -146,7 +146,7 @@ function Resources.setup()
     }
   }
 
-  Resources.createGraphic(missle)
+  Resources.createGraphic(missile)
 end
 
 -- Clear out all resources

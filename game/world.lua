@@ -1,7 +1,8 @@
-local collision = require("game.collision")
-local resources = require("game.resources")
-local weapon = require("game.weapon")
-local gameAudio = require("game.sounds")
+local Collision = require("game.collision")
+local Events = require("game.events")
+local Resources = require("game.resources")
+local Weapon = require("game.weapon")
+local Sound = require("game.sound")
 
 -- Exposed properties of the world
 local World = {}
@@ -15,68 +16,12 @@ local frames = 0
 -- Track the last frame the player touched
 local lastTouchFrame = -1000
 
--- Has the player stopped moving
-local playerDidStop = false
-
--- Events
 local endEvent = nil
 
 -- Handles player death
-local function playerDied()
-  -- Get the turret
-  local turret = resources.getEntityByID("turret")
-
-  -- Kill the turret
-  turret.release()
-
-  -- End the game after three seconds
+function World.playerDied()
   if endEvent ~= nil then
-    timer.performWithDelay(3000, endEvent)
-  end
-end
-
--- Handles when the player has stopped because of death or special enemy interaction
-local function playerStopped()
-  print("playerStopped called")
-  playerDidStop = true
-
-  for i, entity in ipairs(resources.entities) do
-    repeat
-      entity.handleWorldStoppedMoving()
-    until true
-  end
-end
-
--- Handles when a powerup (or power down) is activated by destroying a crate
-local function cratePowerActivated(crateEntityId)
-  local crate = resources.getEntityByID(crateEntityId)
-  print("power activated " .. crate.id .. " " .. crate.powerUp)
-
-  -- Prepare to set back to normal speed after a set delay
-  if (crate.powerUp == "fasterEnemies") then
-    print("in world fasterEnemy")
-    timer.performWithDelay(5000, M.setNormalEnemySpeed)
-  end
-
-  -- If the powerup is a lurcher, handle that as a special case since only one specific lurcher will become active.
-  --  Otherwise, call handleCratePowerActivated on all entities and let them handle the power if needed
-  if (crate.powerUp == "lurcher") then
-    local theLurcher = resources.getEntityByID(crate.lurcherId)
-    theLurcher.handleCratePowerActivated(crate.powerUp)
-  else
-    for i, entity in ipairs(resources.entities) do
-      repeat
-        entity.handleCratePowerActivated(crate.powerUp)
-      until true
-    end
-  end
-end
-
-function World.setNormalEnemySpeed()
-  for i, entity in ipairs(resources.entities) do
-    repeat
-      entity.handleCratePowerActivated("normalSpeedEnemies")
-    until true
+    endEvent()
   end
 end
 
@@ -91,54 +36,45 @@ function World.initialize(level, gameOver)
   lastTouchFrame = -1000
 
   -- Initialize the audio
-  gameAudio.initializeAudio()
+  Sound.initialize()
 
   -- Setup initial resources
-  resources.setup()
+  Resources.setup()
 
   -- Read each graphic
   for i, graphic in ipairs(level.graphics) do
-    resources.createGraphic(graphic)
+    Resources.createGraphic(graphic)
   end
 
   -- Read each entity
   for i, entity in ipairs(level.entities) do
-    resources.createEntity(entity)
-    -- Add crate events to any items that are crates
-    if (entity.type == "crate") then
-      local crate = resources.getEntityByID(entity.id)
-      crate.setPowerActivatedHandler(cratePowerActivated)
-    end
+    Resources.createEntity(entity)
   end
 
-  -- Prepare 10 missles
+  -- Prepare 10 missiles
   for i = 1, 10 do
-    -- Create the missle
-    local missle = weapon.createMissle("M" .. i)
+    -- Create the missile
+    local missile = Weapon.createMissile("M" .. i)
 
-    -- Add the missle
-    resources.createEntity(missle)
+    -- Add the missile
+    Resources.createEntity(missile)
 
-    -- Initialize the missle. Missles do not spawn on initialize.
-    resources.getEntityByID(missle.id).initialize()
+    -- Initialize the missile. Missiles do not spawn on initialize.
+    Resources.getEntityByID(missile.id):initialize()
   end
-
-  -- Get the player
-  local player = resources.getEntityByID("player")
-
-  -- Set player events
-  player.setDiedHandler(playerDied)
-  player.setStopHandler(playerStopped)
 
   -- Start playing background music
-  gameAudio.playBackgroundMusic()
+  Sound.playBackground()
+
+  -- Inject the world and resources
+  Events.hook(World, Resources)
 
   -- Set the world as initialized
   initialized = true
 end
 
 -- Update the world
-function M.update()
+function World.update()
   if not initialized then
     return
   end
@@ -147,17 +83,12 @@ function M.update()
   frames = frames + 1
 
   -- Update each entity
-  for i, entity in ipairs(resources.entities) do
+  for i, entity in ipairs(Resources.entities) do
     repeat
-      -- Do not update destroyed entities
-      if entity.destroyed then
-        break
-      end
-
       -- Initialize the entity if necessary
       if not entity.initialized then
         if entity.delay <= frames and not playerDidStop then
-          entity.initialize()
+          entity:initialize()
         else
           break
         end
@@ -166,11 +97,11 @@ function M.update()
       -- Detect collision if necessary
       if entity.collidable then
         -- Determine if collided with something
-        local collider = collision.detectCollision(entity, resources.entities)
+        local collider = Collision.detectCollision(entity, Resources.entities)
 
         -- Let the entity know it collided if necessary
         if collider ~= nil then
-          entity.collided(collider)
+          entity:collided(collider)
 
           -- Let the collider know if necessary
           if collider.canCollide(entity.type) then
@@ -180,33 +111,33 @@ function M.update()
       end
 
       -- Update the entity
-      entity.update()
+      entity:update()
     until true
   end
 end
 
 -- Handle touch events in the world
-function M.touch(x, y)
+function World.touch(x, y)
   -- Touch thorttling. One a half a second for now.
   if frames - lastTouchFrame < 30 then
     return
   end
 
   -- Get the player
-  local player = resources.getEntityByID("player")
+  local player = Resources.getEntityByID("player")
 
   -- Do nothing if the player is dead
   if player.destroyed then
     return
   end
 
-  -- Prepare to read a missle
-  local missle = nil
+  -- Prepare to read a missile
+  local missile = nil
 
-  -- Find the next available missle entity
+  -- Find the next available missile entity
   for i = 1, 10 do
     repeat
-      local next = resources.getEntityByID("M" .. i)
+      local next = Resources.getEntityByID("M" .. i)
 
       -- Not available if not destroyed
       if not next.destroyed then
@@ -214,27 +145,27 @@ function M.touch(x, y)
       end
 
       -- Ready
-      missle = next
+      missile = next
     until true
   end
 
-  -- Do nothing if there are no available missles
-  if missle == nil then
+  -- Do nothing if there are no available missiles
+  if missile == nil then
     return
   end
 
-  -- Create a missle
-  weapon.fireMissle(missle, player.position(), {x = x, y = y})
+  -- Create a missile
+  Weapon.fireMissile(missile, player:position(), {x = x, y = y})
 
-  -- Turret should match missle rotation
-  resources.getEntityByID("turret").rotate(missle.position().rotation)
+  -- Turret should match missile rotation
+  Resources.getEntityByID("turret").rotate(missile:position().rotation)
 
   -- Update the last successful touch
   lastTouchFrame = frames
 end
 
 -- Release the world
-function M.release()
+function World.release()
   if not initialized then
     return
   end
@@ -245,16 +176,16 @@ function M.release()
   playerDidStop = false
 
   -- Release each entity
-  for i, entity in ipairs(resources.entities) do
-    entity.release()
+  for i, entity in ipairs(Resources.entities) do
+    entity:release()
   end
 
   -- Clear out resources
-  resources.clear()
+  Resources.clear()
 
   -- Release the audio
-  gameAudio.disposeAudio()
+  Sound.dispose()
 end
 
 -- Return the world
-return M
+return World

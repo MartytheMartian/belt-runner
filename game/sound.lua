@@ -20,14 +20,14 @@ function Sound.initialize()
     audio.reserveChannels(5)
 
     -- load in background music as a stream
-    background = audio.loadStream("assets/audio/background1.mp3", {channel = 1})
+    background = audio.loadStream("audio/background1.mp3", {channel = 1})
 
     -- load sound effects
     effects = {
-        missile = audio.loadSound("assets/audio/missile.wav"),
-        explosion = audio.loadSound("assets/audio/explosion.wav"),
-        lurcherAttack = audio.loadSound("assets/audio/lurcherAttack.wav"),
-        lurcherLaugh = audio.loadSound("assets/audio/lurcherLaugh.wav")
+        missile = audio.loadSound("audio/missile.wav"),
+        explosion = audio.loadSound("audio/explosion.wav"),
+        lurcherAttack = audio.loadSound("audio/lurcherAttack.wav"),
+        lurcherLaugh = audio.loadSound("audio/lurcherLaugh.wav")
     }
 end
 

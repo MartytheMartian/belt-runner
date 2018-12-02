@@ -11,7 +11,7 @@ Background =
 -- Constructor
 function Background:new(properties, graphic)
     -- Default to an entity
-    local entity = Entity:new(properties, graphic)
+    entity = Entity:new(properties, graphic)
 
     -- Setup metatable
     setmetatable(entity, self)
@@ -19,18 +19,6 @@ function Background:new(properties, graphic)
 
     -- Return new instance
     return entity
-end
-
--- Initialize the entity
-function Background:initialize()
-    if self.initialized then
-        return
-    end
-
-    -- Initialize the graphic
-    self.graphic.initialize()
-
-    self.initialized = true
 end
 
 -- Update the entity

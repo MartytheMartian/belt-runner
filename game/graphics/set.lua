@@ -58,7 +58,7 @@ function generator(graphic)
     function M.initialize(graphicID)
       -- Ensure the graphic creator exists
       if graphicCreators[graphicID] == nil then
-        error("Graphic requested does not exist")
+        error("Graphic requested does not exist: " .. graphicID)
       end
 
       -- Create the requested graphic
@@ -112,7 +112,7 @@ function generator(graphic)
       return activeGraphic.move(x, y)
     end
 
-    -- Move to a location over a set time 
+    -- Move to a location over a set time
     -- (params is a set using the transition.moveTo options from Corona https://docs.coronalabs.com/api/library/transition/moveTo.html)
     function M.moveTransition(params)
       activeGraphic.moveTransition(params)

@@ -1,4 +1,4 @@
-local collision = require("game.collision")
+local Collision = require("game.collision")
 local Entity = require("game.entities.entity")
 
 -- Define a static table for collidable entities
@@ -40,13 +40,14 @@ function Missile:initialize()
         return
     end
 
-    self.initialized = true
-    self.collidable = true
+    -- Don't set collidable until spawn'd
+    self.initialized = false
+    self.collidable = false
     self.destroyed = false
 end
 
 -- Spawn the missile
-function Missile.spawn(x, y, vX, vY, rotation)
+function Missile:spawn(x, y, vX, vY, rotation)
     if not self.initialized then
         return
     end
@@ -82,7 +83,7 @@ function Missile:update()
 
     -- Destroy it off-screen
     local size = graphic.size()
-    if not collision.onScreen(position.x, position.y, size.width, size.height) then
+    if not Collision.onScreen(position.x, position.y, size.width, size.height) then
         self.collidable = false
         self.destroyed = true
         return
