@@ -44,6 +44,12 @@
                 <sequence name="exploding" start="1" count="19" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
         </graphic>
+        <graphic id="bomb" type="set">
+            <graphic id="falling" type="static" path="assets/bomb.png" width="60" height="174" />
+            <graphic id="exploding" type="animated" path="assets/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
+                <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
+            </graphic>
+        </graphic>
         <graphic id="crate" type="set">
             <graphic id="floating" type="animated" path="assets/crate.png" width="57" height="57" numFrames="1" sheetContentWidth="57" sheetContentHeight="57">
                 <sequence name="floating" start="1" count="1" rotation="100" time="1000" loopCount="0" loopDirection="forward" />
