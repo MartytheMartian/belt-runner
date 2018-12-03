@@ -136,7 +136,7 @@ function Tentacle:collided(entity)
     end
 
     -- Flicker color
-    self.flicker()
+    self:flicker()
 end
 
 -- Release

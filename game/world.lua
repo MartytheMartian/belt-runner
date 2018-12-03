@@ -10,6 +10,9 @@ local World = {}
 -- Is the level initialized
 local initialized = false
 
+-- Is the level stopped
+local stopped = false
+
 -- Current frame count
 local frames = 0
 
@@ -23,6 +26,11 @@ function World.playerDied()
   if endEvent ~= nil then
     endEvent()
   end
+end
+
+-- Called when the game is 'stopped'
+function World.stop()
+  stopped = true
 end
 
 -- Initialize the world with a level and 'end' hook
@@ -81,13 +89,18 @@ function World.update()
 
   -- Update the frame count
   frames = frames + 1
-  
+
   -- Update each entity
   for i, entity in ipairs(Resources.entities) do
     repeat
+      -- Do not update destroyed entities
+      if entity.destroyed then
+        break
+      end
+
       -- Initialize the entity if necessary
       if not entity.initialized then
-        if entity.delay <= frames and not playerDidStop then
+        if entity.delay <= frames and not stopped then
           entity:initialize()
         else
           break
@@ -104,8 +117,8 @@ function World.update()
           entity:collided(collider)
 
           -- Let the collider know if necessary
-          if collider.canCollide(entity.type) then
-            collider.collided(entity)
+          if collider:canCollide(entity.type) then
+            collider:collided(entity)
           end
         end
       end

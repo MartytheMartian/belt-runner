@@ -1,5 +1,6 @@
 local Collision = require("game.collision")
 local Entity = require("game.entities.entity")
+local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -64,6 +65,7 @@ function Debris:explode()
     self.graphic.setGraphic("exploding")
 
     -- Play audio
+    Sound.play("explosion")
 
     -- Set flags
     self.exploding = true
@@ -90,6 +92,7 @@ end
 
 -- Handles collision
 function Debris:collided(entity)
+    print('test')
     self:explode()
 end
 

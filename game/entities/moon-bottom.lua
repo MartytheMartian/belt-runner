@@ -29,7 +29,7 @@ end
 
 -- Update the entity
 function MoonBottom:update()
-    if stopped or not self.initialized then
+    if self.stopped or not self.initialized then
         return
     end
 
@@ -39,7 +39,7 @@ function MoonBottom:update()
 
     -- Release the moon if off screen
     if position.x + size.width <= 0 then
-        self.release()
+        self:release()
         return
     end
 

@@ -12,6 +12,9 @@ end
 
 -- Fires a 'playerDied' event
 function Events.playerDied()
+  -- Stop the world
+  world.stop()
+  
   -- Stop all entities
   for i, entity in ipairs(resources.entities) do
     repeat

@@ -1,5 +1,6 @@
 local Collision = require("game.collision")
 local Entity = require("game.entities.entity")
+local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -43,7 +44,7 @@ end
 
 -- Update the entity
 function Wall:update()
-    if not self.initialized then
+    if not self.initialized or self.stopped then
         return
     end
 
@@ -54,12 +55,13 @@ function Wall:update()
     self.graphic.move(position.x + self.vX, position.y + self.vY)
 end
 
--- Cause the asteroid to explode
+-- Cause the wall to explode
 function Wall:explode()
     -- Swap animations
     self.graphic.setGraphic("exploding")
 
     -- Play audio
+    Sound.play("explosion")
 
     -- Set flags
     self.exploding = true
@@ -74,7 +76,6 @@ end
 
 -- Handles collision
 function Wall:collided(entity)
-
     -- Must be a missile
     if self.hp > 1 and entity.type == "missile" then
         self.hp = self.hp - 1

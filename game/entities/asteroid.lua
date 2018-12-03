@@ -1,4 +1,5 @@
 local Entity = require("game.entities.entity")
+local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -65,10 +66,10 @@ function Asteroid:explode()
   self.graphic.setSequence("exploding")
 
   -- Play audio
+  Sound.play("explosion")
 
   -- Set flags
   self.exploding = true
-  self.destroyed = true
   self.collidable = false
 end
 

@@ -1,5 +1,6 @@
 local collision = require("game.collision")
 local Entity = require("game.entities.entity")
+local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -62,6 +63,7 @@ function Pirate:explode()
     self.graphic.setGraphic("exploding")
 
     -- Play audio
+    Sound.play("explosion")
 
     -- Set flags
     self.exploding = true

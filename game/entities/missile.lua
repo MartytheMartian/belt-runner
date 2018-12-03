@@ -1,5 +1,6 @@
 local Collision = require("game.collision")
 local Entity = require("game.entities.entity")
+local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -8,7 +9,8 @@ local collidables = {
     debris = true,
     lurcher = true,
     pirate = true,
-    tentacle = true
+    tentacle = true,
+    wall = true
 }
 
 -- Create metatable
@@ -34,46 +36,39 @@ function Missile:initialize()
     end
 
     -- Don't set collidable until spawn'd
-    self.initialized = false
+    self.initialized = true
     self.collidable = false
     self.destroyed = true
 end
 
 -- Spawn the missile
 function Missile:spawn(x, y, vX, vY, rotation)
-    -- Reset velocity and rotation
+    if not self.initialized then
+        return
+    end
+
+    -- Reset the velocity and rotation
     self.vX = vX
     self.vY = vY
-    self.rotation = rotation
 
-    -- Initialize and position
+    -- Initialize the missle and set its position
     self.graphic.initialize()
     self.graphic.move(x, y)
 
-    -- Rotate
+    -- Rotate the missle
     self.graphic.rotate(rotation)
 
     -- Set flags
-    self.initialized = true
     self.collidable = true
     self.destroyed = false
 
-    -- Fire sound
-end
-
--- 'Despawn' the missile
-function Missile:despawn()
-    -- Flag as destroyed
-    self.collidable = false
-    self.destroyed = true
-
-    -- Move off screen
-    self.graphic.move(-32, -32)
+    -- Play missile firing audio on spawn
+    Sound.play("missile")
 end
 
 -- Update the entity
 function Missile:update()
-    if self.destroyed or not self.initialized then
+    if not self.initialized or self.destroyed then
         return
     end
 
@@ -83,7 +78,8 @@ function Missile:update()
     -- Destroy it off-screen
     local size = self.graphic.size()
     if not Collision.onScreen(position.x, position.y, size.width, size.height) then
-        self:despawn()
+        self.collidable = false
+        self.destroyed = true
         return
     end
 
@@ -93,7 +89,12 @@ end
 
 -- Handles collision
 function Missile:collided(entity)
-    self:despawn()
+    -- Flag as destroyed
+    self.collidable = false
+    self.destroyed = true
+
+    -- Move off screen
+    self.graphic.move(-32, -32)
 end
 
 -- Release

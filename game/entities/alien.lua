@@ -1,4 +1,5 @@
 local Entity = require("game.entities.entity")
+local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -6,15 +7,7 @@ local collidables = {
 }
 
 -- Create metatable
-Alien =
-  Entity:new(
-  {
-    type = "alien",
-    exploding = false,
-    destroyed = false,
-    collidables = collidables
-  }
-)
+Alien = setmetatable({}, {__index = Entity})
 
 -- Constructor
 function Alien:new(properties, graphic)
@@ -69,6 +62,7 @@ function Alien:explode()
   self.graphic.setGraphic("exploding")
 
   -- Play audio
+  Sound.play("explosion")
 
   -- Set flags
   self.exploding = true

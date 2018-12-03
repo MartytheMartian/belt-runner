@@ -1,5 +1,6 @@
 local Entity = require("game.entities.entity")
 local Events = require("game.events")
+local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -72,6 +73,7 @@ function Crate:explode()
     self.graphic.setGraphic("exploding")
 
     -- Play audio
+    Sound.play("explosion")
 
     -- Set flags
     self.exploding = true
