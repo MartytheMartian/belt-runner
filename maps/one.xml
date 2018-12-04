@@ -45,7 +45,7 @@
             </graphic>
         </graphic>
         <graphic id="bomb" type="set">
-            <graphic id="falling" type="static" path="sprites/bomb.png" width="25" height="72" />
+            <graphic id="falling" type="static" path="sprites/bomb.png" width="24" height="24" />
             <graphic id="exploding" type="animated" path="sprites/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
                 <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
@@ -82,7 +82,7 @@
         <entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="100" />
         <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="400" />
         <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="800" />
-        <entity type="bomb" graphic="bomb" x="-100" y="200" vX="7" vY="2" delay="800"/>
+        <entity type="bomb" graphic="bomb" x="700" y="210" vX="0" vY="4" delay="910"/>
         <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
@@ -94,7 +94,7 @@
         <entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
         <entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
         <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
-        <entity type="wall" graphic="wall" x="1100" y="375" vX="-3" vY="0" delay="200"/>
+        <entity type="wall" graphic="wall" x="1450" y="375" vX="-3" vY="0" delay="200"/>
         <entity id="crate2" type="crate" graphic="crate" x="1300" y="70" vX="-3" vY="0" delay="50" powerUp="fasterEnemies"/>
     </entities>
 </map>
