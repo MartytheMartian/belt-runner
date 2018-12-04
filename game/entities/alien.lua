@@ -55,7 +55,7 @@ function Alien:update()
   elseif not self.fast and Events.speed then
     self.fast = true
     self.vX = self.vX * 1.5
-    self.vY = self.vX * 1.5
+    self.vY = self.vY * 1.5
   elseif self.fast and not Events.speed then
     self.fast = false
     self.vX = self.vX / 1.5

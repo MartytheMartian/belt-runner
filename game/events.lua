@@ -69,7 +69,7 @@ function Events.update()
 
   -- Reset speed when necessary
   if Events.speed then
-    if speedFrame > 300 then
+    if speedFrame > 180 then
       Events.speed = false
     else
       speedFrame = speedFrame + 1
