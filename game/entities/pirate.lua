@@ -16,7 +16,6 @@ function Pirate:new(properties, graphic)
     local instance = {
         type = "pirate",
         exploding = false,
-        destroyed = false,
         collidables = collidables
     }
 
@@ -96,7 +95,6 @@ end
 -- Release
 function Pirate:release()
     self.exploding = false
-    self.destroyed = true
     Entity.release(self)
 end
 

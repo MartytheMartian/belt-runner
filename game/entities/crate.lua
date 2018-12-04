@@ -22,9 +22,8 @@ function Crate:new(properties, graphic)
     -- Create the instance
     local instance = {
         type = "crate",
-        exploding = false,
-        destroyed = false,
         collidables = collidables,
+        powerUp = properties.powerUp,
         lurcherId = nil
     }
 
@@ -42,8 +41,8 @@ function Crate:initialize()
     self.graphic.initialize("floating")
 
     self.initialized = true
-    self.collidable = true
     self.destroyed = false
+    self.collidable = true
 end
 
 -- Update the entity
@@ -60,7 +59,7 @@ function Crate:update()
         self.vX = self.vX * .95
         self.vY = self.vY * .95
     else
-        graphic.rotate(-.2)
+        self.graphic.rotate(-.2)
     end
 
     -- Move it
@@ -101,12 +100,6 @@ function Crate:size()
     size.radius = size.width / 2
 
     return size
-end
-
--- Release
-function Crate:release()
-    self.destroyed = true
-    Entity.release(self)
 end
 
 return Crate

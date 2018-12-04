@@ -20,7 +20,6 @@ function Player:new(properties, graphic)
     local instance = {
         type = "player",
         exploding = false,
-        destroyed = false,
         collidables = collidables
     }
 
@@ -73,7 +72,6 @@ end
 -- Release
 function Player:release()
     self.exploding = false
-    self.destroyed = true
     Entity.release(self)
 end
 

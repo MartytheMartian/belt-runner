@@ -16,7 +16,6 @@ function Asteroid:new(properties, graphic)
   local instance = {
     type = "asteroid",
     exploding = false,
-    destroyed = false,
     collidables = collidables,
     shape = "circle"
   }
@@ -105,12 +104,6 @@ function Asteroid:size()
   size.radius = size.width / 2
 
   return size
-end
-
--- Release
-function Asteroid:release()
-  self.destroyed = true
-  Entity.release(self)
 end
 
 return Asteroid
