@@ -46,11 +46,10 @@ function Pirate:update()
     -- Check the current position
     local position = self.graphic.position()
 
-    -- Slowly decrease velocity if exploding
-    if self.exploding then
-        self.vX = self.vX * .95
-        self.vY = self.vY * .95
-    end
+    -- Process events
+    self:processExplosion()
+    Events.processSpeed(self)
+    Events.processKill(self)
 
     -- Move it
     self.graphic.move(position.x + self.vX, position.y + self.vY)
@@ -58,6 +57,10 @@ end
 
 -- Cause the alien to explode
 function Pirate:explode()
+    if self.exploding then
+        return
+    end
+
     -- Swap animations
     self.graphic.setGraphic("exploding")
 
@@ -67,6 +70,31 @@ function Pirate:explode()
     -- Set flags
     self.exploding = true
     self.collidable = false
+end
+
+-- Called when 'kill all' is triggered
+function Pirate:killAll()
+  self:explode()
+end
+
+-- Set to 'fast'
+function Pirate:fast()
+  self.vX = self.vX * 1.5
+  self.vY = self.vY * 1.5
+end
+
+-- Set to normal speed
+function Pirate:resetSpeed()
+  self.vX = self.vX / 1.5
+  self.vY = self.vY / 1.5
+end
+
+-- Continues to process exploding
+function Pirate:processExplosion()
+  if self.exploding then
+    self.vX = self.vX * .95
+    self.vY = self.vY * .95
+  end
 end
 
 -- Handles collision

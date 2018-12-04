@@ -1,6 +1,7 @@
 local Collision = require("game.collision")
 local Effects = require("game.effects")
 local Entity = require("game.entities.entity")
+local Events = require("game.events")
 local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
@@ -52,12 +53,19 @@ function Wall:update()
     -- Check the current position
     local position = self.graphic.position()
 
+    -- Process events
+    Events.processKill(self)
+
     -- Move it
     self.graphic.move(position.x + self.vX, position.y + self.vY)
 end
 
 -- Cause the wall to explode
 function Wall:explode()
+    if self.exploding then
+        return
+    end
+    
     -- Swap animations
     self.graphic.setGraphic("exploding")
 
@@ -67,6 +75,11 @@ function Wall:explode()
     -- Set flags
     self.exploding = true
     self.collidable = false
+end
+
+-- Called when 'kill all' is triggered
+function Wall:killAll()
+  self:explode()
 end
 
 -- Handles collision

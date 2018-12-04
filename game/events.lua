@@ -2,6 +2,7 @@ Events = {}
 
 Events.speed = false
 Events.kill = false
+Events.stopped = false
 local world = nil
 local resources = nil
 local speedFrame = 0
@@ -15,21 +16,11 @@ end
 
 -- Fires a 'playerDied' event
 function Events.playerDied()
+  -- Set the stopped flag
+  Events.stopped = false
+
   -- Stop the world
   world.stop()
-
-  -- Stop all entities
-  for i, entity in ipairs(resources.entities) do
-    repeat
-      -- Ignore dead or uninitialized
-      if not entity.initialized or entity.destroyed then
-        break
-      end
-
-      -- Stop
-      entity:stop()
-    until true
-  end
 
   -- Inform the world after three seconds
   timer.performWithDelay(3000, world.playerDied)
@@ -38,7 +29,7 @@ end
 -- Fires a 'killAll' event
 function Events.killAll()
   -- Trigger flag
-  kill = true
+  Events.kill = true
 end
 
 -- Fires a 'fasterEnemies' event
@@ -56,6 +47,34 @@ function Events.lurcher(crate)
   lurcher:attack()
 end
 
+-- Processes any kill event
+function Events.processKill(entity)
+  if Events.kill then
+    entity:killAll()
+  end
+end
+
+-- Processes any necessary speed changes
+function Events.processSpeed(entity)
+  -- Do nothing if exploding
+  if entity.exploding then
+    return
+  end
+
+  -- Needs to go fast
+  if Events.speed and not entity.speed then
+    entity.speed = true
+    entity:fast()
+    return
+  end
+
+  if not Events.speed and entity.speed then
+    entity.speed = false
+    entity:resetSpeed()
+    return
+  end
+end
+
 -- Update for event flags
 function Events.update()
   -- Reset flags
@@ -69,7 +88,7 @@ function Events.update()
 
   -- Reset speed when necessary
   if Events.speed then
-    if speedFrame > 180 then
+    if speedFrame > 120 then
       Events.speed = false
     else
       speedFrame = speedFrame + 1

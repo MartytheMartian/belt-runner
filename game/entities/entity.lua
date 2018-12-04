@@ -63,6 +63,21 @@ function Entity:size()
     return self.graphic.size()
 end
 
+-- Set to 'fast'
+function Entity:fast()
+    -- Do nothing by default
+end
+
+-- Set to normal speed
+function Entity:resetSpeed()
+    -- Do nothing by default
+end
+
+-- Called on 'kill all'
+function Entity:killAll()
+    -- Do nothing by default
+end
+
 -- Modify color
 function Entity:color(r, g, b, a)
     self.graphic.color(r, g, b, a)

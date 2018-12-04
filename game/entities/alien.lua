@@ -16,7 +16,6 @@ function Alien:new(properties, graphic)
   local instance = {
     type = "alien",
     exploding = false,
-    fast = false,
     collidables = collidables
   }
 
@@ -47,26 +46,22 @@ function Alien:update()
   -- Check the current position
   local position = self.graphic.position()
 
-  -- Slowly decrease velocity if exploding
-  if self.exploding then
-    -- Flip velocity if necessary
-    self.vX = self.vX * .95
-    self.vY = self.vY * .95
-  elseif not self.fast and Events.speed then
-    self.fast = true
-    self.vX = self.vX * 1.5
-    self.vY = self.vY * 1.5
-  elseif self.fast and not Events.speed then
-    self.fast = false
-    self.vX = self.vX / 1.5
-    self.vY = self.vY / 1.5
-  end
+  -- Process events
+  self:processExplosion()
+  Events.processSpeed(self)
+  Events.processKill(self)
 
+  -- Move
   self.graphic.move(position.x + self.vX, position.y + self.vY)
 end
 
 -- Cause the alien to explode
 function Alien:explode()
+  -- Do nothing if already exploding
+  if self.exploding then
+    return
+  end
+
   -- Swap animations
   self.graphic.setGraphic("exploding")
 
@@ -76,6 +71,31 @@ function Alien:explode()
   -- Set flags
   self.exploding = true
   self.collidable = false
+end
+
+-- Called when 'kill all' is triggered
+function Alien:killAll()
+  self:explode()
+end
+
+-- Set to 'fast'
+function Alien:fast()
+  self.vX = self.vX * 1.5
+  self.vY = self.vY * 1.5
+end
+
+-- Set to normal speed
+function Alien:resetSpeed()
+  self.vX = self.vX / 1.5
+  self.vY = self.vY / 1.5
+end
+
+-- Continues to process exploding
+function Alien:processExplosion()
+  if self.exploding then
+    self.vX = self.vX * .95
+    self.vY = self.vY * .95
+  end
 end
 
 -- Handles collision
