@@ -66,7 +66,6 @@ function Pirate:explode()
 
     -- Set flags
     self.exploding = true
-    self.destroyed = true
     self.collidable = false
 end
 

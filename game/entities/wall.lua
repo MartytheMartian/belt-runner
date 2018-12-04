@@ -77,34 +77,34 @@ end
 function Wall:flicker()
     self.graphic.setFillColor(1, 0, 0, 0.8)
     timer.performWithDelay(
-      50,
-      function()
-        self.graphic.setFillColor(1, 1, 1, 1.0)
-      end
+        50,
+        function()
+            self.graphic.setFillColor(1, 1, 1, 1.0)
+        end
     )
     timer.performWithDelay(
-      100,
-      function()
-        self.graphic.setFillColor(1, 0, 0, 0.8)
-      end
+        100,
+        function()
+            self.graphic.setFillColor(1, 0, 0, 0.8)
+        end
     )
     timer.performWithDelay(
-      150,
-      function()
-        self.graphic.setFillColor(1, 1, 1, 1.0)
-      end
+        150,
+        function()
+            self.graphic.setFillColor(1, 1, 1, 1.0)
+        end
     )
     timer.performWithDelay(
-      200,
-      function()
-        self.graphic.setFillColor(1, 0, 0, 0.8)
-      end
+        200,
+        function()
+            self.graphic.setFillColor(1, 0, 0, 0.8)
+        end
     )
     timer.performWithDelay(
-      250,
-      function()
-        self.graphic.setFillColor(1, 1, 1, 1.0)
-      end
+        250,
+        function()
+            self.graphic.setFillColor(1, 1, 1, 1.0)
+        end
     )
 end
 
