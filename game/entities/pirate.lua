@@ -38,7 +38,7 @@ function Pirate:initialize()
 end
 
 -- Update the entity
-function Alien:update()
+function Pirate:update()
     if not self.initialized then
         return
     end

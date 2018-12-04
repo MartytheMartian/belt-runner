@@ -45,7 +45,7 @@
             </graphic>
         </graphic>
         <graphic id="bomb" type="set">
-            <graphic id="falling" type="static" path="sprites/bomb.png" width="60" height="174" />
+            <graphic id="falling" type="static" path="sprites/bomb.png" width="25" height="72" />
             <graphic id="exploding" type="animated" path="sprites/explosion.png" width="100" height="100" numFrames="16" sheetContentWidth="800" sheetContentHeight="200">
                 <sequence name="exploding" start="1" count="16" rotation="0" time="1000" loopCount="1" loopDirection="forward" />
             </graphic>
@@ -81,8 +81,8 @@
         <entity id="turret" type="turret" graphic="turret" x="667" y="375" />
         <entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="100" />
         <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="400" />
-        <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="60" />
-        <entity type="bomb" graphic="bomb" x="-100" y="200" vX="0" vY="-1" delay="60"/>
+        <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="160" />
+        <entity type="bomb" graphic="bomb" x="-100" y="200" vX="7" vY="2" delay="170"/>
         <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />

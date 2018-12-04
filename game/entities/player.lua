@@ -8,7 +8,8 @@ local collidables = {
     debris = true,
     alien = true,
     tentacle = true,
-    lurcher = true
+    lurcher = true,
+    bomb = true
 }
 
 -- Create metatable
