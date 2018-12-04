@@ -81,8 +81,8 @@
         <entity id="turret" type="turret" graphic="turret" x="667" y="375" />
         <entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="100" />
         <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="400" />
-        <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="160" />
-        <entity type="bomb" graphic="bomb" x="-100" y="200" vX="7" vY="2" delay="170"/>
+        <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="800" />
+        <entity type="bomb" graphic="bomb" x="-100" y="200" vX="7" vY="2" delay="800"/>
         <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
@@ -95,6 +95,6 @@
         <entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
         <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
         <entity type="wall" graphic="wall" x="1100" y="375" vX="-3" vY="0" delay="200"/>
-        <entity id="crate2" type="crate" graphic="crate" x="1300" y="70" vX="-3" vY="0" delay="470" powerUp="fasterEnemies"/>
+        <entity id="crate2" type="crate" graphic="crate" x="1300" y="70" vX="-3" vY="0" delay="50" powerUp="fasterEnemies"/>
     </entities>
 </map>
