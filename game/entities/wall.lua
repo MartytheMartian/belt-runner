@@ -74,18 +74,58 @@ function Wall:killAll()
     self:explode()
 end
 
+-- Modify color
+function Wall:color(r, g, b, a)
+    self.graphic.setFillColor(r, g, b, a)
+end
+
+-- Flicker
+function Wall:flicker()
+    self.graphic.setFillColor(1, 0, 0, 0.8)
+    timer.performWithDelay(
+      50,
+      function()
+        self.graphic.setFillColor(1, 1, 1, 1.0)
+      end
+    )
+    timer.performWithDelay(
+      100,
+      function()
+        self.graphic.setFillColor(1, 0, 0, 0.8)
+      end
+    )
+    timer.performWithDelay(
+      150,
+      function()
+        self.graphic.setFillColor(1, 1, 1, 1.0)
+      end
+    )
+    timer.performWithDelay(
+      200,
+      function()
+        self.graphic.setFillColor(1, 0, 0, 0.8)
+      end
+    )
+    timer.performWithDelay(
+      250,
+      function()
+        self.graphic.setFillColor(1, 1, 1, 1.0)
+      end
+    )
+end
+
 -- Handles collision
 function Wall:collided(entity)
     -- Must be a missile
     if self.hp > 1 and entity.type == "missile" then
         self.hp = self.hp - 1
+        -- Flicker color
+        self:flicker()
     else
-        self.dying = true
         self.collidable = false
+        self.destroyed = true
+        self:explode()
     end
-
-    self.destroyed = true
-    self:explode()
 end
 
 return Wall

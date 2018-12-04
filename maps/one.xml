@@ -97,6 +97,6 @@
         <entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
         <entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
         <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
-        <entity type="wall" graphic="wall" x="1100" y="375" vX="-3" vY="0" delay="200"/>
+        <entity type="wall" graphic="wall" x="1340" y="375" vX="-3" vY="0" delay="200"/>
     </entities>
 </map>
