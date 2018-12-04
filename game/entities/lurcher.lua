@@ -16,7 +16,6 @@ function Lurcher:new(properties, graphic)
         type = "lurcher",
         attacking = false,
         exploding = false,
-        destroyed = false,
         collidables = collidables,
         shape = "circle"
     }
@@ -123,7 +122,6 @@ end
 
 -- Release
 function Lurcher:release()
-    self.destroyed = true
     self.attacking = false
     self.exploding = false
     Entity.release(self)

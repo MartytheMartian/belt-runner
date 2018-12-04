@@ -14,11 +14,16 @@ end
 function Events.playerDied()
   -- Stop the world
   world.stop()
-  
+
   -- Stop all entities
   for i, entity in ipairs(resources.entities) do
     repeat
-      -- Stop everything
+      -- Ignore dead or uninitialized
+      if not entity.initialized or entity.destroyed then
+        break
+      end
+
+      -- Stop
       entity:stop()
     until true
   end
@@ -32,7 +37,7 @@ function Events.killAll()
   -- Inform each entity
   for i, entity in ipairs(resources.entities) do
     repeat
-      -- Ignore destroyed or uninitialized enemies
+      -- Ignore dead or uninitialized
       if not entity.initialized or entity.destroyed then
         break
       end
@@ -48,7 +53,7 @@ function Events.slowerEnemies()
   -- Inform each entity
   for i, entity in ipairs(resources.entities) do
     repeat
-      -- Ignore destroyed or uninitialized enemies
+      -- Ignore dead or uninitialized
       if not entity.initialized or entity.destroyed then
         break
       end
@@ -75,7 +80,7 @@ function Events.fasterEnemies()
   -- Inform each entity
   for i, entity in ipairs(resources.entities) do
     repeat
-      -- Ignore destroyed or uninitialized enemies
+      -- Ignore dead or uninitialized
       if not entity.initialized or entity.destroyed then
         break
       end

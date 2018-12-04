@@ -17,7 +17,6 @@ function Tentacle:new(properties, graphic)
     hp = 3,
     dying = false,
     pulling = false,
-    destroyed = false,
     collidables = collidables
 }
 
@@ -137,12 +136,6 @@ function Tentacle:collided(entity)
 
     -- Flicker color
     self:flicker()
-end
-
--- Release
-function Tentacle:release()
-    self.destroyed = true
-    Entity.release(self)
 end
 
 return Tentacle

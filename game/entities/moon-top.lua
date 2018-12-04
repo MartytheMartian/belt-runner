@@ -25,6 +25,7 @@ function MoonTop:initialize()
 
     self.initialized = true
     self.stopped = false
+    self.destroyed = false
 end
 
 -- Update the entity

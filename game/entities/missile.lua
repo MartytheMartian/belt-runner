@@ -21,7 +21,6 @@ function Missile:new(properties, graphic)
     -- Create the instance
     local instance = {
         type = "missile",
-        destroyed = true,
         collidables = collidables
     }
 
@@ -95,12 +94,6 @@ function Missile:collided(entity)
 
     -- Move off screen
     self.graphic.move(-32, -32)
-end
-
--- Release
-function Missile:release()
-    self.destroyed = true
-    Entity.release(self)
 end
 
 return Missile

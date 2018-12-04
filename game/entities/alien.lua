@@ -15,7 +15,6 @@ function Alien:new(properties, graphic)
   local instance = {
     type = "alien",
     exploding = false,
-    destroyed = false,
     collidables = collidables
   }
 
@@ -92,7 +91,6 @@ end
 
 -- Release
 function Alien:release()
-  self.destroyed = true
   self.exploding = false
   Entity.release(self)
 end

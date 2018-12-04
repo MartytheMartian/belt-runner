@@ -17,7 +17,6 @@ function Debris:new(properties, graphic)
     local instance = {
         type = "debris",
         exploding = false,
-        destroyed = false,
         collidables = collidables
     }
 
@@ -92,7 +91,7 @@ end
 
 -- Handles collision
 function Debris:collided(entity)
-    print('test')
+    print("test")
     self:explode()
 end
 

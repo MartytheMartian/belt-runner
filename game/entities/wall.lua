@@ -18,7 +18,6 @@ function Wall:new(properties, graphic)
         type = "wall",
         hp = 3,
         exploding = false,
-        destroyed = false,
         collidables = collidables
     }
 

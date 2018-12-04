@@ -17,7 +17,6 @@ function Bomb:new(properties, graphic)
     local instance = {
         type = "bomb",
         exploding = false,
-        destroyed = false,
         collidables = collidables
     }
 

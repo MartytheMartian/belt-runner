@@ -10,6 +10,7 @@ function Entity:new(properties, graphic)
     local instance = {
         id = properties.id or nil,
         initialized = false,
+        destroyed = false,
         collidable = false,
         stopped = false,
         collidables = {},
@@ -65,7 +66,7 @@ end
 
 -- Gets the position
 function Entity:position()
-    if not self.initialized then
+    if not self.initialized or self.destroyed then
         return nil
     end
 
@@ -99,6 +100,7 @@ function Entity:release()
 
     -- Flag as no longer initialized
     self.collidable = false
+    self.destroyed = true
     self.initialized = false
 end
 

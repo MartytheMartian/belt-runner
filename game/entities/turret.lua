@@ -7,8 +7,7 @@ Turret = setmetatable({}, {__index = Entity})
 function Turret:new(properties, graphic)
     -- Create the instance
     local instance = {
-        type = "turret",
-        destroyed = false
+        type = "turret"
     }
 
     -- Return new instance
@@ -40,12 +39,6 @@ end
 -- Called when the world has stopped
 function Turret:stop()
     self:release()
-end
-
--- Release
-function Turret:release()
-    self.destroyed = true
-    Entity.release(self)
 end
 
 return Turret
