@@ -4,12 +4,13 @@ local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
-    asteroid = true,
-    debris = true,
     alien = true,
-    tentacle = true,
+    asteroid = true,
+    bomb = true,
+    debris = true,
     lurcher = true,
-    bomb = true
+    tentacle = true,
+    wall = true
 }
 
 -- Create metatable
