@@ -71,23 +71,6 @@ function Bomb:explode()
     self.collidable = false
 end
 
--- Handles fast enemy powerup calls
-function Bomb:fast()
-    self.vX = self.vX * 2.5
-    self.vY = self.vY * 2.5
-end
-
--- Handles fast enemy powerup calls
-function Bomb:slow()
-    self.vX = self.vX / 2.5
-    self.vY = self.vY / 2.5
-end
-
--- Handles 'kill all' powerup calls
-function Bomb:killAll()
-    self:explode()
-end
-
 -- Handles collision
 function Bomb:collided(entity)
     self:explode()

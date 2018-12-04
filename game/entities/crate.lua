@@ -76,11 +76,10 @@ function Crate:explode()
 
     -- Set flags
     self.exploding = true
-    self.destroyed = true
     self.collidable = false
 
     -- Fire attached event
-    Events[powerMaps[self.powerUp]](self)
+    Events[powerMaps[self.powerUp]]()
 end
 
 -- Handles collision

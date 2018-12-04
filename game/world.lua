@@ -127,6 +127,9 @@ function World.update()
       entity:update()
     until true
   end
+
+  -- Update events
+  Events.update()
 end
 
 -- Handle touch events in the world

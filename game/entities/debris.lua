@@ -68,30 +68,11 @@ function Debris:explode()
 
     -- Set flags
     self.exploding = true
-    self.destroyed = true
     self.collidable = false
-end
-
--- Handles fast enemy powerup calls
-function Debris:fast()
-    self.vX = self.vX * 2.5
-    self.vY = self.vY * 2.5
-end
-
--- Handles fast enemy powerup calls
-function Debris:slow()
-    self.vX = self.vX / 2.5
-    self.vY = self.vY / 2.5
-end
-
--- Handles 'kill all' powerup calls
-function Debris:killAll()
-    self:explode()
 end
 
 -- Handles collision
 function Debris:collided(entity)
-    print("test")
     self:explode()
 end
 

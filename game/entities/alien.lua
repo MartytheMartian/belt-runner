@@ -1,4 +1,5 @@
 local Entity = require("game.entities.entity")
+local Events = require("game.events")
 local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
@@ -15,6 +16,7 @@ function Alien:new(properties, graphic)
   local instance = {
     type = "alien",
     exploding = false,
+    fast = false,
     collidables = collidables
   }
 
@@ -47,11 +49,19 @@ function Alien:update()
 
   -- Slowly decrease velocity if exploding
   if self.exploding then
+    -- Flip velocity if necessary
     self.vX = self.vX * .95
     self.vY = self.vY * .95
+  elseif not self.fast and Events.speed then
+    self.fast = true
+    self.vX = self.vX * 1.5
+    self.vY = self.vX * 1.5
+  elseif self.fast and not Events.speed then
+    self.fast = false
+    self.vX = self.vX / 1.5
+    self.vY = self.vY / 1.5
   end
 
-  -- Move it
   self.graphic.move(position.x + self.vX, position.y + self.vY)
 end
 
@@ -65,23 +75,7 @@ function Alien:explode()
 
   -- Set flags
   self.exploding = true
-  self.destroyed = true
   self.collidable = false
-end
-
--- Handles fast enemy powerup calls
-function Alien:fast()
-  -- Update firing frequency here
-end
-
--- Handles fast enemy powerup calls
-function Alien:slow()
-  -- Update firing frequency here
-end
-
--- Handles 'kill all' powerup calls
-function Alien:killAll()
-  self:explode()
 end
 
 -- Handles collision

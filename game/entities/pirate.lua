@@ -70,23 +70,6 @@ function Pirate:explode()
     self.collidable = false
 end
 
--- Handles fast enemy powerup calls
-function Pirate:fast()
-    self.vX = self.vX * 1.1
-    self.vY = self.vY * 1.1
-end
-
--- Handles fast enemy powerup calls
-function Pirate:slow()
-    self.vX = self.vX / 1.1
-    self.vY = self.vY / 1.1
-end
-
--- Handles 'kill all' powerup calls
-function Pirate:killAll()
-    self:explode()
-end
-
 -- Handles collision
 function Pirate:collided(entity)
     self:explode()

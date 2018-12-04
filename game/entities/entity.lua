@@ -49,21 +49,6 @@ function Entity:stop()
     self.stopped = true
 end
 
--- Handles fast enemy powerup calls
-function Entity:fast()
-    -- Do nothing by default
-end
-
--- Handles slow enemy calls
-function Entity:slow()
-    -- Do nothing by default
-end
-
--- Handles 'kill all' powerup calls
-function Entity:killAll()
-    -- Do nothing by default
-end
-
 -- Gets the position
 function Entity:position()
     if not self.initialized or self.destroyed then

@@ -68,11 +68,6 @@ function Wall:explode()
     self.collidable = false
 end
 
--- Handles 'kill all' powerup calls
-function Wall:killAll()
-    self:explode()
-end
-
 -- Handles collision
 function Wall:collided(entity)
     -- Must be a missile
@@ -83,7 +78,6 @@ function Wall:collided(entity)
         self.collidable = false
     end
 
-    self.destroyed = true
     self:explode()
 end
 

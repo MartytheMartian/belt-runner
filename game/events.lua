@@ -1,8 +1,11 @@
 Events = {}
 
+Events.speed = false
+Events.kill = false
 local world = nil
 local resources = nil
-local speed = false
+local speedFrame = 0
+local killFrame = 0
 
 -- Use hook method for injection to break circular dependencies
 function Events.hook(w, r)
@@ -34,64 +37,14 @@ end
 
 -- Fires a 'killAll' event
 function Events.killAll()
-  -- Inform each entity
-  for i, entity in ipairs(resources.entities) do
-    repeat
-      -- Ignore dead or uninitialized
-      if not entity.initialized or entity.destroyed then
-        break
-      end
-
-      -- Fire event
-      entity:killAll()
-    until true
-  end
-end
-
--- Fires a 'slowerEnemies' event
-function Events.slowerEnemies()
-  -- Inform each entity
-  for i, entity in ipairs(resources.entities) do
-    repeat
-      -- Ignore dead or uninitialized
-      if not entity.initialized or entity.destroyed then
-        break
-      end
-
-      -- Fire event
-      entity:slow()
-    until true
-  end
-
-  -- Speed is now over
-  speed = false
+  -- Trigger flag
+  kill = true
 end
 
 -- Fires a 'fasterEnemies' event
 function Events.fasterEnemies()
-  -- Ignore if speed is already activated
-  if speed then
-    return
-  end
-
   -- Flip the "fast" flag
-  speed = true
-
-  -- Inform each entity
-  for i, entity in ipairs(resources.entities) do
-    repeat
-      -- Ignore dead or uninitialized
-      if not entity.initialized or entity.destroyed then
-        break
-      end
-
-      -- Fire event
-      entity:fast()
-    until true
-  end
-
-  -- Disable in five seconds
-  timer.performWithDelay(5000, Events.slowerEnemies)
+  Events.speed = true
 end
 
 -- Fires a lurcher event
@@ -101,6 +54,27 @@ function Events.lurcher(crate)
 
   -- Attack
   lurcher:attack()
+end
+
+-- Update for event flags
+function Events.update()
+  -- Reset flags
+  if kill then
+    if killFrame > 1 then
+      kill = false
+    else
+      killFrame = killFrame + 1
+    end
+  end
+
+  -- Reset speed when necessary
+  if Events.speed then
+    if speedFrame > 300 then
+      Events.speed = false
+    else
+      speedFrame = speedFrame + 1
+    end
+  end
 end
 
 return Events

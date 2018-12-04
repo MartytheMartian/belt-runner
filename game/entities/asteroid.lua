@@ -72,23 +72,6 @@ function Asteroid:explode()
   self.collidable = false
 end
 
--- Handles fast enemy powerup calls
-function Asteroid:fast()
-  self.vX = self.vX * 1.5
-  self.vY = self.vY * 1.5
-end
-
--- Handles fast enemy powerup calls
-function Asteroid:slow()
-  self.vX = self.vX / 1.5
-  self.vY = self.vY / 1.5
-end
-
--- Handles 'kill all' powerup calls
-function Asteroid:killAll()
-  self:explode()
-end
-
 -- Handles collision
 function Asteroid:collided(entity)
   self:explode()
