@@ -6,6 +6,7 @@ local Sound = require("game.sound")
 local collidables = {
     asteroid = true,
     alien = true,
+    crate = true,
     debris = true,
     lurcher = true,
     pirate = true,
