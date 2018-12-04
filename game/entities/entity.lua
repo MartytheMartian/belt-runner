@@ -63,6 +63,11 @@ function Entity:size()
     return self.graphic.size()
 end
 
+-- Modify color
+function Entity:color(r, g, b, a)
+    self.graphic.color(r, g, b, a)
+end
+
 -- Can collide
 function Entity:canCollide(type)
     return self.collidable and self.collidables[type] ~= nil

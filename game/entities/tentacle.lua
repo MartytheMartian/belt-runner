@@ -1,3 +1,4 @@
+local Effects = require("game.effects")
 local Entity = require("game.entities.entity")
 
 -- Define a static table for collidable entities
@@ -11,17 +12,17 @@ Tentacle = setmetatable({}, {__index = Entity})
 
 -- Constructor
 function Tentacle:new(properties, graphic)
-   -- Create the instance
-   local instance = {
-    type = "tentacle",
-    hp = 3,
-    dying = false,
-    pulling = false,
-    collidables = collidables
-}
+    -- Create the instance
+    local instance = {
+        type = "tentacle",
+        hp = 3,
+        dying = false,
+        pulling = false,
+        collidables = collidables
+    }
 
--- Return new instance
-return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
+    -- Return new instance
+    return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
 end
 
 -- Initialize the entity
@@ -50,7 +51,7 @@ function Tentacle:update()
     -- Check the current position
     local position = self.graphic.position()
     local size = self.graphic.size()
-    
+
     -- Different states
     if (self.dying or self.pulling) and position.y <= 1070 then
         self.vY = 4.5
@@ -77,46 +78,6 @@ function Tentacle:update()
     end
 end
 
--- Modify color
-function Tentacle:color(r, g, b, a)
-    self.graphic.setFillColor(r, g, b, a)
-end
-
--- Flicker
-function Tentacle:flicker()
-    self.graphic.setFillColor(1, 0, 0, 0.8)
-    timer.performWithDelay(
-      50,
-      function()
-        self.graphic.setFillColor(1, 1, 1, 1.0)
-      end
-    )
-    timer.performWithDelay(
-      100,
-      function()
-        self.graphic.setFillColor(1, 0, 0, 0.8)
-      end
-    )
-    timer.performWithDelay(
-      150,
-      function()
-        self.graphic.setFillColor(1, 1, 1, 1.0)
-      end
-    )
-    timer.performWithDelay(
-      200,
-      function()
-        self.graphic.setFillColor(1, 0, 0, 0.8)
-      end
-    )
-    timer.performWithDelay(
-      250,
-      function()
-        self.graphic.setFillColor(1, 1, 1, 1.0)
-      end
-    )
-end
-
 -- Handles collision
 function Tentacle:collided(entity)
     if entity.type == "player" then
@@ -125,7 +86,7 @@ function Tentacle:collided(entity)
         self.collidable = false
         return
     end
-    
+
     -- Must be a missile
     if self.hp > 1 then
         self.hp = self.hp - 1
@@ -135,7 +96,7 @@ function Tentacle:collided(entity)
     end
 
     -- Flicker color
-    self:flicker()
+    Effects.flicker(self)
 end
 
 return Tentacle

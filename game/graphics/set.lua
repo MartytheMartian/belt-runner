@@ -118,8 +118,9 @@ function generator(graphic)
       activeGraphic.moveTransition(params)
     end
 
-    function M.setFillColor(r, g, b, a)
-      return activeGraphic.setFillColor(r, g, b, a)
+    -- Sets the color of the sprite
+    function M.color(r, g, b, a)
+      return activeGraphic.color(r, g, b, a)
     end
 
     -- Release the set

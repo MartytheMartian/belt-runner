@@ -90,8 +90,9 @@ function generator(graphic)
       sprite.rotation = rotation
     end
 
-    function M.setFillColor(r, g, b, a)
-      sprite:setFillColor(r, g, b, a)
+    -- Sets the color of the sprite
+    function M.color(r, g, b, a)
+      return sprite:setFillColor(r, g, b, a)
     end
 
     -- Release the static

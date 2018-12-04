@@ -96,6 +96,11 @@ function generator(graphic)
       end
     end
 
+    -- Sets the color of the sprite
+    function M.color(r, g, b, a)
+      return sprite:setFillColor(r, g, b, a)
+    end
+
     -- Release the scrolling
     function M.release()
       -- Clear out sprite 1
