@@ -1,8 +1,8 @@
 local Collision = require("game.collision")
 local Events = require("game.events")
 local Resources = require("game.resources")
-local Weapon = require("game.weapon")
 local Sound = require("game.sound")
+local Weapon = require("game.weapon")
 
 -- Exposed properties of the world
 local World = {}
@@ -19,6 +19,7 @@ local frames = 0
 -- Track the last frame the player touched
 local lastTouchFrame = -1000
 
+-- Call this when the game is 'over'
 local endEvent = nil
 
 -- Handles player death
@@ -71,14 +72,17 @@ function World.initialize(level, gameOver)
     Resources.getEntityByID(missile.id):initialize()
   end
 
-  -- Start playing background music
-  Sound.playBackground()
-
   -- Inject the world and resources
   Events.hook(World, Resources)
 
   -- Set the world as initialized
   initialized = true
+
+  -- Process one update cycle to get everything loaded
+  World.update()
+
+  -- Start playing background music
+  Sound.playBackground()
 end
 
 -- Update the world
@@ -127,7 +131,7 @@ function World.update()
       entity:update()
     until true
   end
-
+  
   -- Update events
   Events.update()
 end

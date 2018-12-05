@@ -12,7 +12,6 @@ function Entity:new(properties, graphic)
         initialized = false,
         destroyed = false,
         collidable = false,
-        stopped = false,
         collidables = {},
         x = properties.x or 0,
         y = properties.y or 0,
@@ -41,12 +40,6 @@ end
 -- Update the entity
 function Entity:update()
     -- Does nothing by default
-end
-
--- Stops the entity
-function Entity:stop()
-    -- Flag to stop
-    self.stopped = true
 end
 
 -- Gets the position

@@ -1,5 +1,6 @@
 local Effects = require("game.effects")
 local Entity = require("game.entities.entity")
+local Events = require("game.events")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -71,7 +72,7 @@ function Tentacle:update()
     end
 
     -- Move it
-    if self.stopped then
+    if Events.stopped then
         self.graphic.move(position.x, position.y + self.vY)
     else
         self.graphic.move(position.x + self.vX, position.y + self.vY)

@@ -46,7 +46,7 @@ end
 
 -- Update the entity
 function Wall:update()
-    if not self.initialized or self.stopped then
+    if not self.initialized or Events.stopped then
         return
     end
 

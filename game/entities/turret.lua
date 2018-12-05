@@ -28,18 +28,6 @@ function Turret:initialize()
     self.destroyed = false
 end
 
--- Update the entity
-function Turret:update()
-    if not self.initialized or not self.flying then
-        return
-    end
-
-    local position = self.graphic.position()
-
-    self.graphic.rotate(10)
-    self.graphic.move(position.x + self.vX, position.y + self.vY)
-end
-
 -- Rotate the turret
 function Turret:rotate(rotation)
     if not self.initialized then
@@ -47,13 +35,6 @@ function Turret:rotate(rotation)
     end
 
     self.graphic.setRotation(rotation)
-end
-
--- Called when the world has stopped
-function Turret:stop()
-    self.vX = 10
-    self.vY = -6
-    self.flying = true
 end
 
 return Turret

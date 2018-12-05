@@ -1,4 +1,5 @@
 local Entity = require("game.entities.entity")
+local Events = require("game.events")
 
 Background = setmetatable({}, {__index = Entity})
 
@@ -15,7 +16,7 @@ end
 
 -- Update the entity
 function Background:update()
-    if self.stopped or not self.initialized then
+    if Events.stopped or not self.initialized then
         return
     end
 

@@ -17,7 +17,10 @@ end
 -- Fires a 'playerDied' event
 function Events.playerDied()
   -- Set the stopped flag
-  Events.stopped = false
+  Events.stopped = true
+
+  -- Destroy turret
+  resources.getEntityByID("turret"):release()
 
   -- Stop the world
   world.stop()
@@ -78,9 +81,9 @@ end
 -- Update for event flags
 function Events.update()
   -- Reset flags
-  if kill then
+  if Events.kill then
     if killFrame > 1 then
-      kill = false
+      Events.kill = false
     else
       killFrame = killFrame + 1
     end

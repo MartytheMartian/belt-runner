@@ -1,4 +1,5 @@
 local Entity = require("game.entities.entity")
+local Events = require("game.events")
 
 -- Create metatable
 MoonComplete = setmetatable({}, {__index = Entity})
@@ -24,13 +25,12 @@ function MoonComplete:initialize()
     self.graphic.initialize()
 
     self.initialized = true
-    self.stopped = false
     self.destroyed = false
 end
 
 -- Update the entity
 function MoonComplete:update()
-    if self.stopped or not self.initialized then
+    if Events.stopped or not self.initialized then
         return
     end
 
