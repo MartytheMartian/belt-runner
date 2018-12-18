@@ -80,10 +80,10 @@
         <entity id="player" type="player" graphic="player" x="667" y="375" />
         <entity id="turret" type="turret" graphic="turret" x="667" y="375" />
         <entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="100" />
-        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="13" vY="-8" delay="900" />
+        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="5" vY="-2" delay="900" />
         <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="100" />
-        <entity type="bomb" graphic="bomb" x="700" y="210" vX="1" vY="6" delay="210"/>
-        <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" />
+        <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" delay="180" />
+        <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" delay="200" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
         <entity type="nebula" graphic="nebula-sepia-small" x="1994" y="100" vX="-3" vY="0" delay="500" />
@@ -94,7 +94,8 @@
         <entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
         <entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
         <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
-        <entity type="wall" graphic="wall" x="1450" y="375" vX="-3" vY="0" delay="200"/>
-        <entity id="crate2" type="crate" graphic="crate" x="1300" y="70" vX="-3" vY="0" delay="50" powerUp="killAll"/>
+        <entity type="wall" graphic="wall" x="1450" y="375" vX="-3" vY="0" delay="260"/>
+        <entity id="crate2" type="crate" graphic="crate" x="1300" y="70" vX="-3" vY="0" delay="50" powerUp="shield"/>
+        <entity id="crate2" type="crate" graphic="crate" x="1300" y="70" vX="-3" vY="0" delay="120" powerUp="fastRecharge"/>
     </entities>
 </map>

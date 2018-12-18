@@ -11,6 +11,9 @@ local collidables = {
 local powerMaps = {
     killAll = "killAll",
     fasterEnemies = "fasterEnemies",
+    slowRecharge = "slowRecharge",
+    fastRecharge = "fastRecharge",
+    shield = "shield",
     lurcher = "lurcher"
 }
 

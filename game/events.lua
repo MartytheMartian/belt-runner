@@ -3,10 +3,12 @@ Events = {}
 Events.speed = false
 Events.kill = false
 Events.stopped = false
+Events.fireRate = 30
 local world = nil
 local resources = nil
 local speedFrame = 0
 local killFrame = 0
+local rateFrame = 0
 
 -- Use hook method for injection to break circular dependencies
 function Events.hook(w, r)
@@ -33,12 +35,28 @@ end
 function Events.killAll()
   -- Trigger flag
   Events.kill = true
+  killFrame = 0
 end
 
 -- Fires a 'fasterEnemies' event
 function Events.fasterEnemies()
   -- Flip the "fast" flag
   Events.speed = true
+  speedFrame = 0
+end
+
+-- Fires a 'fast recharge rate' event
+function Events.fastRecharge()
+  -- Set fire rate
+  Events.fireRate = 10
+  rateFrame = 0
+end
+
+-- Fires a 'slow recharge rate' event
+function Events.slowRecharge()
+  -- Set fire rate
+  Events.fireRate = 60
+  rateFrame = 0
 end
 
 -- Fires a lurcher event
@@ -48,6 +66,15 @@ function Events.lurcher(crate)
 
   -- Attack
   lurcher:attack()
+end
+
+-- Fires a shield event
+function Events.shield(crate)
+  -- Get the player
+  local player = resources.getEntityByID("player")
+
+  -- Heal the player
+  player:shield()
 end
 
 -- Processes any kill event
@@ -80,7 +107,7 @@ end
 
 -- Update for event flags
 function Events.update()
-  -- Reset flags
+  -- Track kill flag
   if Events.kill then
     if killFrame > 1 then
       Events.kill = false
@@ -89,12 +116,21 @@ function Events.update()
     end
   end
 
-  -- Reset speed when necessary
+  -- Track speed flag
   if Events.speed then
     if speedFrame > 120 then
       Events.speed = false
     else
       speedFrame = speedFrame + 1
+    end
+  end
+
+  -- Track rate flag
+  if Events.fireRate ~= 30 then
+    if rateFrame > 300 then
+      Events.fireRate = 30
+    else
+      rateFrame = rateFrame + 1
     end
   end
 end

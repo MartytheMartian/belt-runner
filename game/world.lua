@@ -131,7 +131,7 @@ function World.update()
       entity:update()
     until true
   end
-  
+
   -- Update events
   Events.update()
 end
@@ -139,7 +139,7 @@ end
 -- Handle touch events in the world
 function World.touch(x, y)
   -- Touch thorttling. One a half a second for now.
-  if frames - lastTouchFrame < 30 then
+  if frames - lastTouchFrame < Events.fireRate then
     return
   end
 

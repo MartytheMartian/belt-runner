@@ -1,4 +1,5 @@
 local Entity = require("game.entities.entity")
+local Effects = require("game.effects")
 local Events = require("game.events")
 local Sound = require("game.sound")
 
@@ -22,6 +23,8 @@ function Player:new(properties, graphic)
     local instance = {
         type = "player",
         exploding = false,
+        hp = 1,
+        invulnerable = 0,
         collidables = collidables
     }
 
@@ -38,9 +41,19 @@ function Player:initialize()
     -- Initialize the graphic
     self.graphic.initialize("alive")
 
+    self.hp = 1
+    self.invulnerable = 0
     self.initialized = true
     self.collidable = true
     self.destroyed = false
+end
+
+-- Update the player
+function Player:update()
+    -- Reduce invulnerable frames
+    if self.invulnerable > 0 then
+        self.invulnerable = self.invulnerable - 1
+    end
 end
 
 -- Cause the alien to explode
@@ -60,15 +73,34 @@ function Player:explode()
     Events.playerDied()
 end
 
+-- Up the shield count
+function Player:shield()
+    self.hp = self.hp + 1
+end
+
 -- Handles collision
 function Player:collided(entity)
-    -- Tentacle doesn't cause the player to explode
-    if entity.type == "tentacle" then
+    -- Tentable and wall instantly kills player
+    if entity.type == "tentacle" or entity.type == "wall" then
         self:release()
         Events.playerDied()
-    else
-        self:explode()
+        return
     end
+
+    -- Invulnerable currently
+    if self.invulnerable > 0 then
+        return
+    end
+
+    -- Reduce hitpoints if necessary
+    if self.hp > 1 then
+        self.hp = self.hp - 1
+        self.invulnerable = 120
+        Effects.flicker(self)
+        return
+    end
+
+    self:explode()
 end
 
 -- Release
