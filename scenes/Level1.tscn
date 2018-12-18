@@ -1,0 +1,175 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://audio/background1.ogg" type="AudioStream" id=1]
+[ext_resource path="res://sprites/background.png" type="Texture" id=2]
+[ext_resource path="res://sprites/neb.png" type="Texture" id=3]
+[ext_resource path="res://sprites/nebinv.png" type="Texture" id=4]
+[ext_resource path="res://sprites/neb - small.png" type="Texture" id=5]
+[ext_resource path="res://sprites/nebinv - small.png" type="Texture" id=6]
+[ext_resource path="res://sprites/nebsep.png" type="Texture" id=7]
+[ext_resource path="res://sprites/nebsep - small.png" type="Texture" id=8]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/Turret.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/MissileGenerator.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/Asteroid.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/Alien.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scenes/Crate.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scenes/Pirate.tscn" type="PackedScene" id=15]
+
+[node name="Level1" type="Node2D" index="0"]
+
+position = Vector2( -2.51733, 0 )
+_sections_unfolded = [ "Material", "Transform", "Visibility", "Z Index" ]
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="0"]
+
+stream = ExtResource( 1 )
+volume_db = 4.0
+pitch_scale = 1.0
+autoplay = true
+mix_target = 0
+bus = "Master"
+
+[node name="Background" type="ParallaxBackground" parent="." index="1"]
+
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+scroll_offset = Vector2( 0, 0 )
+scroll_base_offset = Vector2( 0, 0 )
+scroll_base_scale = Vector2( 0.5, 0 )
+scroll_limit_begin = Vector2( 0, 0 )
+scroll_limit_end = Vector2( 0, 0 )
+scroll_ignore_camera_zoom = false
+_sections_unfolded = [ "Scroll" ]
+
+[node name="Space" type="ParallaxLayer" parent="Background" index="0"]
+
+editor/display_folded = true
+z_index = -1
+motion_scale = Vector2( 1.5, 1 )
+motion_offset = Vector2( 0, 0 )
+motion_mirroring = Vector2( 1500, 0 )
+_sections_unfolded = [ "Material", "Motion", "Transform", "Visibility", "Z Index" ]
+
+[node name="Sprite" type="Sprite" parent="Background/Space" index="0"]
+
+texture = ExtResource( 2 )
+centered = false
+_sections_unfolded = [ "Animation", "Material", "Offset", "Pause", "Region", "Transform", "Visibility", "Z Index" ]
+
+[node name="Nebulas" type="ParallaxLayer" parent="Background" index="1"]
+
+editor/display_folded = true
+z_index = -1
+motion_scale = Vector2( 3, 1 )
+motion_offset = Vector2( 0, 0 )
+motion_mirroring = Vector2( 0, 0 )
+_sections_unfolded = [ "Motion", "Z Index" ]
+
+[node name="Sprite4" type="Sprite" parent="Background/Nebulas" index="0"]
+
+position = Vector2( 2051.17, 659.247 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Z Index" ]
+
+[node name="Sprite8" type="Sprite" parent="Background/Nebulas" index="1"]
+
+position = Vector2( 7276.69, 563.288 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Z Index" ]
+
+[node name="Sprite3" type="Sprite" parent="Background/Nebulas" index="2"]
+
+position = Vector2( 5978.13, 392.239 )
+scale = Vector2( 1.74243, 1.82364 )
+texture = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="Background/Nebulas" index="3"]
+
+position = Vector2( 4793.98, 210.48 )
+texture = ExtResource( 5 )
+
+[node name="Sprite2" type="Sprite" parent="Background/Nebulas" index="4"]
+
+position = Vector2( 3599.87, 497.027 )
+texture = ExtResource( 6 )
+
+[node name="Sprite5" type="Sprite" parent="Background/Nebulas" index="5"]
+
+position = Vector2( 3867.97, 133.496 )
+rotation = 4.27606
+texture = ExtResource( 6 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Sprite9" type="Sprite" parent="Background/Nebulas" index="6"]
+
+position = Vector2( 8961.72, 662.999 )
+texture = ExtResource( 7 )
+
+[node name="Sprite6" type="Sprite" parent="Background/Nebulas" index="7"]
+
+position = Vector2( 8429.66, 366.073 )
+rotation = 3.14159
+texture = ExtResource( 8 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Player" parent="." index="2" instance=ExtResource( 9 )]
+
+position = Vector2( 5.552, -3.70129 )
+
+[node name="Turret" parent="Player" index="2" instance=ExtResource( 10 )]
+
+[node name="MissileGenerator" parent="Player" index="5" instance=ExtResource( 11 )]
+
+[node name="Asteroids" type="Node" parent="." index="3"]
+
+editor/display_folded = true
+
+[node name="Asteroid" parent="Asteroids" index="0" instance=ExtResource( 12 )]
+
+position = Vector2( 4.65448, -457.543 )
+z_index = 2
+_sections_unfolded = [ "Animation", "Collision", "Pickable", "Transform", "Z Index", "collision" ]
+Velocity = Vector2( 450, 300 )
+
+[node name="Asteroid2" parent="Asteroids" index="1" instance=ExtResource( 12 )]
+
+position = Vector2( 889.411, -469.122 )
+z_index = 2
+_sections_unfolded = [ "Animation", "Collision", "Pickable", "Transform", "Z Index", "collision" ]
+Velocity = Vector2( -450, 300 )
+
+[node name="Aliens" type="Node" parent="." index="4"]
+
+[node name="Alien" parent="Aliens" index="0" instance=ExtResource( 13 )]
+
+position = Vector2( 801.705, -310.226 )
+z_index = 2
+_sections_unfolded = [ "Animation", "Collision", "Pickable", "Transform", "Visibility", "Z Index", "collision" ]
+Velocity = Vector2( -150, 0 )
+
+[node name="Crates" type="Node" parent="." index="5"]
+
+editor/display_folded = true
+
+[node name="Crate" parent="Crates" index="0" instance=ExtResource( 14 )]
+
+position = Vector2( 1160.78, -325.686 )
+Velocity = Vector2( 0, 0 )
+
+[node name="Pirates" type="Node" parent="." index="6"]
+
+editor/display_folded = true
+
+[node name="Pirate" parent="Pirates" index="0" instance=ExtResource( 15 )]
+
+position = Vector2( -786.662, -262.192 )
+Velocity = Vector2( 350, 0 )
+
+

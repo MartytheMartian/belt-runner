@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/lurcherLaugh.wav-5b421a1f7a0a3c30015574b1b45b9604.sample"
+
+[deps]
+
+source_file="res://audio/lurcherLaugh.wav"
+dest_files=[ "res://.import/lurcherLaugh.wav-5b421a1f7a0a3c30015574b1b45b9604.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
