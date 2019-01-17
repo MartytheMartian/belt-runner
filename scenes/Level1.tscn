@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://audio/background1.ogg" type="AudioStream" id=1]
 [ext_resource path="res://sprites/background.png" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://scenes/Alien.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/Crate.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scenes/Pirate.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/EOL.tscn" type="PackedScene" id=16]
 
 [node name="Level1" type="Node2D" index="0"]
 
@@ -29,12 +30,13 @@ __meta__ = {
 stream = ExtResource( 1 )
 volume_db = 4.0
 pitch_scale = 1.0
-autoplay = true
+autoplay = false
 mix_target = 0
 bus = "Master"
 
 [node name="Background" type="ParallaxBackground" parent="." index="1"]
 
+editor/display_folded = true
 layer = -1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -147,6 +149,8 @@ Velocity = Vector2( -450, 300 )
 
 [node name="Aliens" type="Node" parent="." index="4"]
 
+editor/display_folded = true
+
 [node name="Alien" parent="Aliens" index="0" instance=ExtResource( 13 )]
 
 position = Vector2( 801.705, -310.226 )
@@ -171,5 +175,9 @@ editor/display_folded = true
 
 position = Vector2( -786.662, -262.192 )
 Velocity = Vector2( 350, 0 )
+
+[node name="EOL" parent="." index="7" instance=ExtResource( 16 )]
+
+position = Vector2( 671.349, 0.463013 )
 
 

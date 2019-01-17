@@ -14,6 +14,9 @@ func _process(delta):
 	pass
 	
 func _collide(object):
+	if (object.is_in_group("eol")):
+		return
+		
 	$Area2D/CollisionShape2D.disabled = true
 	$AnimationPlayer.play("Explode")
 	$AudioStreamPlayer2D.play()
