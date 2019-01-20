@@ -6,6 +6,9 @@ func _ready():
 	$Area2D.connect("area_entered", self, "_collide")
 	$AnimationPlayer.connect("animation_finished", self, "_animation_finished")
 	$VisibilityNotifier2D.connect("screen_exited", self, "_exited_screen")
+	
+	# Hook events
+	BeltRunner.connect("kill_everything", self, "_killEverything")
 	pass
 
 func _process(delta):
@@ -14,9 +17,7 @@ func _process(delta):
 	pass
 
 func _collide(object):
-	$Area2D/CollisionShape2D.disabled = true
-	$AnimationPlayer.play("Explode")
-	$AudioStreamPlayer2D.play()
+	_kill()
 	pass
 	
 func _animation_finished(animation):
@@ -26,4 +27,15 @@ func _animation_finished(animation):
 	
 func _exited_screen():
 	queue_free()
+	pass
+	
+func _kill():
+	$Area2D/CollisionShape2D.disabled = true
+	$AnimationPlayer.play("Explode")
+	$AudioStreamPlayer2D.play()
+	pass
+	
+# Called when the kill everything event occurs
+func _killEverything():
+	_kill()
 	pass

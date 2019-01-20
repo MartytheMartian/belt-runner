@@ -1,6 +1,7 @@
 extends Sprite
 
 export(Vector2) var Velocity
+export(String, "Nothing", "Kill Everything", "Faster Recharge Rate", "Slower Recharge Rate", "Faster Enemies", "Lurcher") var Powerup
 
 func _ready():
 	$Area2D.connect("area_entered", self, "_collide")
@@ -19,6 +20,20 @@ func _collide(object):
 	$Area2D/CollisionShape2D.disabled = true
 	$AnimationPlayer.play("Explode")
 	$AudioStreamPlayer2D.play()
+	
+	# Determine the right event to emit
+	if Powerup == "Kill Everything":
+		BeltRunner.emit_signal("kill_everything")
+	elif Powerup == "Faster Recharge Rate":
+		BeltRunner.emit_signal("faster_recharge")
+	elif Powerup == "Slower Recharge Rate":
+		BeltRunner.emit_signal("slower_recharge")
+	elif Powerup == "Faster Enemies":
+		BeltRunner.emit_signal("faster_enemies")
+	elif Powerup == "Lurcher":
+		BeltRunner.emit_signal("lurcher", self.position)
+	else:
+		print("NO POWERUP PROVIDED")
 	pass
 	
 func _animation_finished(animation):

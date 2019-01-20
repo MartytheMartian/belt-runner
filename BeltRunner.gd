@@ -1,5 +1,12 @@
 extends Node
 
+# Powerup Signals
+signal kill_everything
+signal faster_recharge
+signal slower_recharge
+signal faster_enemies
+signal lurcher(position)
+
 # Calculates velocity to get from one point to another
 # Given a static speed. Vector2, Vector2, Float
 func calculate_velocity(start, end, speed):

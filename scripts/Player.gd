@@ -6,6 +6,10 @@ func _ready():
 	$Area2D.connect("area_entered", self, "_collide")
 	$AnimationPlayer.play("Idle")
 	$Turret.show()
+	
+	# World events
+	BeltRunner.connect("faster_recharge", self, "_fasterRecharge")
+	BeltRunner.connect("slower_recharge", self, "_slowerRecharge")
 	pass
 	
 func _process(delta):
@@ -22,4 +26,12 @@ func _collide(object):
 	$AudioStreamPlayer2D.play()
 	$Turret.hide()
 	velocity.x = 0
+	pass
+
+func _slowerRecharge():
+	$MissileGenerator.slowerRecharge()
+	pass
+
+func _fasterRecharge():
+	$MissileGenerator.fasterRecharge()
 	pass

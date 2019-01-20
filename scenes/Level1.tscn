@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://audio/background1.ogg" type="AudioStream" id=1]
 [ext_resource path="res://sprites/background.png" type="Texture" id=2]
@@ -13,9 +13,10 @@
 [ext_resource path="res://scenes/MissileGenerator.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/Asteroid.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/Alien.tscn" type="PackedScene" id=13]
-[ext_resource path="res://scenes/Crate.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scenes/Pirate.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scenes/EOL.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scenes/Pirate.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scenes/Crate.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/LurcherGenerator.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scenes/EOL.tscn" type="PackedScene" id=17]
 
 [node name="Level1" type="Node2D" index="0"]
 
@@ -52,7 +53,6 @@ _sections_unfolded = [ "Scroll" ]
 
 [node name="Space" type="ParallaxLayer" parent="Background" index="0"]
 
-editor/display_folded = true
 z_index = -1
 motion_scale = Vector2( 1.5, 1 )
 motion_offset = Vector2( 0, 0 )
@@ -61,6 +61,7 @@ _sections_unfolded = [ "Material", "Motion", "Transform", "Visibility", "Z Index
 
 [node name="Sprite" type="Sprite" parent="Background/Space" index="0"]
 
+position = Vector2( 0, -3.09094 )
 texture = ExtResource( 2 )
 centered = false
 _sections_unfolded = [ "Animation", "Material", "Offset", "Pause", "Region", "Transform", "Visibility", "Z Index" ]
@@ -129,54 +130,42 @@ position = Vector2( 5.552, -3.70129 )
 
 [node name="MissileGenerator" parent="Player" index="5" instance=ExtResource( 11 )]
 
-[node name="Asteroids" type="Node" parent="." index="3"]
+[node name="Asteroids" type="Node2D" parent="Player" index="6"]
 
-editor/display_folded = true
+[node name="Asteroid3" parent="Player/Asteroids" index="0" instance=ExtResource( 12 )]
 
-[node name="Asteroid" parent="Asteroids" index="0" instance=ExtResource( 12 )]
-
-position = Vector2( 4.65448, -457.543 )
+position = Vector2( 1022.96, -662.692 )
 z_index = 2
-_sections_unfolded = [ "Animation", "Collision", "Pickable", "Transform", "Z Index", "collision" ]
-Velocity = Vector2( 450, 300 )
+_sections_unfolded = [ "Animation", "Collision", "Pause", "Pickable", "Transform", "Z Index", "collision" ]
+Velocity = Vector2( -600, 360 )
 
-[node name="Asteroid2" parent="Asteroids" index="1" instance=ExtResource( 12 )]
+[node name="Aliens" type="Node2D" parent="Player" index="7"]
 
-position = Vector2( 889.411, -469.122 )
-z_index = 2
-_sections_unfolded = [ "Animation", "Collision", "Pickable", "Transform", "Z Index", "collision" ]
-Velocity = Vector2( -450, 300 )
-
-[node name="Aliens" type="Node" parent="." index="4"]
-
-editor/display_folded = true
-
-[node name="Alien" parent="Aliens" index="0" instance=ExtResource( 13 )]
+[node name="Alien" parent="Player/Aliens" index="0" instance=ExtResource( 13 )]
 
 position = Vector2( 801.705, -310.226 )
 z_index = 2
 _sections_unfolded = [ "Animation", "Collision", "Pickable", "Transform", "Visibility", "Z Index", "collision" ]
-Velocity = Vector2( -150, 0 )
+Velocity = Vector2( -300, 0 )
 
-[node name="Crates" type="Node" parent="." index="5"]
+[node name="Pirates" type="Node2D" parent="Player" index="8"]
 
-editor/display_folded = true
+[node name="Pirate" parent="Player/Pirates" index="0" instance=ExtResource( 14 )]
 
-[node name="Crate" parent="Crates" index="0" instance=ExtResource( 14 )]
+position = Vector2( -850.96, -274.555 )
+Velocity = Vector2( 280, 0 )
 
-position = Vector2( 1160.78, -325.686 )
-Velocity = Vector2( 0, 0 )
+[node name="Crates" type="Node2D" parent="Player" index="9"]
 
-[node name="Pirates" type="Node" parent="." index="6"]
+[node name="Crate" parent="Player/Crates" index="0" instance=ExtResource( 15 )]
 
-editor/display_folded = true
+position = Vector2( 531.121, -3.34074 )
+Velocity = Vector2( -100, 0 )
+Powerup = "Lurcher"
 
-[node name="Pirate" parent="Pirates" index="0" instance=ExtResource( 15 )]
+[node name="LurcherGenerator" parent="Player" index="10" instance=ExtResource( 16 )]
 
-position = Vector2( -786.662, -262.192 )
-Velocity = Vector2( 350, 0 )
-
-[node name="EOL" parent="." index="7" instance=ExtResource( 16 )]
+[node name="EOL" parent="." index="3" instance=ExtResource( 17 )]
 
 position = Vector2( 671.349, 0.463013 )
 

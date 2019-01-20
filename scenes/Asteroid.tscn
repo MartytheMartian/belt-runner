@@ -120,7 +120,7 @@ tracks/3/keys = {
 "values": [ 0, 31 ]
 }
 
-[node name="Asteroid" type="Sprite"]
+[node name="Asteroid" type="Sprite" index="0"]
 
 texture = ExtResource( 1 )
 vframes = 4
@@ -135,13 +135,12 @@ Velocity = Vector2( 0, 0 )
 
 [node name="Area2D" type="Area2D" parent="." index="0"]
 
-editor/display_folded = true
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-collision_layer = 2
+collision_mask = 2
 audio_bus_override = false
 audio_bus_name = "Master"
 _sections_unfolded = [ "Audio Bus", "Collision", "Pickable", "Transform" ]
