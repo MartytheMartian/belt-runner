@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://audio/background1.ogg" type="AudioStream" id=1]
 [ext_resource path="res://sprites/background.png" type="Texture" id=2]
@@ -16,7 +16,8 @@
 [ext_resource path="res://scenes/Pirate.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scenes/Crate.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scenes/LurcherGenerator.tscn" type="PackedScene" id=16]
-[ext_resource path="res://scenes/EOL.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scenes/Debris.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scenes/EOL.tscn" type="PackedScene" id=18]
 
 [node name="Level1" type="Node2D" index="0"]
 
@@ -159,13 +160,20 @@ Velocity = Vector2( 280, 0 )
 
 [node name="Crate" parent="Player/Crates" index="0" instance=ExtResource( 15 )]
 
-position = Vector2( 531.121, -3.34074 )
-Velocity = Vector2( -100, 0 )
+position = Vector2( 440.931, -188.731 )
+Velocity = Vector2( -300, 0 )
 Powerup = "Lurcher"
 
 [node name="LurcherGenerator" parent="Player" index="10" instance=ExtResource( 16 )]
 
-[node name="EOL" parent="." index="3" instance=ExtResource( 17 )]
+[node name="Debris" type="Node2D" parent="Player" index="11"]
+
+[node name="Debris" parent="Player/Debris" index="0" instance=ExtResource( 17 )]
+
+position = Vector2( 1721.65, -5.50958 )
+Velocity = Vector2( -300, 0 )
+
+[node name="EOL" parent="." index="3" instance=ExtResource( 18 )]
 
 position = Vector2( 671.349, 0.463013 )
 

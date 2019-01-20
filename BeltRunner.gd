@@ -7,6 +7,10 @@ signal slower_recharge
 signal faster_enemies
 signal lurcher(position)
 
+# Game signals
+signal eol
+signal died
+
 # Calculates velocity to get from one point to another
 # Given a static speed. Vector2, Vector2, Float
 func calculate_velocity(start, end, speed):

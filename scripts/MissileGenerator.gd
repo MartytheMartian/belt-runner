@@ -1,12 +1,21 @@
 extends Node2D
 
+var _on = true
 var _rateChanged = false
 var _reset = 0
 var _rechargeTime = .5
 var _lastShot = 0
 
+func _ready():
+	BeltRunner.connect("died", self, "_off")
+	BeltRunner.connect("eol", self, "_off")
+	pass
+
 # Called when an input happens
 func _input(event):
+	if !_on:
+		return
+	
 	# Ignore non-mouse clicks
 	if !(event is InputEventMouseButton):
 		return
@@ -74,4 +83,8 @@ func fasterRecharge():
 	_rechargeTime = .1
 	_reset = 5
 	_rateChanged = true
+	pass
+	
+func _off():
+	_on = false
 	pass
