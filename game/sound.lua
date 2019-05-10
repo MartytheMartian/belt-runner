@@ -27,7 +27,8 @@ function Sound.initialize()
         missile = audio.loadSound("audio/missile.wav"),
         explosion = audio.loadSound("audio/explosion.wav"),
         lurcherAttack = audio.loadSound("audio/lurcherAttack.wav"),
-        lurcherLaugh = audio.loadSound("audio/lurcherLaugh.wav")
+        lurcherLaugh = audio.loadSound("audio/lurcherLaugh.wav"),
+        orb = audio.loadSound("audio/orb.wav")
     }
 end
 

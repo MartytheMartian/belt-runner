@@ -11,6 +11,7 @@ local MoonBottom = require("game.entities.moon-bottom")
 local MoonComplete = require("game.entities.moon-complete")
 local MoonTop = require("game.entities.moon-top")
 local Nebula = require("game.entities.nebula")
+local Orb = require("game.entities.orb")
 local Pirate = require("game.entities.pirate")
 local Player = require("game.entities.player")
 local Scrolling = require("game.graphics.scrolling")
@@ -54,6 +55,7 @@ local entityConstructors = {
   moonComplete = MoonComplete,
   moonTop = MoonTop,
   nebula = Nebula,
+  orb = Orb,
   player = Player,
   pirate = Pirate,
   tentacle = Tentacle,
@@ -129,7 +131,7 @@ end
 
 -- Setup initial resources
 function Resources.setup()
-  -- Load in defaults
+  -- Load in missile graphic manually
   local missile = {
     id = "missile",
     type = "animated",
@@ -150,7 +152,29 @@ function Resources.setup()
     }
   }
 
+  -- Load in orb graphic manually
+  local orb = {
+    id = "orb",
+    type = "animated",
+    path = "sprites/orb.png",
+    width = 30,
+    height = 30,
+    numFrames = 4,
+    sheetContentWidth = 30,
+    sheetContentWidth = 120,
+    sequences = {
+      name = "flying",
+      start = 1,
+      count = 3,
+      rotation = 0,
+      time = 400,
+      loopCount = 0,
+      loopDirection = "forward"
+    }
+  }
+
   Resources.createGraphic(missile)
+  Resources.createGraphic(orb)
 end
 
 -- Clear out all resources

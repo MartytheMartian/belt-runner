@@ -17,6 +17,21 @@ function Weapon.createMissile(id)
   }
 end
 
+-- Create an orb entity
+function Weapon.createOrb(id)
+  return {
+    id = id,
+    type = "orb",
+    graphic = "orb",
+    rotation = rotation,
+    x = -32,
+    y = -32,
+    vX = 0,
+    vY = 0,
+    delay = 0 -- Orbs always spawn immediately
+  }
+end
+
 -- Fires a missile in the direction specified
 function Weapon.fireMissile(missile, start, destination)
   -- Calculate the velocity
@@ -27,6 +42,11 @@ function Weapon.fireMissile(missile, start, destination)
 
   -- Spawn the missile
   missile:spawn(start.x, start.y, velocity.x, velocity.y, rotation)
+end
+
+-- Fires an orb to the destination specified
+function Weapon.fireOrb(orb, start, destination)
+  -- 
 end
 
 return Weapon

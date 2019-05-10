@@ -72,6 +72,18 @@ function World.initialize(level, gameOver)
     Resources.getEntityByID(missile.id):initialize()
   end
 
+  -- Prepare 10 orbs
+  for i = 1, 10 do
+    -- Create the orb
+    local orb = Weapon.createOrb("O" .. i)
+
+    -- Add the orb
+    Resources.createEntity(orb)
+
+    -- Initialize the orb. Orbs do no spawn on initialize
+    Resources.getEntityByID(orb.id):initialize()
+  end
+
   -- Inject the world and resources
   Events.hook(World, Resources)
 
