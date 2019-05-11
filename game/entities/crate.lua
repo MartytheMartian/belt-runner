@@ -27,7 +27,7 @@ function Crate:new(properties, graphic)
         type = "crate",
         collidables = collidables,
         powerUp = properties.powerUp,
-        lurcherId = nil
+        lurcherId = properties.lurcherId
     }
 
     -- Return new instance
@@ -82,7 +82,7 @@ function Crate:explode()
     self.collidable = false
 
     -- Fire attached event
-    Events[powerMaps[self.powerUp]]()
+    Events[powerMaps[self.powerUp]](self)
 end
 
 -- Handles collision

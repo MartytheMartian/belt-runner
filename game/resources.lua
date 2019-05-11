@@ -160,16 +160,16 @@ function Resources.setup()
     width = 30,
     height = 30,
     numFrames = 4,
-    sheetContentWidth = 30,
     sheetContentWidth = 120,
+    sheetContentHeight = 30,
     sequences = {
       name = "flying",
       start = 1,
       count = 3,
       rotation = 0,
-      time = 400,
+      time = 200,
       loopCount = 0,
-      loopDirection = "forward"
+      loopDirection = "bounce"
     }
   }
 

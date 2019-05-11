@@ -1,6 +1,9 @@
+local Collision = require("game.collision")
+local Common = require("game.common")
 local Entity = require("game.entities.entity")
 local Events = require("game.events")
 local Sound = require("game.sound")
+local Weapon = require("game.weapon")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -16,7 +19,9 @@ function Alien:new(properties, graphic)
   local instance = {
     type = "alien",
     exploding = false,
-    collidables = collidables
+    collidables = collidables,
+    lastFire = 120,
+    visible = false
   }
 
   -- Return new instance
@@ -39,17 +44,32 @@ end
 
 -- Update the entity
 function Alien:update()
-  if not self.initialized then
+  if not self.initialized or self.destroyed then
     return
   end
 
   -- Check the current position
   local position = self.graphic.position()
+  local size = self.graphic.size()
 
-  -- Process events
-  self:processExplosion()
-  Events.processSpeed(self)
-  Events.processKill(self)
+  -- Check if on screen
+  self.visible = Collision.onScreen(position.x, position.y, size.width, size.height)
+
+  -- Process events if on screen
+  if self.visible then
+    self:processExplosion()
+    self:processFire()
+    Events.processSpeed(self)
+    Events.processKill(self)
+
+    -- Destroy it when off-screen only after its been on screen once
+    if not Collision.onScreen(position.x, position.y, size.width, size.height) then
+      self.collidable = false
+      self.destroyed = true
+      self.visible = false
+      return
+    end
+  end
 
   -- Move
   self.graphic.move(position.x + self.vX, position.y + self.vY)
@@ -88,6 +108,55 @@ end
 function Alien:resetSpeed()
   self.vX = self.vX / 1.5
   self.vY = self.vY / 1.5
+end
+
+-- Fires an orb if it is time
+function Alien:processFire()
+  -- Back out if exploding
+  if self.exploding then
+    return
+  end
+
+  -- Count down to next fire
+  self.lastFire = self.lastFire - 1
+
+  -- Back out if not time
+  if self.lastFire ~= 0 then
+    return
+  end
+
+  -- Get the resources from common
+  local resources = Common.getResources()
+
+  -- Prepare to read an orb
+  local orb = nil
+
+  -- Find the next available orb entity
+  for i = 1, 10 do
+    repeat
+      local next = Resources.getEntityByID("O" .. i)
+
+      -- Not available if not destroyed
+      if not next.destroyed then
+        break
+      end
+
+      -- Ready
+      orb = next
+    until true
+  end
+
+  -- Do nothing if there are no available orbs
+  if orb == nil then
+    return
+  end
+
+  -- Fire the orb
+  local position = self:position()
+  Weapon.fireOrb(orb, self:position(), { x = 10000, y = position.y });
+  
+  -- Reset shot clock
+  self.lastFire = 120
 end
 
 -- Continues to process exploding

@@ -4,16 +4,8 @@ local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
-    asteroid = false,
-    alien = false,
-    crate = false,
-    debris = false,
-    lurcher = false,
     missile = true,
-    pirate = false,
-    player = true,
-    tentacle = false,
-    wall = false
+    player = true
 }
 
 -- Create metatable
@@ -44,12 +36,12 @@ function Orb:initialize()
 end
 
 -- Spawn the orb
-function Orb:spawn(x, y, vX, vY, rotation)
+function Orb:spawn(x, y, vX, vY)
     if not self.initialized then
         return
     end
 
-    -- Reset the velocity and rotation
+    -- Reset the velocity
     self.vX = vX
     self.vY = vY
 

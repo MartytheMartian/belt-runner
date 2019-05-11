@@ -3,7 +3,8 @@ local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
 local collidables = {
-    missile = true
+    missile = true,
+    player = true
 }
 
 -- Create metatable
@@ -79,13 +80,17 @@ function Lurcher:attack()
     self.attacking = true
 
     -- Play audio here
+    Sound.play("lurcherAttack")
 
     -- Wait three seconds before lurching
-    timer.performWithDelay(3000, moveToPlayer)
+    timer.performWithDelay(3000, function() self:moveToPlayer() end)
 end
 
 -- Cause the lurcher to attack
 function Lurcher:moveToPlayer()
+    -- Set self to collidable
+    self.collidable = true
+
     -- Move to the player
     self.graphic.moveTransition(
         {
@@ -101,10 +106,16 @@ function Lurcher:collided(entity)
     -- Freeze on collision
     self.vX = 0
     self.vY = 0
-    self.move(self.graphic.x, self.graphic.y)
 
-    -- Explode
-    self:explode()
+    -- Explode if missile
+    if entity.type == "missile" then
+        self:explode()
+    end
+
+    -- Laugh if player
+    if entity.type == "player" then
+        Sound.play("lurcherLaugh")
+    end
 end
 
 -- Get the size
@@ -127,4 +138,4 @@ function Lurcher:release()
     Entity.release(self)
 end
 
-return Crate
+return Lurcher

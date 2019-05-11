@@ -1,4 +1,5 @@
 local Collision = require("game.collision")
+local Common = require("game.common")
 local Events = require("game.events")
 local Resources = require("game.resources")
 local Sound = require("game.sound")
@@ -84,8 +85,12 @@ function World.initialize(level, gameOver)
     Resources.getEntityByID(orb.id):initialize()
   end
 
-  -- Inject the world and resources
+  -- Inject the world and resources for events processing
   Events.hook(World, Resources)
+
+  -- Inject the world and resources for common use
+  -- This breaks lua cyclical "import"
+  Common.hook(World, Resources)
 
   -- Set the world as initialized
   initialized = true

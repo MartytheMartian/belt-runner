@@ -46,7 +46,11 @@ end
 
 -- Fires an orb to the destination specified
 function Weapon.fireOrb(orb, start, destination)
-  -- 
+  -- Calculate the velocity
+  local velocity = Math.calculateVelocity(start, destination, 8)
+
+  -- Spawn the missile
+  orb:spawn(start.x, start.y, velocity.x, velocity.y)
 end
 
 return Weapon
