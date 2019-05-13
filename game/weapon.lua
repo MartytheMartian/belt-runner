@@ -44,13 +44,30 @@ function Weapon.fireMissile(missile, start, destination)
   missile:spawn(start.x, start.y, velocity.x, velocity.y, rotation)
 end
 
--- Fires an orb to the destination specified
-function Weapon.fireOrb(orb, start, destination)
+-- Fires an orb near the player in the direction specified
+function Weapon.fireOrb(orb, start, vX)
+  -- Peak point
+  local peakPoint = { x = 0, y = 0 }
+
+  -- Determine the peak point on the x-axis
+  if (vX > 0) then
+    peakPoint.x = 1334 -- 10 units off the edge
+  else
+    peakPoint.x = 10 -- !0 units off the edge
+  end
+
+  -- Determine the switching point on the y-axis
+  y = (375 - start.y) / 2
+
   -- Calculate the velocity
-  local velocity = Math.calculateVelocity(start, destination, 8)
+  local velocity = Math.calculateVelocity(start, destination, 20)
+
+  -- Create function to keep determining next position
+  function calculateNextPosition()
+  end
 
   -- Spawn the missile
-  orb:spawn(start.x, start.y, velocity.x, velocity.y)
+  orb:spawn(start.x, start.y, calculateNextPosition)
 end
 
 return Weapon
