@@ -36,14 +36,13 @@ function Orb:initialize()
 end
 
 -- Spawn the orb
-function Orb:spawn(x, y, vX, vY)
+function Orb:spawn(x, y, nextPosition)
     if not self.initialized then
         return
     end
 
-    -- Reset the velocity
-    self.vX = vX
-    self.vY = vY
+    -- Function used to get the next position
+    self.nextPosition = nextPosition
 
     -- Initialize the orb and set its position
     self.graphic.initialize()
@@ -73,9 +72,6 @@ function Orb:update()
         self.destroyed = true
         return
     end
-
-    -- Move it
-    self.graphic.move(position.x + self.vX, position.y + self.vY)
 end
 
 -- Handles collision

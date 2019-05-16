@@ -151,9 +151,9 @@ function Alien:processFire()
     return
   end
 
-  -- Fire the orb
+  -- Fire the orb. Velocity is only used for direction, so use the alien's velocity.
   local position = self:position()
-  Weapon.fireOrb(orb, self:position(), { x = 10000, y = position.y });
+  Weapon.fireOrb(orb, self:position(), self.vX);
   
   -- Reset shot clock
   self.lastFire = 120
