@@ -87,4 +87,12 @@ function Weapon.fireOrb(orb, start, vX)
   orb:spawn(start.x, start.y, calculateNextPosition)
 end
 
+-- Fires an orb near the player in the direction specified
+function Weapon.fireOrb(orb, start, vX)
+  transition.to(orb, { time = t, y = startY - 2 * R, transition = easing.inOutSine } )
+  transition.to(orb, { time = t * .5, x = startX - R, transition = easing.outSine, onComplete=function()
+      transition.to(orb, { time = t*.5, x=startX, transition=easing.inSine } )
+  end } )
+end
+
 return Weapon
