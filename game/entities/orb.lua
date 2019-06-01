@@ -33,16 +33,15 @@ function Orb:initialize()
     self.initialized = true
     self.collidable = false
     self.destroyed = true
+    self.transitionX = nil
+    self.transitionY = nil
 end
 
 -- Spawn the orb
-function Orb:spawn(x, y, nextPosition)
+function Orb:spawn(x, y, peakPoint)
     if not self.initialized then
         return
     end
-
-    -- Function used to get the next position
-    self.nextPosition = nextPosition
 
     -- Initialize the orb and set its position
     self.graphic.initialize()
@@ -54,6 +53,22 @@ function Orb:spawn(x, y, nextPosition)
 
     -- Play orb firing audio on spawn
     Sound.play("orb")
+
+    -- Determine the orb transition time based on its distance from the edge of the screen
+    local time = (x - peakPoint.x) * 1.1
+    if time < 0 then
+        time = time * -1
+    end
+
+    -- X-axis transition
+    self.transitionX = self.graphic.moveTransition({ time = time, x = peakPoint.x, transition = easing.outSine, onComplete = function()
+        self.transitionX = self.graphic.moveTransition({ time = 1200, x = 667, transition = easing.inSine })
+    end })
+    
+    -- Y-axis transition
+    self.transitionY = self.graphic.moveTransition({ time = time, y = peakPoint.y, transition = easing.inSine, onComplete = function()
+        self.transitionY = self.graphic.moveTransition({ time = 1200, y = 375, transition = easing.outSine })
+    end })
 end
 
 -- Update the entity
@@ -80,6 +95,10 @@ function Orb:collided(entity)
     self.collidable = false
     self.destroyed = true
 
+    -- Cancel transitions
+    transition.cancel(self.transitionX)
+    transition.cancel(self.transitionY)
+    
     -- Move off screen
     self.graphic.move(-32, -32)
 end

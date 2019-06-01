@@ -10,6 +10,7 @@ local collidables = {
     bomb = true,
     debris = true,
     lurcher = true,
+    orb = true,
     tentacle = true,
     wall = true
 }
