@@ -12,8 +12,18 @@ local rateFrame = 0
 
 -- Use hook method for injection to break circular dependencies
 function Events.hook(w, r)
+  -- Hook items
   world = w
   resources = r
+
+  -- Reset variables
+  Events.speed = false
+  Events.kill = false
+  Events.stopped = false
+  Events.fireRate = 30
+  speedFrame = 0
+  killFrame = 0
+  rateFrame = 0
 end
 
 -- Fires a 'playerDied' event

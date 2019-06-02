@@ -42,6 +42,7 @@ function World.initialize(level, gameOver)
 
   -- Set all defaults
   initialized = false
+  stopped = false
   frames = 0
   lastTouchFrame = -1000
 
@@ -204,13 +205,12 @@ end
 -- Release the world
 function World.release()
   if not initialized then
+    print('test')
     return
   end
 
   -- Reset initialized status
   initialized = false
-
-  playerDidStop = false
 
   -- Release each entity
   for i, entity in ipairs(Resources.entities) do

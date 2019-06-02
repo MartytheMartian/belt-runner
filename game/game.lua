@@ -25,23 +25,13 @@ local function touch(event)
   end
 end
 
--- Exit the game
-local function exit()
-  -- Release the world and fire the end event
-  World.release()
-  endEvent()
-end
-
 -- Initializes the game with a target level and end event hook
 function Game.load(file, eEnd)
-  -- Track events
-  endEvent = eEnd
-
   -- Read the level
   local level = Reader(file)
 
   -- Initialize the world with the map
-  World.initialize(level, exit)
+  World.initialize(level, eEnd)
 end
 
 -- Starts the loaded level
@@ -64,6 +54,7 @@ end
 function Game.destroy()
   -- Clear out world resources
   World.release()
+  endEvent = nil
 end
 
 return Game

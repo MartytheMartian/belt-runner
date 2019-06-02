@@ -6,7 +6,7 @@ local scene = composer.newScene()
 
 -- Transitions to the menu
 local function gotoMenu()
-    composer.gotoScene("menu")
+    composer.gotoScene("dead")
 end
 
 -- Creates the scene
