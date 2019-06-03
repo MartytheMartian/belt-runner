@@ -81,10 +81,9 @@ end
 
 -- Handles collision
 function Player:collided(entity)
-    -- Tentable and wall instantly kills player
-    if entity.type == "tentacle" or entity.type == "wall" then
-        self:release()
-        Events.playerDied()
+    -- Tentable, wall, and lurcher instantly kills player
+    if entity.type == "tentacle" or entity.type == "wall" or entity.type == "lurcher" then
+        self:explode()
         return
     end
 

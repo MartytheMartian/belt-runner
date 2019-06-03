@@ -9,6 +9,11 @@ local function restartGame()
     composer.gotoScene("game")
 end
 
+-- Transition to the loadout
+local function loadout()
+    composer.gotoScene("loadout")
+end
+
 -- Transitions to the main menu
 local function goToMenu()
     composer.gotoScene("menu")
@@ -16,7 +21,7 @@ end
 
 -- Creates the scene
 function scene:create(event)
-    dead.initialize(restartGame, goToMenu)
+    dead.initialize(restartGame, loadout, goToMenu)
 end
 
 -- Hides the scene
