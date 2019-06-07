@@ -24,8 +24,14 @@ function Turret:initialize()
     -- Initialize the graphic
     self.graphic.initialize()
 
+    -- Initialize variables
     self.initialized = true
     self.destroyed = false
+
+    -- Move to the center of the screen
+    timer.performWithDelay(4000, function()
+        self.graphic.moveTransition({ time = 1200, x = 667, y = 375, transition = easing.outSine })
+    end)
 end
 
 -- Rotate the turret

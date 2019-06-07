@@ -42,11 +42,17 @@ function Player:initialize()
     -- Initialize the graphic
     self.graphic.initialize("alive")
 
+    -- Initialize variables
     self.hp = 1
     self.invulnerable = 0
     self.initialized = true
     self.collidable = true
     self.destroyed = false
+
+    -- Move to the center of the screen
+    timer.performWithDelay(4000, function()
+        self.graphic.moveTransition({ time = 1200, x = 667, y = 375, transition = easing.outSine })
+    end)
 end
 
 -- Update the player

@@ -11,6 +11,9 @@ local World = {}
 -- Is the level initialized
 local initialized = false
 
+-- Is the entry sequence running
+local starting = true
+
 -- Is the level stopped
 local stopped = false
 
@@ -43,6 +46,7 @@ function World.initialize(level, gameOver)
   -- Set all defaults
   initialized = false
   stopped = false
+  starting = true
   frames = 0
   lastTouchFrame = -1000
 
@@ -101,6 +105,18 @@ function World.initialize(level, gameOver)
 
   -- Start playing background music
   Sound.playBackground()
+
+  -- Render the title. Make it invisible initially.
+  local title = display.newText(level.info.name, display.contentCenterX, 300, native.systemFont, 26)
+  title:setFillColor(0.82, 0.86, 1)
+  title.alpha = 0
+
+  -- Slowly make the title visible
+  transition.fadeIn(title, { time = 2000, onComplete = function()
+    timer.performWithDelay(1000, function()
+        transition.fadeOut(title, { time = 2000, onComplete = function() starting = false end })
+      end)
+    end})
 end
 
 -- Update the world
@@ -109,9 +125,11 @@ function World.update()
     return
   end
 
-  -- Update the frame count
-  frames = frames + 1
-
+  -- Only update the frame count if the starting sequence is over
+  if not starting then
+    frames = frames + 1
+  end
+  
   -- Update each entity
   for i, entity in ipairs(Resources.entities) do
     repeat
