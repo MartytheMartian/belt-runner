@@ -174,6 +174,11 @@ end
 
 -- Handle touch events in the world
 function World.touch(x, y)
+  -- Do nothing if the starting sequence is running
+  if starting or not initialized then
+    return
+  end
+
   -- Touch thorttling. One a half a second for now.
   if frames - lastTouchFrame < Events.fireRate then
     return
