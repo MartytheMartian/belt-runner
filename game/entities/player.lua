@@ -61,9 +61,20 @@ function Player:update()
     if self.invulnerable > 0 then
         self.invulnerable = self.invulnerable - 1
     end
+
+    -- Do nothing if dead
+    if self.destroyed then
+        return
+    end
+
+    -- Get the position
+    local position = self:position()
+
+    -- Move
+    self.graphic.move(position.x + self.vX, position.y + self.vY)
 end
 
--- Cause the alien to explode
+-- Cause the player to explode
 function Player:explode()
     -- Swap animations
     self.graphic.setGraphic("exploding")
@@ -107,6 +118,17 @@ function Player:collided(entity)
     end
 
     self:explode()
+end
+
+-- Handles exit
+function Player:exit()
+    -- Don't allow collisions
+    self.collidable = false
+
+    -- Wait three seconds then take off
+    timer.performWithDelay(3000, function()
+        self.graphic.moveTransition({ time = 500, x = 1500, y = 375, transition = easing.outSine })
+    end)
 end
 
 -- Release

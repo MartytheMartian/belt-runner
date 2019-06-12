@@ -41,6 +41,20 @@ function Events.playerDied()
   timer.performWithDelay(3000, world.playerDied)
 end
 
+-- Fires an 'exit' event
+function Events.exit()
+  -- Get the player and let it know
+  local player = resources.getEntityByID("player")
+  player:exit()
+
+  -- Get the turret and let it know
+  local turret = resources.getEntityByID("turret")
+  turret:exit()
+
+  -- Inform the world after five seconds
+  timer.performWithDelay(5000, world.exit)
+end
+
 -- Fires a 'killAll' event
 function Events.killAll()
   -- Trigger flag

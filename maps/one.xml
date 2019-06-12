@@ -1,5 +1,5 @@
 <map>
-    <info name="A Pension Well Earned" />
+    <info name="A Pension Well Earned" frames="100" />
     <graphics>
         <graphic id="nebula" type="static" path="sprites/neb.png" width="800" height="622" />
         <graphic id="nebula-invert" type="static" path="sprites/nebinv.png" width="800" height="622" />
@@ -83,8 +83,6 @@
         <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="5" vY="-2" delay="900" />
         <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="8" vY="-2" delay="400" />
         <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="100" />
-        <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" delay="180" />
-        <entity type="debris" graphic="debris" x="1344" y="375" vX="-10" vY="0" delay="200" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
         <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
         <entity type="nebula" graphic="nebula-sepia-small" x="1994" y="100" vX="-3" vY="0" delay="500" />

@@ -14,11 +14,15 @@ local initialized = false
 -- Is the entry sequence running
 local starting = true
 
+-- Is the exit sequence running
+local exiting = false
+
 -- Is the level stopped
 local stopped = false
 
 -- Current frame count
 local frames = 0
+local maxFrames = 1
 
 -- Track the last frame the player touched
 local lastTouchFrame = -1000
@@ -28,6 +32,13 @@ local endEvent = nil
 
 -- Handles player death
 function World.playerDied()
+  if endEvent ~= nil then
+    endEvent()
+  end
+end
+
+-- Handles exit
+function World.exit()
   if endEvent ~= nil then
     endEvent()
   end
@@ -47,7 +58,9 @@ function World.initialize(level, gameOver)
   initialized = false
   stopped = false
   starting = true
+  exiting = false
   frames = 0
+  maxFrames = level.info.frames
   lastTouchFrame = -1000
 
   -- Initialize the audio
@@ -125,6 +138,9 @@ function World.update()
     return
   end
 
+  -- Is the level over
+  local over = frames >= maxFrames
+
   -- Only update the frame count if the starting sequence is over
   if not starting then
     frames = frames + 1
@@ -168,6 +184,12 @@ function World.update()
     until true
   end
 
+  -- Check if the level is over. If so, kickoff the exit sequence
+  if over and not exiting then
+    exiting = true
+    Events.exit()
+  end
+
   -- Update events
   Events.update()
 end
@@ -175,7 +197,7 @@ end
 -- Handle touch events in the world
 function World.touch(x, y)
   -- Do nothing if the starting sequence is running
-  if starting or not initialized then
+  if starting or exiting or not initialized then
     return
   end
 

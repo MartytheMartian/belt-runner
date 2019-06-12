@@ -11,7 +11,8 @@ local function parseInfo(infoXML)
   end
 
   return {
-    name = infoXML.properties.name
+    name = infoXML.properties.name,
+    frames = tonumber(infoXML.properties.frames)
   }
 end
 
