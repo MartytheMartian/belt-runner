@@ -20,22 +20,33 @@ function Sound.initialize()
     audio.reserveChannels(5)
 
     -- load in background music as a stream
-    background = audio.loadStream("audio/background1.mp3", {channel = 1})
+    background = audio.loadStream("audio/test.wav")
 
     -- load sound effects
     effects = {
+        depart = audio.loadSound("audio/depart.wav"),
         missile = audio.loadSound("audio/missile.wav"),
         explosion = audio.loadSound("audio/explosion.wav"),
         lurcherAttack = audio.loadSound("audio/lurcherAttack.wav"),
         lurcherLaugh = audio.loadSound("audio/lurcherLaugh.wav"),
         orb = audio.loadSound("audio/orb.wav")
     }
-end
+end 
 
 -- Plays background music on a loop
 function Sound.playBackground()
+    -- Ensure channel one is at the right volume
+    audio.setVolume(1, { channel = 1 } )
+
     -- Play background music, looping forever
-    audio.play(background, {loops = -1})
+    audio.play(background, { loops = -1, channel = 1 })
+end
+
+-- Slowly stops the background music
+function Sound.stopBackground()
+    -- Stops background music slowly
+    print('test')
+    audio.fadeOut({ channel = 1, time = 10000 })
 end
 
 -- Plays a sound one time

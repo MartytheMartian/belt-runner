@@ -79,24 +79,25 @@
         <entity type="background" graphic="background" x="667" y="375" vX="-2" vY="0" />
         <entity id="player" type="player" graphic="player" x="-100" y="375" />
         <entity id="turret" type="turret" graphic="turret" x="-100" y="375" />
-        <entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="100" />
-        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="5" vY="-2" delay="900" />
-        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="8" vY="-2" delay="400" />
-        <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="100" />
-        <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
-        <entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
-        <entity type="nebula" graphic="nebula-sepia-small" x="1994" y="100" vX="-3" vY="0" delay="500" />
-        <entity type="nebula" graphic="nebula-sepia" x="1994" y="600" vX="-3" vY="0" delay="800" />
-        <entity type="nebula" graphic="nebula-small" x="1994" y="700" vx="-3" vy="0" delay="460" />
-        <entity type="nebula" graphic="nebula-invert" x="1994" y="10" vX="-3" vY="0" delay="1200" />
-        <entity type="moonComplete" graphic="moon-complete" x="1700" y="654" vX="-3" vY="0" delay="100" />
-        <entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
-        <entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
-        <entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
-        <entity type="wall" graphic="wall" x="1450" y="375" vX="-3" vY="0" delay="260"/>
-        <entity id="lurcher1" type="lurcher" graphic="lurcher" x="1400" y="70" vX="-3" vY="0" delay="200" />
-        <entity id="crate1" type="crate" graphic="crate" x="1500" y="70" vX="-3" vY="0" delay="100" powerUp="fastRecharge" />
-        <entity id="crate2" type="crate" graphic="crate" x="1400" y="70" vX="-3" vY="0" delay="200" powerUp="lurcher" lurcherId="lurcher1" />
-        <entity id="crate3" type="crate" graphic="crate" x="1400" y="600" vX="-3" vY="0" delay="300" powerUp="shield" />
     </entities>
 </map>
+<!-- 
+<entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="100" />
+<entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="5" vY="-2" delay="900" />
+<entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="8" vY="-2" delay="400" />
+<entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="100" />
+<entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
+<entity type="nebula" graphic="nebula-small" x="1994" y="200" vX="-3" vY="0" delay="200" />
+<entity type="nebula" graphic="nebula-sepia-small" x="1994" y="100" vX="-3" vY="0" delay="500" />
+<entity type="nebula" graphic="nebula-sepia" x="1994" y="600" vX="-3" vY="0" delay="800" />
+<entity type="nebula" graphic="nebula-small" x="1994" y="700" vx="-3" vy="0" delay="460" />
+<entity type="nebula" graphic="nebula-invert" x="1994" y="10" vX="-3" vY="0" delay="1200" />
+<entity type="moonComplete" graphic="moon-complete" x="1700" y="654" vX="-3" vY="0" delay="100" />
+<entity type="moonTop" graphic="moon-top" x="1700" y="623" vX="-3" vY="0" delay="500" />
+<entity type="tentacle" graphic="tentacle" x="1490" y="1026" vX="-3" vY="0" delay="500" />
+<entity type="moonBottom" graphic="moon-bottom" x="1700" y="719" vX="-3" vY="0" delay="500" />
+<entity type="wall" graphic="wall" x="1450" y="375" vX="-3" vY="0" delay="260"/>
+<entity id="lurcher1" type="lurcher" graphic="lurcher" x="1400" y="70" vX="-3" vY="0" delay="200" />
+<entity id="crate1" type="crate" graphic="crate" x="1500" y="70" vX="-3" vY="0" delay="100" powerUp="fastRecharge" />
+<entity id="crate2" type="crate" graphic="crate" x="1400" y="70" vX="-3" vY="0" delay="200" powerUp="lurcher" lurcherId="lurcher1" />
+<entity id="crate3" type="crate" graphic="crate" x="1400" y="600" vX="-3" vY="0" delay="300" powerUp="shield" /> -->

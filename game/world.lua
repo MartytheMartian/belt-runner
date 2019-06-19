@@ -186,6 +186,9 @@ function World.update()
 
   -- Check if the level is over. If so, kickoff the exit sequence
   if over and not exiting then
+    -- Kill the music
+    Sound.stopBackground()
+
     exiting = true
     Events.exit()
   end

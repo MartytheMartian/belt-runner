@@ -44,8 +44,8 @@ function Turret:rotate(rotation)
 end
 
 function Turret:exit()
-    -- Wait three seconds then take off
-    timer.performWithDelay(3000, function()
+    -- Wait 3.69 seconds then take off
+    timer.performWithDelay(3690, function()
         self.graphic.moveTransition({ time = 500, x = 1500, y = 375, transition = easing.outSine })
     end)
 end

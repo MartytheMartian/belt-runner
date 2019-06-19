@@ -125,8 +125,12 @@ function Player:exit()
     -- Don't allow collisions
     self.collidable = false
 
-    -- Wait three seconds then take off
-    timer.performWithDelay(3000, function()
+    -- Play the sound effect for departure
+    Sound.play("depart")
+
+    -- Wait 3.69 seconds then take off.
+    -- This corresponds to the audio in the effect sound clip.
+    timer.performWithDelay(3690, function()
         self.graphic.moveTransition({ time = 500, x = 1500, y = 375, transition = easing.outSine })
     end)
 end

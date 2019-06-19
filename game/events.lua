@@ -51,8 +51,8 @@ function Events.exit()
   local turret = resources.getEntityByID("turret")
   turret:exit()
 
-  -- Inform the world after five seconds
-  timer.performWithDelay(5000, world.exit)
+  -- Inform the world after ten seconds
+  timer.performWithDelay(10000, world.exit)
 end
 
 -- Fires a 'killAll' event
