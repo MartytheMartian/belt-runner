@@ -150,7 +150,7 @@ function Player:exit()
     -- Wait 3.69 seconds then take off.
     -- This corresponds to the audio in the effect sound clip.
     timer.performWithDelay(3690, function()
-        transition.moveTo(self.group, { time = 500, x = 1500, y = 375, transition = easing.outSine })
+        transition.moveTo(self.group, { time = 500, x = 1550, y = 375, transition = easing.outSine })
     end)
 end
 
