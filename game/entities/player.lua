@@ -1,7 +1,11 @@
-local Entity = require("game.entities.entity")
 local Effects = require("game.effects")
+local Entity = require("game.entities.entity")
 local Events = require("game.events")
+local Emitter = require("game.graphics.emitter")
 local Sound = require("game.sound")
+
+-- Create the afterburner emitter creator
+local afterburnerFactory = Emitter("emitters/afterburners.json")
 
 -- Define a static table for collidable entities
 local collidables = {
@@ -26,7 +30,9 @@ function Player:new(properties, graphic)
         exploding = false,
         hp = 1,
         invulnerable = 0,
-        collidables = collidables
+        collidables = collidables,
+        afterburner = afterburnerFactory(),
+        group = nil
     }
 
     -- Return new instance
@@ -42,6 +48,9 @@ function Player:initialize()
     -- Initialize the graphic
     self.graphic.initialize("alive")
 
+    -- Initialize the afterburner
+    self.afterburner.initialize()
+
     -- Initialize variables
     self.hp = 1
     self.invulnerable = 0
@@ -49,9 +58,21 @@ function Player:initialize()
     self.collidable = true
     self.destroyed = false
 
+    -- Create a group for the player and its children
+    self.group = display.newGroup()
+    self.group:insert(self.afterburner.emitter())
+    self.group:insert(self.graphic.sprite())
+
+    -- Set the group the in the current position and adjust the position
+    local position = self.graphic.position()
+    self.group.x = position.x
+    self.group.y = position.y
+    self.graphic.move(0, 0)
+    self.afterburner.move(-60, 0)
+
     -- Move to the center of the screen
     timer.performWithDelay(4000, function()
-        self.graphic.moveTransition({ time = 1200, x = 667, y = 375, transition = easing.outSine })
+        transition.moveTo(self.group, { time = 1200, x = 667, y = 375, transition = easing.outSine })
     end)
 end
 
@@ -67,11 +88,9 @@ function Player:update()
         return
     end
 
-    -- Get the position
-    local position = self:position()
-
     -- Move
-    self.graphic.move(position.x + self.vX, position.y + self.vY)
+    self.group.x = self.group.x + self.vX
+    self.group.y = self.group.y + self.vY
 end
 
 -- Cause the player to explode
@@ -131,13 +150,14 @@ function Player:exit()
     -- Wait 3.69 seconds then take off.
     -- This corresponds to the audio in the effect sound clip.
     timer.performWithDelay(3690, function()
-        self.graphic.moveTransition({ time = 500, x = 1500, y = 375, transition = easing.outSine })
+        transition.moveTo(self.group, { time = 500, x = 1500, y = 375, transition = easing.outSine })
     end)
 end
 
 -- Release
 function Player:release()
     self.exploding = false
+    self.afterburner.release()
     Entity.release(self)
 end
 

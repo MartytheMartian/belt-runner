@@ -43,6 +43,11 @@ function generator(graphic)
       sprite.fill = {type = "image", filename = path}
     end
 
+    -- Get the sprite object itself
+    function M.sprite()
+      return sprite
+    end
+
     -- Get current position
     function M.position()
       -- No position if there is no sprite

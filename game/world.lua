@@ -243,9 +243,6 @@ function World.touch(x, y)
   -- Create a missile
   Weapon.fireMissile(missile, player:position(), {x = x, y = y})
 
-  -- Turret should match missile rotation
-  Resources.getEntityByID("turret"):rotate(missile:position().rotation)
-
   -- Update the last successful touch
   lastTouchFrame = frames
 end

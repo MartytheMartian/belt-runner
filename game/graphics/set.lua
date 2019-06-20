@@ -68,6 +68,11 @@ function generator(graphic)
       activeGraphic.initialize()
     end
 
+    -- Get the sprite object itself
+    function M.sprite()
+      return activeGraphic.sprite()
+    end
+
     -- Swap the active graphic
     function M.setGraphic(graphicID)
       -- Ensure the graphic exists

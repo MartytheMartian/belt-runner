@@ -31,9 +31,6 @@ function Events.playerDied()
   -- Set the stopped flag
   Events.stopped = true
 
-  -- Destroy turret
-  resources.getEntityByID("turret"):release()
-
   -- Stop the world
   world.stop()
 
@@ -46,10 +43,6 @@ function Events.exit()
   -- Get the player and let it know
   local player = resources.getEntityByID("player")
   player:exit()
-
-  -- Get the turret and let it know
-  local turret = resources.getEntityByID("turret")
-  turret:exit()
 
   -- Inform the world after ten seconds
   timer.performWithDelay(10000, world.exit)

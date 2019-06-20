@@ -67,6 +67,11 @@ function generator(graphic)
       sprite:play()
     end
 
+    -- Get the sprite object itself
+    function M.sprite()
+      return sprite
+    end
+
     -- Get current position
     function M.position()
       if sprite == nil then

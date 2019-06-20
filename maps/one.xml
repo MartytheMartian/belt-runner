@@ -78,7 +78,6 @@
     <entities>
         <entity type="background" graphic="background" x="667" y="375" vX="-2" vY="0" />
         <entity id="player" type="player" graphic="player" x="-100" y="375" />
-        <entity id="turret" type="turret" graphic="turret" x="-100" y="375" />
     </entities>
 </map>
 <!-- 
