@@ -1,15 +1,25 @@
 local Entity = require("game.entities.entity")
+local Static = require("game.graphics.static")
 
 -- Create metatable
 Turret = setmetatable({}, {__index = Entity})
 
 -- Constructor
-function Turret:new(properties, graphic)
+function Turret:new(properties)
     -- Create the instance
     local instance = {
         type = "turret",
         flying = false
     }
+
+    -- Create the graphic
+    local graphic = Static({
+        id = "turret",
+        type = "static",
+        path = "sprites/turret.png",
+        width = 54,
+        height = 37
+    })(properties)
 
     -- Return new instance
     return setmetatable(instance, {__index = Entity.new(self, properties, graphic)})
@@ -27,11 +37,6 @@ function Turret:initialize()
     -- Initialize variables
     self.initialized = true
     self.destroyed = false
-
-    -- Move to the center of the screen
-    timer.performWithDelay(4000, function()
-        self.graphic.moveTransition({ time = 1200, x = 667, y = 375, transition = easing.outSine })
-    end)
 end
 
 -- Rotate the turret
@@ -41,13 +46,6 @@ function Turret:rotate(rotation)
     end
 
     self.graphic.setRotation(rotation)
-end
-
-function Turret:exit()
-    -- Wait 3.69 seconds then take off
-    timer.performWithDelay(3690, function()
-        self.graphic.moveTransition({ time = 500, x = 1500, y = 375, transition = easing.outSine })
-    end)
 end
 
 return Turret

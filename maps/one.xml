@@ -7,7 +7,6 @@
         <graphic id="nebula-small" type="static" path="sprites/neb - small.png" width="200" height="156" />
         <graphic id="nebula-invert-small" type="static" path="sprites/nebinv - small.png" width="200" height="156" />
         <graphic id="nebula-sepia-small" type="static" path="sprites/nebsep - small.png" width="200" height="156" />
-        <graphic id="turret" type="static" path="sprites/turret.png" width="54" height="37" />
         <graphic id="background" type="scrolling" path="sprites/background.png" width="1334" height="750" />
         <graphic id="moon-complete" type="static" path="sprites/moon.png" width="870" height="192" />
         <graphic id="moon-top" type="static" path="sprites/moon-top.png" width="870" height="129" />

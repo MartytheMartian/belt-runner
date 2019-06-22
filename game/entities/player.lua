@@ -1,5 +1,6 @@
 local Effects = require("game.effects")
 local Entity = require("game.entities.entity")
+local Turret = require("game.entities.turret")
 local Events = require("game.events")
 local Emitter = require("game.graphics.emitter")
 local Sound = require("game.sound")
@@ -32,7 +33,8 @@ function Player:new(properties, graphic)
         invulnerable = 0,
         collidables = collidables,
         afterburner = afterburnerFactory(),
-        group = nil
+        group = nil,
+        turret = Turret:new(properties)
     }
 
     -- Return new instance
@@ -45,11 +47,10 @@ function Player:initialize()
         return
     end
 
-    -- Initialize the graphic
-    self.graphic.initialize("alive")
-
-    -- Initialize the afterburner
+    -- Initialize the children
     self.afterburner.initialize()
+    self.graphic.initialize("alive")
+    self.turret:initialize()
 
     -- Initialize variables
     self.hp = 1
@@ -62,6 +63,7 @@ function Player:initialize()
     self.group = display.newGroup()
     self.group:insert(self.afterburner.emitter())
     self.group:insert(self.graphic.sprite())
+    self.group:insert(self.turret.graphic.sprite())
 
     -- Set the group the in the current position and adjust the position
     local position = self.graphic.position()
@@ -69,11 +71,20 @@ function Player:initialize()
     self.group.y = position.y
     self.graphic.move(0, 0)
     self.afterburner.move(-60, 0)
+    self.turret.graphic.move(0, 0)
 
     -- Move to the center of the screen
     timer.performWithDelay(4000, function()
         transition.moveTo(self.group, { time = 1200, x = 667, y = 375, transition = easing.outSine })
     end)
+end
+
+-- Get the player position
+function Player:position()
+    return {
+        x = self.group.x,
+        y = self.group.y
+    }
 end
 
 -- Update the player
@@ -91,6 +102,12 @@ function Player:update()
     -- Move
     self.group.x = self.group.x + self.vX
     self.group.y = self.group.y + self.vY
+end
+
+-- Fire sequence
+function Player:fire()
+    -- Rotate the turret
+    self.turret:rotate()
 end
 
 -- Cause the player to explode

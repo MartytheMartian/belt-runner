@@ -18,7 +18,6 @@ local Scrolling = require("game.graphics.scrolling")
 local Set = require("game.graphics.set")
 local Static = require("game.graphics.static")
 local Tentacle = require("game.entities.tentacle")
-local Turret = require("game.entities.turret")
 local Wall = require("game.entities.wall")
 
 -- Return instance
@@ -59,7 +58,6 @@ local entityConstructors = {
   player = Player,
   pirate = Pirate,
   tentacle = Tentacle,
-  turret = Turret,
   wall = Wall
 }
 

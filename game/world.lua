@@ -243,6 +243,9 @@ function World.touch(x, y)
   -- Create a missile
   Weapon.fireMissile(missile, player:position(), {x = x, y = y})
 
+  -- Turret should match missile rotation
+  player.turret:rotate(missile:position().rotation)
+
   -- Update the last successful touch
   lastTouchFrame = frames
 end
@@ -250,7 +253,6 @@ end
 -- Release the world
 function World.release()
   if not initialized then
-    print('test')
     return
   end
 

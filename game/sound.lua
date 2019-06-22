@@ -45,7 +45,6 @@ end
 -- Slowly stops the background music
 function Sound.stopBackground()
     -- Stops background music slowly
-    print('test')
     audio.fadeOut({ channel = 1, time = 10000 })
 end
 
