@@ -15,8 +15,8 @@ function Sound.initialize()
         return
     end
 
-    -- reserve the first 5 channels for background music and any other special sounds that
-    --  we might want to control (volume, etc.) differently from basic sound effects.
+    -- Reserve the first 5 channels for background music and any other special sounds that
+    -- we might want to control (volume, etc.) differently from basic sound effects.
     audio.reserveChannels(5)
 
     -- load in background music as a stream

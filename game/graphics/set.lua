@@ -82,7 +82,7 @@ function generator(graphic)
 
       -- Capture the current position
       local position = activeGraphic.position()
-
+      
       -- Create the requested graphic
       local requestedGraphic = graphicCreators[graphicID](position)
 

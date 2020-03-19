@@ -114,6 +114,7 @@ end
 function Player:explode()
     -- Swap animations
     self.graphic.setGraphic("exploding")
+    self.graphic.move(667, 375)
 
     -- Play audio
     Sound.play("explosion")
@@ -122,6 +123,8 @@ function Player:explode()
     self.exploding = true
     self.destroyed = true
     self.collidable = false
+    self.turret:release()
+    self.afterburner:release()
 
     -- Fire death event
     Events.playerDied()
@@ -174,7 +177,8 @@ end
 -- Release
 function Player:release()
     self.exploding = false
-    self.afterburner.release()
+    self.afterburner:release()
+    self.turret:release();
     Entity.release(self)
 end
 
