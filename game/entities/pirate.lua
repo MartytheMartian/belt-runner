@@ -99,6 +99,7 @@ end
 
 -- Handles collision
 function Pirate:collided(entity)
+    Events.addPoints(25)
     self:explode()
 end
 

@@ -101,6 +101,11 @@ end
 
 -- Handles collision
 function Asteroid:collided(entity)
+  -- Collision with the player does not provide points.
+  if entity.type ~= "player" then
+    Events.addPoints(10)
+  end
+
   self:explode()
 end
 

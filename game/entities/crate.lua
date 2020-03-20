@@ -87,6 +87,8 @@ end
 
 -- Handles collision
 function Crate:collided(entity)
+    Events.addPoints(10)
+
     -- Explode
     self:explode()
 end

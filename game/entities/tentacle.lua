@@ -94,6 +94,7 @@ function Tentacle:collided(entity)
     else
         self.dying = true
         self.collidable = false
+        Events.addPoints(50)
     end
 
     -- Flicker color

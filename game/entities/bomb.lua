@@ -101,6 +101,10 @@ end
 
 -- Handles collision
 function Bomb:collided(entity)
+    if entity.type ~= "player" then
+        Events.addPoints(100)
+    end
+
     self:explode()
 end
 

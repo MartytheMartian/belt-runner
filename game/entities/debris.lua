@@ -73,6 +73,10 @@ end
 
 -- Handles collision
 function Debris:collided(entity)
+    if not entity.type == "player" then
+        Events.addPoints(5)
+    end
+
     self:explode()
 end
 

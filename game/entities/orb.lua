@@ -95,6 +95,11 @@ function Orb:collided(entity)
     self.collidable = false
     self.destroyed = true
 
+    -- Add points
+    if entity.type ~= "player" then
+        Events.addPoints(50)
+    end
+
     -- Cancel transitions
     transition.cancel(self.transitionX)
     transition.cancel(self.transitionY)

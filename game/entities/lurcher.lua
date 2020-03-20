@@ -92,13 +92,11 @@ function Lurcher:moveToPlayer()
     self.collidable = true
 
     -- Move to the player
-    self.graphic.moveTransition(
-        {
-            x = 667,
-            y = 375,
-            time = 300
-        }
-    )
+    self.graphic.moveTransition({
+        x = 667,
+        y = 375,
+        time = 300
+    })
 end
 
 -- Handles collision
@@ -107,14 +105,12 @@ function Lurcher:collided(entity)
     self.vX = 0
     self.vY = 0
 
-    -- Explode if missile
-    if entity.type == "missile" then
-        self:explode()
-    end
-
     -- Laugh if player
     if entity.type == "player" then
         Sound.play("lurcherLaugh")
+    else
+        Events.addPoints(100)
+        self:explode()
     end
 end
 

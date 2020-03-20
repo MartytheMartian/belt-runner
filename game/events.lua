@@ -9,6 +9,7 @@ local resources = nil
 local speedFrame = 0
 local killFrame = 0
 local rateFrame = 0
+local points = 0
 
 -- Use hook method for injection to break circular dependencies
 function Events.hook(w, r)
@@ -24,6 +25,7 @@ function Events.hook(w, r)
   speedFrame = 0
   killFrame = 0
   rateFrame = 0
+  points = 0
 end
 
 -- Fires a 'playerDied' event
@@ -46,6 +48,11 @@ function Events.exit()
 
   -- Inform the world after ten seconds
   timer.performWithDelay(10000, world.exit)
+end
+
+-- Adds points to the player's score.
+function Events.addPoints(pts)
+  points = points + pts
 end
 
 -- Fires a 'killAll' event

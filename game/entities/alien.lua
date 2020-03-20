@@ -169,6 +169,7 @@ end
 
 -- Handles collision
 function Alien:collided(entity)
+  Events.addPoints(25)
   self:explode()
 end
 
