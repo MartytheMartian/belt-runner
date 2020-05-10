@@ -78,7 +78,7 @@
         <entity type="background" graphic="background" x="667" y="375" vX="-2" vY="0" />
         <entity id="player" type="player" graphic="player" x="-100" y="375" />
         <entity type="alien" graphic="alien" x="1450" y="60" vX="-5" vY="0" delay="100" />
-        <!-- <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="5" vY="-2" delay="900" />
+        <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="5" vY="-2" delay="900" />
         <entity type="asteroid" graphic="asteroid" x="-10" y="760" vX="8" vY="-2" delay="400" />
         <entity type="pirate" graphic="pirate" x="-100" y="200" vX="7" vY="0" delay="100" />
         <entity type="nebula" graphic="nebula" x="1994" y="600" vX="-3" vY="0" delay="0" />
@@ -95,6 +95,6 @@
         <entity id="lurcher1" type="lurcher" graphic="lurcher" x="1400" y="70" vX="-3" vY="0" delay="200" />
         <entity id="crate1" type="crate" graphic="crate" x="1500" y="70" vX="-3" vY="0" delay="100" powerUp="fastRecharge" />
         <entity id="crate2" type="crate" graphic="crate" x="1400" y="70" vX="-3" vY="0" delay="200" powerUp="lurcher" lurcherId="lurcher1" />
-        <entity id="crate3" type="crate" graphic="crate" x="1400" y="600" vX="-3" vY="0" delay="300" powerUp="shield" /> -->
+        <entity id="crate3" type="crate" graphic="crate" x="1400" y="600" vX="-3" vY="0" delay="300" powerUp="shield" />
     </entities>
 </map>

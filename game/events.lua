@@ -4,12 +4,14 @@ Events.speed = false
 Events.kill = false
 Events.stopped = false
 Events.fireRate = 30
+Events.points = 0
+Events.playerDied = false
 local world = nil
 local resources = nil
+local pointCounter = nil
 local speedFrame = 0
 local killFrame = 0
 local rateFrame = 0
-local points = 0
 
 -- Use hook method for injection to break circular dependencies
 function Events.hook(w, r)
@@ -22,10 +24,15 @@ function Events.hook(w, r)
   Events.kill = false
   Events.stopped = false
   Events.fireRate = 30
+  Events.points = 0
+  Events.playerDied = false
   speedFrame = 0
   killFrame = 0
   rateFrame = 0
-  points = 0
+
+  -- Setup point counter
+  pointCounter = display.newText("0", 1284, 50, native.systemFont, 32)
+  pointCounter:setFillColor(0.82, 0.86, 1)
 end
 
 -- Fires a 'playerDied' event
@@ -52,7 +59,8 @@ end
 
 -- Adds points to the player's score.
 function Events.addPoints(pts)
-  points = points + pts
+  Events.points = Events.points + pts
+  pointCounter.text = Events.points
 end
 
 -- Fires a 'killAll' event
@@ -157,6 +165,9 @@ function Events.update()
       rateFrame = rateFrame + 1
     end
   end
+
+  -- Ensure point counter is at the front
+  pointCounter:toFront()
 end
 
 return Events

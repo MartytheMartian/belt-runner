@@ -4,6 +4,7 @@ local Events = require("game.events")
 local Resources = require("game.resources")
 local Sound = require("game.sound")
 local Weapon = require("game.weapon")
+local Math = require("game.math")
 
 -- Exposed properties of the world
 local World = {}
@@ -62,6 +63,7 @@ function World.initialize(level, gameOver)
   frames = 0
   maxFrames = level.info.frames
   lastTouchFrame = -1000
+  points = 0
 
   -- Initialize the audio
   Sound.initialize()

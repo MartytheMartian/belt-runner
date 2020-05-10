@@ -51,10 +51,25 @@ function Weapon.fireOrb(orb, start, vX)
 
   -- Determine the peak point on the x-axis
   if (vX > 0) then
-    peakPoint.x = 1324
+    -- Determine the minimum point. Can't be behind the ship.
+    local minimum = 800
+    if start.x > 800 then
+      minimum = start.x + 100
+    end
+
+    -- Set the X peak point
+    peakPoint.x = math.random(minimum, 1324)
   else
-    peakPoint.x = 25
+    -- Determine the maximum point. Can't be behind the ship.
+    local maximum = 500
+    if start.x < 500 then
+      maximum = start.x - 100
+    end
+
+    -- Set the X peak point
+    peakPoint.x = math.random(25, maximum)
   end
+  print(peakPoint.x)
 
   -- Determine the switching point on the y-axis
   peakPoint.y = (375 - start.y) / 2

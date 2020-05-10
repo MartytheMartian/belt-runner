@@ -1,5 +1,6 @@
 local Collision = require("game.collision")
 local Entity = require("game.entities.entity")
+local Math = require("game.math")
 local Sound = require("game.sound")
 
 -- Define a static table for collidable entities
@@ -10,6 +11,16 @@ local collidables = {
 
 -- Create metatable
 Orb = setmetatable({}, {__index = Entity})
+
+-- Determines the time the orb should take to transition from two points
+function TransitionTime(x1, x2)
+    local time = (x1 - x2) * 1.5
+    if time < 0 then
+        time = time * -1
+    end
+
+    return time
+end
 
 -- Constructor
 function Orb:new(properties, graphic)
@@ -33,8 +44,11 @@ function Orb:initialize()
     self.initialized = true
     self.collidable = false
     self.destroyed = true
+    self.peakPointReached = false
     self.transitionX = nil
     self.transitionY = nil
+    self.vX = 0
+    self.vY = 0
 end
 
 -- Spawn the orb
@@ -55,19 +69,17 @@ function Orb:spawn(x, y, peakPoint)
     Sound.play("orb")
 
     -- Determine the orb transition time based on its distance from the edge of the screen
-    local time = (x - peakPoint.x) * 1.1
-    if time < 0 then
-        time = time * -1
-    end
+    local time = TransitionTime(x, peakPoint.x)
 
     -- X-axis transition
-    self.transitionX = self.graphic.moveTransition({ time = time, x = peakPoint.x, transition = easing.outSine, onComplete = function()
-        self.transitionX = self.graphic.moveTransition({ time = 1200, x = 667, transition = easing.inSine })
-    end })
-    
-    -- Y-axis transition
-    self.transitionY = self.graphic.moveTransition({ time = time, y = peakPoint.y, transition = easing.inSine, onComplete = function()
-        self.transitionY = self.graphic.moveTransition({ time = 1200, y = 375, transition = easing.outSine })
+    self.transitionX = self.graphic.moveTransition({ time = time, x = peakPoint.x, y = peakPoint.y, transition = easing.outSine, onComplete = function()
+        time = TransitionTime(peakPoint.x, 667)
+        self.transitionX = self.graphic.moveTransition({ time = time, x = 667, y = 375, transition = easing.inSine, onComplete = function()
+            local velocity = Math.calculateVelocity({ x = peakPoint.x, y = peakPoint.y }, { x = 667, y = 375 }, 16)
+            self.vX = velocity.x
+            self.vY = velocity.y
+            self.peakPointReached = true
+        end })
     end })
 end
 
@@ -79,6 +91,11 @@ function Orb:update()
 
     -- Check the current position
     local position = self.graphic.position()
+
+    -- Move it
+    if self.peakPointReached then
+        self.graphic.move(position.x + self.vX, position.y + self.vY)
+    end
 
     -- Destroy it off-screen
     local size = self.graphic.size()

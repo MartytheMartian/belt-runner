@@ -84,13 +84,19 @@ end
 
 -- Handles collision
 function Wall:collided(entity)
+    -- Do nothing if the player is the collider
+    if entity.type == "player" then
+        return
+    end
+
     -- Must be a missile
-    if self.hp > 1 and entity.type == "missile" then
+    if self.hp > 1 then
         self.hp = self.hp - 1
         
         -- Flicker color
         Effects.flicker(self)
     else
+        Events.addPoints(25)
         self:explode()
     end
 end

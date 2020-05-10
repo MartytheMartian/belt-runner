@@ -12,7 +12,7 @@ end
 -- Creates the scene
 function scene:create(event)
     -- Loads the game at level one
-    game.load("maps/one.xml", gotoMenu)
+    game.load("maps/1.xml", gotoMenu)
 end
 
 -- Shows the scene
